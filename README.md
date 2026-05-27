@@ -1,58 +1,142 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ShopCMS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Plataforma de tienda virtual tipo WooCommerce / Shopify. Sistema completo con catálogo de productos, carrito de compras e interfaz administrativa potente.
 
-## About Laravel
+**Tienda virtual con catálogo y carrito de compras**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📦 6 Módulos Requeridos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Catálogo de productos con variantes** - Gestión completa de productos con múltiples opciones
+- **Carrito y proceso de checkout** - Experiencia de compra fluida e intuitiva
+- **Gestión de pedidos y estados** - Seguimiento completo del ciclo de vida de pedidos
+- **Cupones y descuentos** - Sistema flexible de promociones y ofertas
+- **Inventario y alertas de stock** - Control automático de inventario
+- **Reseñas y calificaciones** - Sistema de valoraciones de productos
 
-## Learning Laravel
+## 🔌 Plugins Sugeridos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Payment gateway** - Integración con Culqi/PayPal
+- **Wishlist** - Lista de deseos con opción de compartir
+- **Product comparator** - Comparar hasta 4 productos simultáneamente
+- **Stock notifier** - Alertas por email cuando hay disponibilidad
+- **Related products** - Upsell y cross-sell automático
+- **Invoice generator** - Generación de facturas PDF por pedido
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🎨 Temas Disponibles
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Tema | Descripción |
+|------|-------------|
+| **Minimal Shop** | Blanco limpio con producto centrado |
+| **Fashion** | Imágenes grandes de pantalla completa |
+| **Electronics** | Grilla densa con filtros laterales |
+| **Food & Market** | Cálido con categorías en tarjetas |
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## 🚀 Requisitos
+
+- PHP 8.3+
+- Composer
+- Node.js y npm
+
+## 📦 Instalación
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer run setup
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## 💻 Desarrollo
 
-## Contributing
+```bash
+composer run dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ejecuta simultáneamente: servidor Laravel, cola de trabajos, logs en tiempo real y Vite dev server.
 
-## Code of Conduct
+## 🧪 Testing
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer run test
+```
 
-## Security Vulnerabilities
+## 🛠️ Stack Tecnológico
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Backend**: Laravel 13 con PHP 8.3
+- **Frontend**: Vite + Tailwind CSS v4
+- **Testing**: Pest PHP
+- **Herramientas**: Laravel Boost, Pail, Pint
 
-## License
+## 🏗️ Arquitectura
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Este proyecto utiliza **Arquitectura Hexagonal + Vertical Slicing** para máxima escalabilidad y mantenibilidad.
+
+### Principios
+
+- **Hexagonal (Puertos & Adaptadores)**: Aísla la lógica de negocio de dependencias externas
+- **Vertical Slicing**: Cada módulo es independiente y autocontenido
+- **Domain-Driven Design**: El dominio de negocio es el centro de toda decisión arquitectónica
+
+### Estructura
+
+```
+app/
+├── Shared/
+│   ├── Domain/           # Entidades y valores compartidos
+│   ├── Application/      # Casos de uso transversales
+│   └── Infrastructure/   # Servicios compartidos
+│
+├── Modules/
+│   ├── Catalog/
+│   │   ├── Domain/       # Entities, ValueObjects, Repositories (PORT)
+│   │   ├── Application/  # UseCases, DTOs, Services
+│   │   ├── Infrastructure/ # Adapters, Database Queries
+│   │   └── Presentation/ # Controllers, Requests, Resources
+│   │
+│   ├── Cart/
+│   ├── Orders/
+│   ├── Users/
+│   ├── Payments/
+│   └── Auth/
+│
+└── Providers/
+```
+
+### Ejemplo: Módulo Catalog
+
+```
+Modules/Catalog/
+├── Domain/
+│   ├── Entities/Product.php
+│   ├── ValueObjects/Price.php
+│   ├── Repositories/ProductRepository.php (PORT)
+│   └── Services/ProductDomainService.php
+│
+├── Application/
+│   ├── UseCases/GetProductUseCase.php
+│   ├── DTOs/ProductDTO.php
+│   └── Services/CatalogApplicationService.php
+│
+├── Infrastructure/
+│   ├── Adapters/EloquentProductRepository.php
+│   ├── Queries/FindProductQuery.php
+│   └── Database/
+│
+└── Presentation/
+    ├── Controllers/ProductController.php
+    ├── Requests/CreateProductRequest.php
+    └── Resources/ProductResource.php
+```
+
+### Ventajas
+
+- ✅ **Independencia**: Cada módulo puede desarrollarse en paralelo
+- ✅ **Testabilidad**: Lógica de negocio sin dependencias de framework
+- ✅ **Flexibilidad**: Cambiar adaptadores sin afectar el dominio
+- ✅ **Claridad**: Responsabilidades bien definidas
+- ✅ **Escalabilidad**: Fácil agregar nuevos módulos
+
+## 📄 Licencia
+
+MIT
