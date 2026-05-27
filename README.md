@@ -137,6 +137,13 @@ Modules/Catalog/
 - ✅ **Claridad**: Responsabilidades bien definidas
 - ✅ **Escalabilidad**: Fácil agregar nuevos módulos
 
+---
+
+## 📖 Documentación
+
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Guía completa y ejemplos paso a paso para trabajar con la arquitectura hexagonal
+- **[README.md](./README.md)** - Este archivo, visión general del proyecto
+
 ## 📄 Licencia
 
 MIT
