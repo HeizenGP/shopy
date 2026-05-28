@@ -15,5 +15,14 @@
 
     /* Fondo exclusivo de la pantalla de login del cliente */
     --color-client-login-bg: #eef2ff;
+
+    /* Fondo sidebar admin */
+    --color-admin-sidebar: #202123;
+
+    /* Color primario admin */
+    --color-admin-primary: #4f46e5;
+
+    /* Color acento admin */
+    --color-admin-accent: #ec4899;
 }
 

@@ -17,4 +17,6 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/plugins', [SuperAdminController::class, 'plugins'])->name('plugins');
     Route::get('/settings', [SuperAdminController::class, 'settings'])->name('settings');
     Route::post('/settings', [SuperAdminController::class, 'updateSettings'])->name('settings.update');
+    Route::get('/settings/export', [SuperAdminController::class, 'exportSettings'])->name('settings.export');
+    Route::post('/settings/import', [SuperAdminController::class, 'importSettings'])->name('settings.import');
 });

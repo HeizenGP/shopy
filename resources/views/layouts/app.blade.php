@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'ShopCMS') — Tienda Virtual Premium</title>
+    <title>@yield('title', config('shop.name', 'ShopCMS')) — {{ \App\Helpers\ShopHelper::getSetting('shop_description', 'Tienda Virtual Premium') }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ \App\Helpers\ShopHelper::getSetting('favicon_url', '/favicon.ico') }}">
     
     <!-- Instrument Sans Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,32 +18,11 @@
     <!-- Tailwind & App Assets via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @php
-        $themeDefaults = [
-            '--color-client-page' => '#f8fafc',
-            '--color-client-primary' => '#4f46e5',
-            '--color-client-login-bg' => '#eef2ff',
-        ];
-
-        $themeSettings = [];
-        if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-            $themeSettings = \App\Modules\Settings\Infrastructure\Database\Models\SettingEloquent::whereIn(
-                'key',
-                array_keys($themeDefaults)
-            )->pluck('value', 'key')->toArray();
-        }
-
-        $themeVars = [];
-        foreach ($themeDefaults as $key => $value) {
-            $themeVars[$key] = $themeSettings[$key] ?? $value;
-        }
-    @endphp
-
     <style>
         :root {
-            --color-client-page: {{ $themeVars['--color-client-page'] }};
-            --color-client-primary: {{ $themeVars['--color-client-primary'] }};
-            --color-client-login-bg: {{ $themeVars['--color-client-login-bg'] }};
+            --color-client-page: {{ \App\Helpers\ShopHelper::getSetting('--color-client-page', '#f8fafc') }};
+            --color-client-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-client-primary', '#4f46e5') }};
+            --color-client-login-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-login-bg', '#eef2ff') }};
         }
 
         body {
@@ -58,8 +38,14 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-client-primary transition-colors">
-                        Shop<span class="text-client-primary font-extrabold">CMS</span>
+                    <a href="{{ route('home') }}" class="flex items-center gap-2 hover:opacity-95 transition-all">
+                        @if(\App\Helpers\ShopHelper::getSetting('logo_url'))
+                            <img src="{{ \App\Helpers\ShopHelper::getSetting('logo_url') }}" alt="{{ config('shop.name', 'ShopCMS') }}" class="h-8 w-auto max-w-[150px] object-contain">
+                        @else
+                            <span class="text-xl font-bold tracking-tight text-slate-900">
+                                {{ config('shop.name', 'ShopCMS') }}
+                            </span>
+                        @endif
                     </a>
                 </div>
 
@@ -172,7 +158,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-100 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-xs text-slate-400">
-            <p>&copy; {{ date('Y') }} ShopCMS. Todos los derechos reservados.</p>
+            <p>&copy; {{ date('Y') }} {{ config('shop.name', 'ShopCMS') }}. Todos los derechos reservados.</p>
             <p class="mt-1 font-mono text-[10px] text-slate-300">Construido con Arquitectura Hexagonal + Vertical Slicing & Laravel 13</p>
         </div>
     </footer>

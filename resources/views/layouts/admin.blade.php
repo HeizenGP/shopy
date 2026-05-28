@@ -4,17 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin') — ShopCMS</title>
+    <title>@yield('title', 'Admin') — {{ config('shop.name', 'ShopCMS') }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ \App\Helpers\ShopHelper::getSetting('favicon_url', '/favicon.ico') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
+    <!-- AlpineJS for interactive actions (tabs, forms) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
+        :root {
+            --color-admin-sidebar: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-sidebar', '#202123') }};
+            --color-admin-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-primary', '#4f46e5') }};
+            --color-admin-accent: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-accent', '#ec4899') }};
+        }
+
         body {
             font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .bg-admin-sidebar {
+            background-color: var(--color-admin-sidebar) !important;
+        }
+
+        .bg-admin-primary {
+            background-color: var(--color-admin-primary) !important;
+        }
+
+        .text-admin-primary {
+            color: var(--color-admin-primary) !important;
+        }
+
+        .border-admin-primary {
+            border-color: var(--color-admin-primary) !important;
+        }
+        
+        .hover\:bg-admin-primary-dark:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -34,11 +64,13 @@
     @endphp
 
     <div class="min-h-screen lg:grid lg:grid-cols-[220px_1fr]">
-        <aside class="hidden lg:flex min-h-screen flex-col bg-[#202123] text-white">
-            <div class="px-8 py-8">
-                <a href="{{ route('admin.home') }}" class="flex items-center gap-3 text-lg font-black tracking-tight">
-                    <span class="grid h-8 w-8 place-items-center rounded-full border-2 border-white text-sm">@</span>
-                    <span>ShopCMS</span>
+        <aside class="hidden lg:flex min-h-screen flex-col bg-admin-sidebar text-white">
+            <div class="px-6 py-8">
+                <a href="{{ route('admin.home') }}" class="flex items-center gap-2 text-lg font-black tracking-tight hover:opacity-90 transition-opacity">
+                    @if(\App\Helpers\ShopHelper::getSetting('logo_url'))
+                        <img src="{{ \App\Helpers\ShopHelper::getSetting('logo_url') }}" alt="Logo" class="h-8 w-auto max-w-[80px] object-contain rounded-lg">
+                    @endif
+                    <span class="truncate">{{ config('shop.name', 'ShopCMS') }}</span>
                 </a>
             </div>
 

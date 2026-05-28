@@ -79,7 +79,7 @@ test('user can register and login successfully', function () {
     $this->post('/logout')->assertRedirect('/');
     
     // Login
-    $response = $this->post('/login', [
+    $response = $this->post('/client/login', [
         'email' => 'jane@example.com',
         'password' => 'password123',
     ]);
