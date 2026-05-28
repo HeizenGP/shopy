@@ -18,11 +18,11 @@
         :root {
             --color-admin-sidebar: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-sidebar', '#202123') }};
             --color-admin-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-primary', '#4f46e5') }};
-            --color-admin-accent: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-accent', '#ec4899') }};
+            --color-admin-container-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-container-bg', '#ffffff') }};
             --color-admin-page-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-page-bg', '#f3f4f6') }};
-            --color-admin-login-panel: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-panel', '#ffffff') }};
-            --color-admin-login-text: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-panel', '#ffffff') === '#111827' ? '#f1f5f9' : '#0f172a' }};
-            --color-admin-login-muted: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-panel', '#ffffff') === '#111827' ? '#94a3b8' : '#64748b' }};
+            --color-admin-login-panel: var(--color-admin-container-bg);
+            --color-admin-login-text: {{ in_array(\App\Helpers\ShopHelper::getSetting('--color-admin-container-bg', '#ffffff'), ['#202123', '#062f22', '#0b0f19', '#3b0712', '#0f172a', '#1e293b']) ? '#f1f5f9' : '#0f172a' }};
+            --color-admin-login-muted: {{ in_array(\App\Helpers\ShopHelper::getSetting('--color-admin-container-bg', '#ffffff'), ['#202123', '#062f22', '#0b0f19', '#3b0712', '#0f172a', '#1e293b']) ? '#94a3b8' : '#64748b' }};
             --color-client-page: {{ \App\Helpers\ShopHelper::getSetting('--color-client-page', '#f8fafc') }};
             --color-client-text: {{ \App\Helpers\ShopHelper::getSetting('--color-client-text', '#0f172a') }};
             --color-client-muted: {{ \App\Helpers\ShopHelper::getSetting('--color-client-muted', '#64748b') }};

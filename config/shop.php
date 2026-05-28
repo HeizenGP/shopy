@@ -37,7 +37,8 @@ return [
     'colors_admin' => [
         'sidebar_bg' => env('COLOR_ADMIN_SIDEBAR', '#202123'),
         'primary' => env('COLOR_ADMIN_PRIMARY', '#4f46e5'),
-        'accent' => env('COLOR_ADMIN_ACCENT', '#ec4899'),
+        'container_bg' => env('COLOR_ADMIN_CONTAINER', '#ffffff'),
+        'header_bg' => env('COLOR_ADMIN_HEADER_BG', '#ffffff'),
         'page_bg' => env('COLOR_ADMIN_PAGE_BG', '#f3f4f6'),
     ],
 
@@ -145,8 +146,8 @@ return [
                 '--color-admin-sidebar' => '#202123',
                 '--color-admin-page-bg' => '#f3f4f6',
                 '--color-admin-primary' => '#4f46e5',
-                '--color-admin-accent' => '#ec4899',
-                '--color-admin-login-panel' => '#ffffff',
+                '--color-admin-container-bg' => '#ffffff',
+                '--color-admin-header-bg' => '#ffffff',
             ]
         ],
         'emerald_night' => [
@@ -155,8 +156,8 @@ return [
                 '--color-admin-sidebar' => '#062f22',
                 '--color-admin-page-bg' => '#f0fdf4',
                 '--color-admin-primary' => '#059669',
-                '--color-admin-accent' => '#10b981',
-                '--color-admin-login-panel' => '#ffffff',
+                '--color-admin-container-bg' => '#ffffff',
+                '--color-admin-header-bg' => '#ffffff',
             ]
         ],
         'monaco_lux' => [
@@ -165,8 +166,8 @@ return [
                 '--color-admin-sidebar' => '#0b0f19',
                 '--color-admin-page-bg' => '#f4f7f6',
                 '--color-admin-primary' => '#d4af37',
-                '--color-admin-accent' => '#f59e0b',
-                '--color-admin-login-panel' => '#111827',
+                '--color-admin-container-bg' => '#ffffff',
+                '--color-admin-header-bg' => '#ffffff',
             ]
         ],
         'burgundy_prestige' => [
@@ -175,8 +176,8 @@ return [
                 '--color-admin-sidebar' => '#3b0712',
                 '--color-admin-page-bg' => '#fff5f5',
                 '--color-admin-primary' => '#9f1239',
-                '--color-admin-accent' => '#fb7185',
-                '--color-admin-login-panel' => '#ffffff',
+                '--color-admin-container-bg' => '#ffffff',
+                '--color-admin-header-bg' => '#ffffff',
             ]
         ],
         'sapphire_deep' => [
@@ -185,8 +186,8 @@ return [
                 '--color-admin-sidebar' => '#0f172a',
                 '--color-admin-page-bg' => '#f1f5f9',
                 '--color-admin-primary' => '#2563eb',
-                '--color-admin-accent' => '#3b82f6',
-                '--color-admin-login-panel' => '#ffffff',
+                '--color-admin-container-bg' => '#ffffff',
+                '--color-admin-header-bg' => '#ffffff',
             ]
         ],
         'nordic_charcoal' => [
@@ -195,8 +196,8 @@ return [
                 '--color-admin-sidebar' => '#1e293b',
                 '--color-admin-page-bg' => '#f4f7f6',
                 '--color-admin-primary' => '#0f766e',
-                '--color-admin-accent' => '#14b8a6',
-                '--color-admin-login-panel' => '#ffffff',
+                '--color-admin-container-bg' => '#ffffff',
+                '--color-admin-header-bg' => '#ffffff',
             ]
         ],
     ],

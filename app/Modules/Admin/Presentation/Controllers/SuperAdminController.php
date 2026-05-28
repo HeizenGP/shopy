@@ -196,13 +196,21 @@ class SuperAdminController extends Controller
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
                     'description' => 'Color de botones principales en el admin.',
                 ],
-                'color_admin_accent' => [
-                    'key' => '--color-admin-accent',
-                    'label' => 'Color Acento (Admin)',
+                'color_admin_container_bg' => [
+                    'key' => '--color-admin-container-bg',
+                    'label' => 'Color de Fondo Contenedores (Admin)',
                     'type' => 'color',
-                    'default' => '#ec4899',
+                    'default' => '#ffffff',
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Color de acento en el admin.',
+                    'description' => 'Color de fondo para tarjetas, listados y contenedores en el panel administrativo.',
+                ],
+                'color_admin_header_bg' => [
+                    'key' => '--color-admin-header-bg',
+                    'label' => 'Color de Cabecera (Admin)',
+                    'type' => 'color',
+                    'default' => '#ffffff',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Color de fondo para la barra superior (cabecera) del panel administrativo.',
                 ],
 
                 'color_admin_page_bg' => [

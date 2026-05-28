@@ -20,13 +20,22 @@
         :root {
             --color-admin-sidebar: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-sidebar', '#202123') }};
             --color-admin-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-primary', '#4f46e5') }};
-            --color-admin-accent: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-accent', '#ec4899') }};
+            --color-admin-container-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-container-bg', '#ffffff') }};
+            --color-admin-header-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-header-bg', '#ffffff') }};
             --color-admin-page-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-page-bg', '#f3f4f6') }};
         }
 
         body {
             font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
             background-color: var(--color-admin-page-bg) !important;
+        }
+
+        main .bg-white, main .bg-white\/90 {
+            background-color: var(--color-admin-container-bg) !important;
+        }
+
+        header.sticky {
+            background-color: var(--color-admin-header-bg) !important;
         }
 
         .bg-admin-sidebar {
