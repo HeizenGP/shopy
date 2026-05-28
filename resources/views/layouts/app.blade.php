@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-50 text-slate-900">
+<html lang="es" class="h-full bg-client-page text-slate-900">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen bg-client-page">
     
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
@@ -31,8 +31,8 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-indigo-600 transition-colors">
-                        Shop<span class="text-indigo-600 font-extrabold">CMS</span>
+                    <a href="{{ route('home') }}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-client-primary transition-colors">
+                        Shop<span class="text-client-primary font-extrabold">CMS</span>
                     </a>
                 </div>
 
@@ -41,8 +41,8 @@
                     <a href="{{ route('catalog.index') }}" class="text-slate-600 hover:text-slate-900 transition-colors">Catálogo</a>
                     @auth
                         @if(Auth::user()->hasRole('sales_admin'))
-                            <a href="{{ route('admin.orders.index') }}" class="text-indigo-600 hover:text-indigo-800 transition-colors font-semibold">Pedidos Admin</a>
-                            <a href="{{ route('admin.inventory.index') }}" class="text-indigo-600 hover:text-indigo-800 transition-colors font-semibold">Inventario Admin</a>
+                            <a href="{{ route('admin.orders.index') }}" class="text-client-primary hover:text-client-primary/80 transition-colors font-semibold">Pedidos Admin</a>
+                            <a href="{{ route('admin.inventory.index') }}" class="text-client-primary hover:text-client-primary/80 transition-colors font-semibold">Inventario Admin</a>
                         @else
                             <a href="{{ route('orders.history') }}" class="text-slate-600 hover:text-slate-900 transition-colors">Mis Pedidos</a>
                         @endif
@@ -62,7 +62,7 @@
                             $cartCount = $cart ? array_sum(array_column($cart->items, 'quantity')) : 0;
                         @endphp
                         @if($cartCount > 0)
-                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-indigo-600 rounded-full">
+                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-client-primary rounded-full">
                                 {{ $cartCount }}
                             </span>
                         @endif

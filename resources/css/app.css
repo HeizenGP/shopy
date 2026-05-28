@@ -6,4 +6,14 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Fondo general del frontend cliente */
+    --color-client-page: #f8fafc;
+
+    /* Color principal de botones, enlaces y textos importantes */
+    --color-client-primary: #4f46e5;
+
+    /* Fondo exclusivo de la pantalla de login del cliente */
+    --color-client-login-bg: #eef2ff;
 }
+

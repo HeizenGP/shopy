@@ -14,7 +14,7 @@
             <h3 class="mt-4 text-sm font-semibold text-slate-900">El carrito está vacío</h3>
             <p class="mt-1 text-sm text-slate-500">¡Explora nuestra tienda y añade productos hoy mismo!</p>
             <div class="mt-6">
-                <a href="{{ route('catalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all">
+                <a href="{{ route('catalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-all">
                     Volver a la tienda
                 </a>
             </div>
@@ -39,7 +39,7 @@
                         <!-- Details -->
                         <div class="flex-grow text-center sm:text-left">
                             <h3 class="text-sm font-bold text-slate-800">
-                                <a href="{{ route('catalog.show', $item['slug']) }}" class="hover:text-indigo-600 transition-colors">
+                                <a href="{{ route('catalog.show', $item['slug']) }}" class="hover:text-client-primary transition-colors">
                                     {{ $item['name'] }}
                                 </a>
                             </h3>
@@ -102,7 +102,7 @@
                         <span class="text-slate-900 font-bold">${{ number_format($total, 2) }}</span>
                     </div>
 
-                    <a href="{{ route('checkout.index') }}" class="w-full flex items-center justify-center py-2.5 px-4 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-md shadow-indigo-600/10">
+                    <a href="{{ route('checkout.index') }}" class="w-full flex items-center justify-center py-2.5 px-4 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-all shadow-md shadow-client-primary/10">
                         Proceder al pago
                     </a>
 

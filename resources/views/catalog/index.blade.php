@@ -16,7 +16,7 @@
                     <div>
                         <label for="search" class="block text-xs font-semibold text-slate-500 mb-2">Buscar</label>
                         <input type="text" name="search" id="search" value="{{ request('search') }}" 
-                               class="w-full text-sm px-3.5 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500" 
+                               class="w-full text-sm px-3.5 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary" 
                                placeholder="¿Qué estás buscando?">
                     </div>
 
@@ -24,7 +24,7 @@
                     <div>
                         <label for="category" class="block text-xs font-semibold text-slate-500 mb-2">Categoría</label>
                         <select name="category" id="category" 
-                                class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                                class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary">
                             <option value="">Todas las categorías</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category }}" {{ request('category') === $category ? 'selected' : '' }}>
@@ -39,18 +39,18 @@
                         <span class="block text-xs font-semibold text-slate-500 mb-2">Precio</span>
                         <div class="flex items-center gap-2">
                             <input type="number" name="min_price" value="{{ request('min_price') }}" 
-                                   class="w-full text-xs px-2.5 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20" 
+                                   class="w-full text-xs px-2.5 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-client-primary/20" 
                                    placeholder="Min">
                             <span class="text-slate-400 text-xs">a</span>
                             <input type="number" name="max_price" value="{{ request('max_price') }}" 
-                                   class="w-full text-xs px-2.5 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20" 
+                                   class="w-full text-xs px-2.5 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-client-primary/20" 
                                    placeholder="Max">
                         </div>
                     </div>
 
                     <!-- Submit & Clear buttons -->
                     <div class="space-y-2 pt-2">
-                        <button type="submit" class="w-full flex items-center justify-center py-2 px-4 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-sm">
+                        <button type="submit" class="w-full flex items-center justify-center py-2 px-4 text-sm font-semibold text-white bg-client-primary hover:bg-client-primary/90 rounded-lg transition-colors shadow-sm">
                             Aplicar filtros
                         </button>
                         @if(request()->anyFilled(['search', 'category', 'min_price', 'max_price']))
@@ -103,10 +103,10 @@
 
                             <!-- Content -->
                             <div class="p-5 flex flex-col flex-grow">
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 mb-1">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-client-primary mb-1">
                                     {{ $product->category ?: 'General' }}
                                 </span>
-                                <h3 class="text-base font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">
+                                <h3 class="text-base font-bold text-slate-800 group-hover:text-client-primary transition-colors">
                                     <a href="{{ route('catalog.show', $product->slug) }}">
                                         {{ $product->name }}
                                     </a>
@@ -122,7 +122,7 @@
                                             ${{ number_format($product->price, 2) }}
                                         </span>
                                     </div>
-                                    <a href="{{ route('catalog.show', $product->slug) }}" class="inline-flex items-center justify-center p-2 rounded-xl text-indigo-600 bg-indigo-50 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                                    <a href="{{ route('catalog.show', $product->slug) }}" class="inline-flex items-center justify-center p-2 rounded-xl text-client-primary bg-client-primary/10 group-hover:bg-client-primary group-hover:text-white transition-all shadow-sm">
                                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                         </svg>

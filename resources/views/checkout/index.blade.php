@@ -20,7 +20,7 @@
                     <label for="billing_name" class="block text-xs font-semibold text-slate-500 mb-2">Nombre completo</label>
                     <input type="text" name="billing_name" id="billing_name" 
                            value="{{ old('billing_name', Auth::check() ? Auth::user()->name : '') }}" required
-                           class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                           class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary">
                 </div>
 
                 <!-- Email -->
@@ -28,19 +28,19 @@
                     <label for="billing_email" class="block text-xs font-semibold text-slate-500 mb-2">Correo electrónico</label>
                     <input type="email" name="billing_email" id="billing_email" 
                            value="{{ old('billing_email', Auth::check() ? Auth::user()->email : '') }}" required
-                           class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                           class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary">
                 </div>
 
                 <!-- Address -->
                 <div>
                     <label for="billing_address" class="block text-xs font-semibold text-slate-500 mb-2">Dirección de envío</label>
                     <textarea name="billing_address" id="billing_address" rows="4" required
-                              class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500" 
+                              class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary" 
                               placeholder="Calle, Número, Departamento, Ciudad...">{{ old('billing_address') }}</textarea>
                 </div>
 
                 <div class="pt-4">
-                    <button type="submit" class="w-full flex items-center justify-center py-3 px-4 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-md shadow-indigo-600/10">
+                    <button type="submit" class="w-full flex items-center justify-center py-3 px-4 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-all shadow-md shadow-client-primary/10">
                         Confirmar y realizar pedido
                     </button>
                 </div>
@@ -55,10 +55,10 @@
                 <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-2">¿Tienes un cupón?</h3>
                 
                 @if($couponCode)
-                    <div class="flex items-center justify-between p-3 border border-indigo-100 rounded-xl bg-indigo-50/50">
+                    <div class="flex items-center justify-between p-3 border border-client-primary/10 rounded-xl bg-client-primary/10">
                         <div>
                             <span class="text-xs text-slate-400 block font-semibold">Cupón Activo</span>
-                            <span class="text-sm font-bold text-indigo-600">{{ $couponCode }}</span>
+                            <span class="text-sm font-bold text-client-primary">{{ $couponCode }}</span>
                         </div>
                         <form action="{{ route('coupon.remove') }}" method="POST" class="inline">
                             @csrf
@@ -72,8 +72,8 @@
                         @csrf
                         <input type="hidden" name="amount" value="{{ $subtotal }}">
                         <input type="text" name="code" placeholder="Código de cupón" required
-                               class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                        <button type="submit" class="py-2 px-4 text-xs font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-xl hover:bg-indigo-100 transition-colors">
+                               class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20">
+                        <button type="submit" class="py-2 px-4 text-xs font-bold text-client-primary bg-client-primary/10 border border-client-primary/10 rounded-xl hover:bg-client-primary/15 transition-colors">
                             Aplicar
                         </button>
                     </form>
@@ -105,7 +105,7 @@
                         <span class="text-slate-950 font-bold">${{ number_format($subtotal, 2) }}</span>
                     </div>
                     @if($discount > 0)
-                        <div class="flex justify-between text-indigo-600 font-semibold">
+                        <div class="flex justify-between text-client-primary font-semibold">
                             <span>Descuento</span>
                             <span>-${{ number_format($discount, 2) }}</span>
                         </div>

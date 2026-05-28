@@ -14,7 +14,7 @@
             <h3 class="mt-4 text-sm font-semibold text-slate-900">Aún no has realizado pedidos</h3>
             <p class="mt-1 text-sm text-slate-500">Cuando realices compras, podrás darles seguimiento aquí.</p>
             <div class="mt-6">
-                <a href="{{ route('catalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all">
+                <a href="{{ route('catalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-all">
                     Ir a la tienda
                 </a>
             </div>
@@ -46,7 +46,7 @@
                                             Completado
                                         </span>
                                     @elseif($order->status->value === 'processing')
-                                        <span class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700">
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-client-primary/10 px-2 py-1 text-xs font-bold text-client-primary">
                                             Procesando
                                         </span>
                                     @elseif($order->status->value === 'cancelled')
@@ -60,7 +60,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('orders.show', $order->id) }}" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+                                    <a href="{{ route('orders.show', $order->id) }}" class="text-xs font-bold text-client-primary hover:text-client-primary/80 transition-colors">
                                         Ver detalles
                                     </a>
                                 </td>

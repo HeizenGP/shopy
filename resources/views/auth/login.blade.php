@@ -3,8 +3,8 @@
 @section('title', 'Iniciar Sesión')
 
 @section('content')
-<div class="max-w-md mx-auto px-4 py-16">
-    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
+<div class="min-h-[calc(100vh-12rem)] bg-client-login-bg px-4 py-16">
+    <div class="max-w-md mx-auto bg-white rounded-3xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
         
         <div class="text-center">
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Bienvenido de nuevo</h1>
@@ -18,7 +18,7 @@
             <div>
                 <label for="email" class="block text-xs font-semibold text-slate-500 mb-2">Correo electrónico</label>
                 <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus
-                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white">
+                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary bg-white">
             </div>
 
             <!-- Password -->
@@ -27,10 +27,10 @@
                     <label for="password" class="block text-xs font-semibold text-slate-500">Contraseña</label>
                 </div>
                 <input type="password" name="password" id="password" required
-                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white">
+                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary bg-white">
             </div>
 
-            <button type="submit" class="w-full py-2.5 px-4 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all shadow-md">
+            <button type="submit" class="w-full py-2.5 px-4 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-all shadow-md">
                 Iniciar sesión
             </button>
         </form>
@@ -38,14 +38,14 @@
         <div class="text-center pt-2 border-t border-slate-50">
             <p class="text-xs text-slate-400">
                 ¿No tienes cuenta? 
-                <a href="{{ route('register') }}" class="font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+                <a href="{{ route('register') }}" class="font-bold text-client-primary hover:text-client-primary/80 transition-colors">
                     Regístrate aquí
                 </a>
             </p>
         </div>
 
-        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-left text-xs text-slate-600">
-            <p class="font-bold text-indigo-700 mb-1">Cuentas de prueba:</p>
+        <div class="bg-client-login-bg p-4 rounded-xl border border-client-primary/10 text-left text-xs text-slate-600">
+            <p class="font-bold text-client-primary mb-1">Cuentas de prueba:</p>
             <ul class="list-disc list-inside space-y-0.5 font-mono text-[10px]">
                 <li><span class="font-bold">Cliente:</span> user@example.com / password</li>
             </ul>

@@ -71,7 +71,7 @@
                     <span class="font-bold text-slate-900">${{ number_format($order->subtotal, 2) }}</span>
                 </div>
                 @if($order->discountAmount > 0)
-                    <div class="flex justify-between text-indigo-600">
+                    <div class="flex justify-between text-client-primary">
                         <span>Descuento</span>
                         <span>-${{ number_format($order->discountAmount, 2) }}</span>
                     </div>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="flex justify-center gap-4">
-            <a href="{{ route('catalog.index') }}" class="py-2.5 px-6 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-colors shadow-sm">
+            <a href="{{ route('catalog.index') }}" class="py-2.5 px-6 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-colors shadow-sm">
                 Seguir comprando
             </a>
             @auth

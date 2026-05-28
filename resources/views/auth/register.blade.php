@@ -18,31 +18,31 @@
             <div>
                 <label for="name" class="block text-xs font-semibold text-slate-500 mb-2">Nombre completo</label>
                 <input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus
-                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white">
+                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary bg-white">
             </div>
 
             <!-- Email -->
             <div>
                 <label for="email" class="block text-xs font-semibold text-slate-500 mb-2">Correo electrónico</label>
                 <input type="email" name="email" id="email" value="{{ old('email') }}" required
-                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white">
+                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary bg-white">
             </div>
 
             <!-- Password -->
             <div>
                 <label for="password" class="block text-xs font-semibold text-slate-500 mb-2">Contraseña</label>
                 <input type="password" name="password" id="password" required
-                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white">
+                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary bg-white">
             </div>
 
             <!-- Confirm Password -->
             <div>
                 <label for="password_confirmation" class="block text-xs font-semibold text-slate-500 mb-2">Confirmar contraseña</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" required
-                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white">
+                       class="w-full text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-client-primary/20 focus:border-client-primary bg-white">
             </div>
 
-            <button type="submit" class="w-full py-2.5 px-4 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all shadow-md">
+            <button type="submit" class="w-full py-2.5 px-4 text-sm font-bold text-white bg-client-primary hover:bg-client-primary/90 rounded-xl transition-all shadow-md">
                 Registrarse
             </button>
         </form>
@@ -50,7 +50,7 @@
         <div class="text-center pt-2 border-t border-slate-50">
             <p class="text-xs text-slate-400">
                 ¿Ya tienes cuenta? 
-                <a href="{{ route('login') }}" class="font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+                <a href="{{ route('login') }}" class="font-bold text-client-primary hover:text-client-primary/80 transition-colors">
                     Inicia sesión aquí
                 </a>
             </p>
