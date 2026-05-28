@@ -64,7 +64,6 @@ test('super admin can update settings successfully', function () {
         'color_admin_sidebar' => '#111111',
         'color_admin_primary' => '#222222',
         'color_admin_container_bg' => '#ffffff',
-        'color_admin_header_bg' => '#ffffff',
         'color_admin_page_bg' => '#f3f4f6',
         'shop_currency' => 'EUR',
         'shop_currency_symbol' => '€',

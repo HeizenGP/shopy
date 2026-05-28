@@ -121,7 +121,6 @@
                                     <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-sidebar'] }}" title="Sidebar"></span>
                                     <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-primary'] }}" title="Primario"></span>
                                     <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-container-bg'] }}" title="Contenedor"></span>
-                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-header-bg'] }}" title="Cabecera"></span>
                                 </div>
                                 <span x-show="selectedAdminTheme === '{{ $key }}'" class="absolute top-2 right-2 flex h-2 w-2">
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-admin-primary opacity-75"></span>
@@ -190,7 +189,7 @@
             <!-- Colors -->
             @php
                 $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_surface', 'color_client_surface_alt', 'color_client_border', 'color_client_text', 'color_client_muted', 'color_client_header_footer_bg', 'color_client_card', 'color_client_card_border'];
-                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_container_bg', 'color_admin_header_bg', 'color_admin_page_bg'];
+                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_container_bg', 'color_admin_page_bg'];
 
                 $professionalPalettes = [
                     'client' => [

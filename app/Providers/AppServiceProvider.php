@@ -48,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
                     'shop.colors_admin.sidebar_bg' => ShopHelper::getSetting('--color-admin-sidebar'),
                     'shop.colors_admin.primary' => ShopHelper::getSetting('--color-admin-primary'),
                     'shop.colors_admin.container_bg' => ShopHelper::getSetting('--color-admin-container-bg'),
-                    'shop.colors_admin.header_bg' => ShopHelper::getSetting('--color-admin-header-bg'),
                     'shop.colors_admin.page_bg' => ShopHelper::getSetting('--color-admin-page-bg'),
                     'shop.currency' => $settings['shop_currency'] ?? config('shop.currency'),
                     'shop.currency_symbol' => $settings['shop_currency_symbol'] ?? config('shop.currency_symbol'),

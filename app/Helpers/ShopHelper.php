@@ -127,7 +127,6 @@ class ShopHelper
             '--color-admin-sidebar' => 'colors_admin.sidebar_bg',
             '--color-admin-primary' => 'colors_admin.primary',
             '--color-admin-container-bg' => 'colors_admin.container_bg',
-            '--color-admin-header-bg' => 'colors_admin.header_bg',
             '--color-admin-page-bg' => 'colors_admin.page_bg',
             'maintenance_mode' => 'maintenance_mode',
             'maintenance_message' => 'maintenance_message',

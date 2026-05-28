@@ -14,6 +14,14 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script>
+        if (localStorage.getItem('admin_dark_mode') === 'true') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <style>
         :root {
             --color-admin-sidebar: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-sidebar', '#202123') }};
@@ -28,9 +36,32 @@
             --color-client-muted: {{ \App\Helpers\ShopHelper::getSetting('--color-client-muted', '#64748b') }};
         }
 
+        .dark {
+            --color-admin-page-bg: #090d16;
+            --color-admin-container-bg: #111827;
+            --color-admin-login-panel: var(--color-admin-container-bg);
+            --color-admin-login-text: #f8fafc;
+            --color-admin-login-muted: #94a3b8;
+        }
+
         body {
             font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
             color: var(--color-admin-login-text);
+        }
+
+        .dark input {
+            background-color: #1f2937 !important;
+            color: #f8fafc !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .dark input::placeholder {
+            color: #64748b !important;
+        }
+        
+        .dark div.p-4.rounded-2xl.border {
+            background-color: #1f2937 !important;
+            border-color: rgba(255, 255, 255, 0.05) !important;
         }
     </style>
 </head>

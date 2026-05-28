@@ -198,19 +198,11 @@ class SuperAdminController extends Controller
                 ],
                 'color_admin_container_bg' => [
                     'key' => '--color-admin-container-bg',
-                    'label' => 'Color de Fondo Contenedores (Admin)',
+                    'label' => 'Fondo de Contenedores & Cabecera (Admin)',
                     'type' => 'color',
                     'default' => '#ffffff',
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Color de fondo para tarjetas, listados y contenedores en el panel administrativo.',
-                ],
-                'color_admin_header_bg' => [
-                    'key' => '--color-admin-header-bg',
-                    'label' => 'Color de Cabecera (Admin)',
-                    'type' => 'color',
-                    'default' => '#ffffff',
-                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Color de fondo para la barra superior (cabecera) del panel administrativo.',
+                    'description' => 'Color de fondo para tarjetas, listados, contenedores y la barra superior (cabecera) del panel administrativo.',
                 ],
 
                 'color_admin_page_bg' => [
