@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-[#f3f3f3] text-slate-950">
+<html lang="es" class="h-full text-slate-950" style="background-color: var(--color-admin-page-bg);">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,10 +21,12 @@
             --color-admin-sidebar: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-sidebar', '#202123') }};
             --color-admin-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-primary', '#4f46e5') }};
             --color-admin-accent: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-accent', '#ec4899') }};
+            --color-admin-page-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-page-bg', '#f3f4f6') }};
         }
 
         body {
             font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+            background-color: var(--color-admin-page-bg) !important;
         }
 
         .bg-admin-sidebar {
@@ -43,16 +45,32 @@
             border-color: var(--color-admin-primary) !important;
         }
 
+        /* Hover and active states using primary color */
+        .sidebar-link-active {
+            background-color: var(--color-admin-primary) !important;
+            color: #ffffff !important;
+        }
+
+        .sidebar-link:hover {
+            color: var(--color-admin-primary) !important;
+            background-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .sidebar-submenu-link:hover {
+            color: var(--color-admin-primary) !important;
+            background-color: rgba(255, 255, 255, 0.04) !important;
+        }
+
         [x-cloak] {
             display: none !important;
         }
         
         .hover\:bg-admin-primary-dark:hover {
-            opacity: 0.9;
+            filter: brightness(1.1);
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#f3f3f3]">
+<body class="min-h-screen">
     @php
         $adminUser = Auth::user();
         $adminLinks = [
@@ -89,7 +107,7 @@
                             @if(!empty($link['submenu']))
                                 <button type="button"
                                         @click="usersOpen = !usersOpen"
-                                        class="flex w-full items-center justify-between gap-3 rounded-[18px] px-4 py-3 text-sm font-bold transition {{ $active ? 'bg-white/10 text-white' : 'text-zinc-400 hover:bg-white/5 hover:text-white' }}" :class="sidebarCollapsed ? 'justify-center px-3' : ''">
+                                        class="flex w-full items-center justify-between gap-3 rounded-[18px] px-4 py-3 text-sm font-bold transition {{ $active ? 'sidebar-link-active' : 'text-zinc-400 sidebar-link' }}" :class="sidebarCollapsed ? 'justify-center px-3' : ''">
                                     <span class="flex items-center gap-3" :class="sidebarCollapsed ? 'justify-center' : ''">
                                         <span class="grid h-5 w-5 place-items-center">
                                             @if($link['icon'] === 'users')
@@ -103,16 +121,16 @@
                                 <div x-show="usersOpen && !sidebarCollapsed" x-cloak class="mt-2 space-y-1 pl-4">
                                     @foreach($link['submenu'] as $submenu)
                                         @php $submenuActive = request()->routeIs($submenu['route']); @endphp
-                                                     <a href="{{ route($submenu['route']) }}"
-                                                         class="flex items-center gap-3 rounded-2xl px-4 py-2.5 text-sm font-semibold transition {{ $submenuActive ? 'bg-white/10 text-white' : 'text-zinc-400 hover:bg-white/5 hover:text-white' }}">
+                                        <a href="{{ route($submenu['route']) }}"
+                                            class="flex items-center gap-3 rounded-2xl px-4 py-2.5 text-sm font-semibold transition {{ $submenuActive ? 'sidebar-link-active' : 'text-zinc-400 sidebar-submenu-link' }}">
                                             <span class="h-2 w-2 rounded-full bg-current opacity-70"></span>
                                             {{ $submenu['label'] }}
                                         </a>
                                     @endforeach
                                 </div>
                             @else
-                            <a href="{{ route($link['route']) }}"
-                                         class="flex items-center gap-3 rounded-[18px] px-4 py-3 text-sm font-bold transition {{ $active ? 'bg-white/10 text-white' : 'text-zinc-400 hover:bg-white/5 hover:text-white' }}" :class="sidebarCollapsed ? 'justify-center px-3' : ''">
+                                <a href="{{ route($link['route']) }}"
+                                         class="flex items-center gap-3 rounded-[18px] px-4 py-3 text-sm font-bold transition {{ $active ? 'sidebar-link-active' : 'text-zinc-400 sidebar-link' }}" :class="sidebarCollapsed ? 'justify-center px-3' : ''">
                                 <span class="grid h-5 w-5 place-items-center">
                                     @if($link['icon'] === 'grid')
                                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z"/></svg>

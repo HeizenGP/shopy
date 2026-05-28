@@ -5,7 +5,7 @@
 @section('admin_subheading', 'Ajustes generales que solo debería tocar el Super Admin')
 
 @section('content')
-<div class="space-y-6" x-data="{ activeTab: 'general' }">
+<div class="space-y-6" x-data="{ activeTab: 'general', selectedAdminTheme: '{{ $groups['branding']['fields']['color_theme_admin']['value'] ?? 'slate_corporate' }}', selectedWebTheme: '{{ $groups['branding']['fields']['color_theme_web']['value'] ?? 'indigo_imperial' }}' }">
     <!-- Tab Navigation -->
     <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-px">
         <button @click="activeTab = 'general'" 
@@ -99,10 +99,97 @@
                 @endforeach
             </div>
 
+            <!-- Predefined Themes Selection -->
+            <div class="grid gap-8 lg:grid-cols-2 mb-8 pb-8 border-b border-slate-100">
+                <!-- Admin Theme Selector -->
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-sm font-black uppercase tracking-wider text-slate-700">Tema del Panel Admin & Login Admin</h4>
+                        <p class="mt-1 text-xs text-slate-400">Selecciona uno de los 6 temas profesionales preprogramados. Se aplicará tanto al panel de control como al login del administrador.</p>
+                    </div>
+                    
+                    <input type="hidden" name="color_theme_admin" x-model="selectedAdminTheme">
+                    
+                    <div class="grid gap-3 grid-cols-2 sm:grid-cols-3">
+                        @foreach(config('shop.color_themes_admin') as $key => $theme)
+                            <button type="button" 
+                                    @click="selectedAdminTheme = '{{ $key }}'"
+                                    :class="selectedAdminTheme === '{{ $key }}' ? 'border-admin-primary ring-2 ring-admin-primary/20 bg-slate-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'"
+                                    class="text-left p-3.5 rounded-2xl border transition-all duration-200 flex flex-col justify-between h-28 relative group">
+                                <span class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">{{ $theme['name'] }}</span>
+                                <div class="flex items-center gap-1 mt-2">
+                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-sidebar'] }}" title="Sidebar"></span>
+                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-primary'] }}" title="Primario"></span>
+                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-admin-accent'] }}" title="Acento"></span>
+                                </div>
+                                <span x-show="selectedAdminTheme === '{{ $key }}'" class="absolute top-2 right-2 flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-admin-primary opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-admin-primary"></span>
+                                </span>
+                            </button>
+                        @endforeach
+                        
+                        <!-- Custom Option -->
+                        <button type="button" 
+                                @click="selectedAdminTheme = 'custom'"
+                                :class="selectedAdminTheme === 'custom' ? 'border-admin-primary ring-2 ring-admin-primary/20 bg-slate-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'"
+                                class="text-left p-3.5 rounded-2xl border transition-all duration-200 flex flex-col justify-between h-28 relative group">
+                            <span class="text-xs font-bold text-slate-800 leading-snug">🎨 Personalizado</span>
+                            <span class="text-[10px] text-slate-400 leading-tight">Configura tus propios colores de panel abajo.</span>
+                            <span x-show="selectedAdminTheme === 'custom'" class="absolute top-2 right-2 flex h-2 w-2">
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-admin-primary"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Web Theme Selector -->
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-sm font-black uppercase tracking-wider text-slate-700">Tema de la Web & Login Cliente</h4>
+                        <p class="mt-1 text-xs text-slate-400">Selecciona uno de los 6 temas profesionales preprogramados. Se aplicará a la tienda pública y a la pantalla de login del cliente.</p>
+                    </div>
+                    
+                    <input type="hidden" name="color_theme_web" x-model="selectedWebTheme">
+                    
+                    <div class="grid gap-3 grid-cols-2 sm:grid-cols-3">
+                        @foreach(config('shop.color_themes_client') as $key => $theme)
+                            <button type="button" 
+                                    @click="selectedWebTheme = '{{ $key }}'"
+                                    :class="selectedWebTheme === '{{ $key }}' ? 'border-admin-primary ring-2 ring-admin-primary/20 bg-slate-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'"
+                                    class="text-left p-3.5 rounded-2xl border transition-all duration-200 flex flex-col justify-between h-28 relative group">
+                                <span class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">{{ $theme['name'] }}</span>
+                                <div class="flex items-center gap-1 mt-2">
+                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-client-primary'] }}" title="Primario"></span>
+                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-client-page'] }}" title="Fondo"></span>
+                                    <span class="h-3.5 w-3.5 rounded-full border border-black/10" style="background-color: {{ $theme['colors']['--color-client-text'] }}" title="Texto"></span>
+                                </div>
+                                <span x-show="selectedWebTheme === '{{ $key }}'" class="absolute top-2 right-2 flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-admin-primary opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-admin-primary"></span>
+                                </span>
+                            </button>
+                        @endforeach
+                        
+                        <!-- Custom Option -->
+                        <button type="button" 
+                                @click="selectedWebTheme = 'custom'"
+                                :class="selectedWebTheme === 'custom' ? 'border-admin-primary ring-2 ring-admin-primary/20 bg-slate-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'"
+                                class="text-left p-3.5 rounded-2xl border transition-all duration-200 flex flex-col justify-between h-28 relative group">
+                            <span class="text-xs font-bold text-slate-800 leading-snug">🎨 Personalizado</span>
+                            <span class="text-[10px] text-slate-400 leading-tight">Configura tus propios colores de tienda abajo.</span>
+                            <span x-show="selectedWebTheme === 'custom'" class="absolute top-2 right-2 flex h-2 w-2">
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-admin-primary"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Colors -->
             @php
                 $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_login_bg', 'color_client_surface', 'color_client_surface_alt', 'color_client_border', 'color_client_text', 'color_client_muted', 'color_client_header_bg', 'color_client_footer_bg', 'color_client_card', 'color_client_card_border'];
-                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_accent'];
+                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_accent', 'color_admin_login_bg', 'color_admin_page_bg'];
 
                 $professionalPalettes = [
                     'client' => [
@@ -126,8 +213,37 @@
             @endphp
 
             <div class="space-y-8">
+                <!-- Preset Informative Banners -->
+                <div x-show="selectedAdminTheme !== 'custom'" x-transition class="p-6 rounded-[24px] border border-dashed border-slate-200 bg-slate-50/50 flex items-center gap-4">
+                    <div class="h-10 w-10 rounded-full bg-admin-primary/10 text-admin-primary grid place-items-center shrink-0">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-black text-slate-800 uppercase tracking-wider">Colores del Panel Admin controlados por preset</p>
+                        <p class="text-[11px] text-slate-500">Los colores individuales están preprogramados de acuerdo al tema seleccionado. Cambia el tema a <span class="font-bold text-slate-600">Personalizado</span> si deseas editar cada color individualmente.</p>
+                    </div>
+                </div>
+
+                <div x-show="selectedWebTheme !== 'custom'" x-transition class="p-6 rounded-[24px] border border-dashed border-slate-200 bg-slate-50/50 flex items-center gap-4">
+                    <div class="h-10 w-10 rounded-full bg-admin-primary/10 text-admin-primary grid place-items-center shrink-0">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-black text-slate-800 uppercase tracking-wider">Colores de la Web controlados por preset</p>
+                        <p class="text-[11px] text-slate-500">Los colores individuales de la tienda están preprogramados de acuerdo al tema seleccionado. Cambia el tema a <span class="font-bold text-slate-600">Personalizado</span> si deseas editar cada color individualmente.</p>
+                    </div>
+                </div>
+
                 @foreach($colorSections as $section)
-                    <div class="space-y-4 rounded-[28px] border border-slate-100 bg-slate-50/40 p-5">
+                    @php
+                        $isClient = $section['title'] === 'Configuración de Cliente';
+                        $showCond = $isClient ? "selectedWebTheme === 'custom'" : "selectedAdminTheme === 'custom'";
+                    @endphp
+                    <div x-show="{{ $showCond }}" x-transition class="space-y-4 rounded-[28px] border border-slate-100 bg-slate-50/40 p-5">
                         <div class="flex flex-wrap items-end justify-between gap-3">
                             <div>
                                 <h4 class="text-sm font-black uppercase tracking-wider text-slate-700">{{ $section['title'] }}</h4>

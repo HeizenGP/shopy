@@ -35,6 +35,28 @@ class ShopHelper
     public static function getSetting(string $key, mixed $default = null): mixed
     {
         $settings = self::all();
+
+        // Intercept color keys to apply predefined themes if set
+        if (str_starts_with($key, '--color-admin-')) {
+            $theme = $settings['color_theme_admin'] ?? config('shop.theme_admin') ?? 'slate_corporate';
+            if ($theme !== 'custom') {
+                $themeColors = config("shop.color_themes_admin.{$theme}.colors");
+                if ($themeColors && isset($themeColors[$key])) {
+                    return $themeColors[$key];
+                }
+            }
+        }
+
+        if (str_starts_with($key, '--color-client-')) {
+            $theme = $settings['color_theme_web'] ?? config('shop.theme_web') ?? 'indigo_imperial';
+            if ($theme !== 'custom') {
+                $themeColors = config("shop.color_themes_client.{$theme}.colors");
+                if ($themeColors && isset($themeColors[$key])) {
+                    return $themeColors[$key];
+                }
+            }
+        }
+
         if (array_key_exists($key, $settings)) {
             return $settings[$key];
         }
@@ -90,6 +112,8 @@ class ShopHelper
             'logo_url' => 'logo.url',
             'favicon_url' => 'favicon',
             'banner_url' => 'banner',
+            'color_theme_admin' => 'theme_admin',
+            'color_theme_web' => 'theme_web',
             '--color-client-page' => 'colors_client.page_bg',
             '--color-client-primary' => 'colors_client.primary',
             '--color-client-login-bg' => 'colors_client.login_bg',
@@ -105,6 +129,8 @@ class ShopHelper
             '--color-admin-sidebar' => 'colors_admin.sidebar_bg',
             '--color-admin-primary' => 'colors_admin.primary',
             '--color-admin-accent' => 'colors_admin.accent',
+            '--color-admin-login-bg' => 'colors_admin.login_bg',
+            '--color-admin-page-bg' => 'colors_admin.page_bg',
             'maintenance_mode' => 'maintenance_mode',
             'maintenance_message' => 'maintenance_message',
             'reviews_moderation' => 'reviews_moderation',

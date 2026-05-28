@@ -40,6 +40,186 @@ return [
         'sidebar_bg' => env('COLOR_ADMIN_SIDEBAR', '#202123'),
         'primary' => env('COLOR_ADMIN_PRIMARY', '#4f46e5'),
         'accent' => env('COLOR_ADMIN_ACCENT', '#ec4899'),
+        'login_bg' => env('COLOR_ADMIN_LOGIN_BG', '#eef2ff'),
+        'page_bg' => env('COLOR_ADMIN_PAGE_BG', '#f3f4f6'),
+    ],
+
+    // Temas de Colores Predefinidos
+    'theme_admin' => env('COLOR_THEME_ADMIN', 'slate_corporate'),
+    'theme_web' => env('COLOR_THEME_WEB', 'indigo_imperial'),
+
+    'color_themes_client' => [
+        'indigo_imperial' => [
+            'name' => 'Indigo Imperial (Clásico & Profesional)',
+            'colors' => [
+                '--color-client-page' => '#f8fafc',
+                '--color-client-primary' => '#4f46e5',
+                '--color-client-login-bg' => '#eef2ff',
+                '--color-client-surface' => '#ffffff',
+                '--color-client-surface-alt' => '#f1f5f9',
+                '--color-client-border' => '#e2e8f0',
+                '--color-client-text' => '#0f172a',
+                '--color-client-muted' => '#64748b',
+                '--color-client-header-bg' => '#ffffff',
+                '--color-client-footer-bg' => '#ffffff',
+                '--color-client-card' => '#ffffff',
+                '--color-client-card-border' => '#e2e8f0',
+            ]
+        ],
+        'emerald_luxury' => [
+            'name' => 'Esmeralda Luxury (Sofisticado & Orgánico)',
+            'colors' => [
+                '--color-client-page' => '#fafdfb',
+                '--color-client-primary' => '#059669',
+                '--color-client-login-bg' => '#ecfdf5',
+                '--color-client-surface' => '#ffffff',
+                '--color-client-surface-alt' => '#f0fdf4',
+                '--color-client-border' => '#e6f4ea',
+                '--color-client-text' => '#064e3b',
+                '--color-client-muted' => '#047857',
+                '--color-client-header-bg' => '#ffffff',
+                '--color-client-footer-bg' => '#064e3b',
+                '--color-client-card' => '#ffffff',
+                '--color-client-card-border' => '#d1fae5',
+            ]
+        ],
+        'champagne_amber' => [
+            'name' => 'Champán & Ámbar (Cálido & Lujoso)',
+            'colors' => [
+                '--color-client-page' => '#fdfaf2',
+                '--color-client-primary' => '#b45309',
+                '--color-client-login-bg' => '#fffbeb',
+                '--color-client-surface' => '#ffffff',
+                '--color-client-surface-alt' => '#fef3c7',
+                '--color-client-border' => '#fde68a',
+                '--color-client-text' => '#78350f',
+                '--color-client-muted' => '#b45309',
+                '--color-client-header-bg' => '#ffffff',
+                '--color-client-footer-bg' => '#78350f',
+                '--color-client-card' => '#ffffff',
+                '--color-client-card-border' => '#fef3c7',
+            ]
+        ],
+        'burgundy_cream' => [
+            'name' => 'Borgoña & Crema (Elegante & Sensual)',
+            'colors' => [
+                '--color-client-page' => '#fdfbf7',
+                '--color-client-primary' => '#881337',
+                '--color-client-login-bg' => '#fff1f2',
+                '--color-client-surface' => '#ffffff',
+                '--color-client-surface-alt' => '#fff5f5',
+                '--color-client-border' => '#fecdd3',
+                '--color-client-text' => '#4c0519',
+                '--color-client-muted' => '#9f1239',
+                '--color-client-header-bg' => '#ffffff',
+                '--color-client-footer-bg' => '#4c0519',
+                '--color-client-card' => '#ffffff',
+                '--color-client-card-border' => '#ffe4e6',
+            ]
+        ],
+        'nordic_teal' => [
+            'name' => 'Azul Nórdico (Limpio & Minimalista)',
+            'colors' => [
+                '--color-client-page' => '#f4f7f6',
+                '--color-client-primary' => '#0f766e',
+                '--color-client-login-bg' => '#f0fdfa',
+                '--color-client-surface' => '#ffffff',
+                '--color-client-surface-alt' => '#ccfbf1',
+                '--color-client-border' => '#e2e8f0',
+                '--color-client-text' => '#0f172a',
+                '--color-client-muted' => '#475569',
+                '--color-client-header-bg' => '#ffffff',
+                '--color-client-footer-bg' => '#ffffff',
+                '--color-client-card' => '#ffffff',
+                '--color-client-card-border' => '#cbd5e1',
+            ]
+        ],
+        'lavender_platinum' => [
+            'name' => 'Lavanda & Platino (Romántico & Moderno)',
+            'colors' => [
+                '--color-client-page' => '#fafaff',
+                '--color-client-primary' => '#7c3aed',
+                '--color-client-login-bg' => '#f5f3ff',
+                '--color-client-surface' => '#ffffff',
+                '--color-client-surface-alt' => '#ede9fe',
+                '--color-client-border' => '#e0e0ff',
+                '--color-client-text' => '#2e1065',
+                '--color-client-muted' => '#6d28d9',
+                '--color-client-header-bg' => '#ffffff',
+                '--color-client-footer-bg' => '#2e1065',
+                '--color-client-card' => '#ffffff',
+                '--color-client-card-border' => '#e0e0ff',
+            ]
+        ],
+    ],
+
+    'color_themes_admin' => [
+        'slate_corporate' => [
+            'name' => 'Slate Corporativo (Clásico & Profesional)',
+            'colors' => [
+                '--color-admin-sidebar' => '#202123',
+                '--color-admin-page-bg' => '#f3f4f6',
+                '--color-admin-primary' => '#4f46e5',
+                '--color-admin-accent' => '#ec4899',
+                '--color-admin-login-bg' => '#eef2ff',
+                '--color-admin-login-panel' => '#ffffff',
+            ]
+        ],
+        'emerald_night' => [
+            'name' => 'Esmeralda Nocturno (Elegante & Premium)',
+            'colors' => [
+                '--color-admin-sidebar' => '#062f22',
+                '--color-admin-page-bg' => '#f0fdf4',
+                '--color-admin-primary' => '#059669',
+                '--color-admin-accent' => '#10b981',
+                '--color-admin-login-bg' => '#ecfdf5',
+                '--color-admin-login-panel' => '#ffffff',
+            ]
+        ],
+        'monaco_lux' => [
+            'name' => 'Mónaco Lux (Exclusivo & Minimalista Dark)',
+            'colors' => [
+                '--color-admin-sidebar' => '#0b0f19',
+                '--color-admin-page-bg' => '#f4f7f6',
+                '--color-admin-primary' => '#d4af37',
+                '--color-admin-accent' => '#f59e0b',
+                '--color-admin-login-bg' => '#070a13',
+                '--color-admin-login-panel' => '#111827',
+            ]
+        ],
+        'burgundy_prestige' => [
+            'name' => 'Borgoña Prestige (Lujoso & Distinguido)',
+            'colors' => [
+                '--color-admin-sidebar' => '#3b0712',
+                '--color-admin-page-bg' => '#fff5f5',
+                '--color-admin-primary' => '#9f1239',
+                '--color-admin-accent' => '#fb7185',
+                '--color-admin-login-bg' => '#fff1f2',
+                '--color-admin-login-panel' => '#ffffff',
+            ]
+        ],
+        'sapphire_deep' => [
+            'name' => 'Zafiro Profundo (Tecnológico & Moderno)',
+            'colors' => [
+                '--color-admin-sidebar' => '#0f172a',
+                '--color-admin-page-bg' => '#f1f5f9',
+                '--color-admin-primary' => '#2563eb',
+                '--color-admin-accent' => '#3b82f6',
+                '--color-admin-login-bg' => '#dbeafe',
+                '--color-admin-login-panel' => '#ffffff',
+            ]
+        ],
+        'nordic_charcoal' => [
+            'name' => 'Nordic Charcoal (Minimalismo Escandinavo)',
+            'colors' => [
+                '--color-admin-sidebar' => '#1e293b',
+                '--color-admin-page-bg' => '#f4f7f6',
+                '--color-admin-primary' => '#0f766e',
+                '--color-admin-accent' => '#14b8a6',
+                '--color-admin-login-bg' => '#f0fdfa',
+                '--color-admin-login-panel' => '#ffffff',
+            ]
+        ],
     ],
     
     // Tienda
