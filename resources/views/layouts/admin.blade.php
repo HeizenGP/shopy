@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin') — {{ config('shop.name', 'ShopCMS') }}</title>
+    <title>@yield('title', 'Panel') — {{ config('shop.name', 'ShopCMS') }}</title>
     <link rel="icon" type="image/x-icon" href="{{ \App\Helpers\ShopHelper::getSetting('favicon_url', '/favicon.ico') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,13 +53,13 @@
         $adminUser = Auth::user();
         $isSuperAdmin = $adminUser?->hasRole('super_admin');
         $adminLinks = [
-            ['label' => 'Overview', 'route' => 'admin.dashboard', 'icon' => 'grid', 'visible' => $isSuperAdmin],
+            ['label' => 'Panel', 'route' => 'admin.dashboard', 'icon' => 'grid', 'visible' => $isSuperAdmin],
             ['label' => 'Pedidos', 'route' => 'admin.orders.index', 'icon' => 'orders', 'visible' => true],
             ['label' => 'Inventario', 'route' => 'admin.inventory.index', 'icon' => 'inventory', 'visible' => true],
             ['label' => 'Usuarios', 'route' => 'admin.users.index', 'icon' => 'users', 'visible' => $isSuperAdmin],
             ['label' => 'Reportes', 'route' => 'admin.reports', 'icon' => 'reports', 'visible' => $isSuperAdmin],
-            ['label' => 'Plugins', 'route' => 'admin.plugins', 'icon' => 'plugins', 'visible' => $isSuperAdmin],
-            ['label' => 'Settings', 'route' => 'admin.settings', 'icon' => 'settings', 'visible' => $isSuperAdmin],
+            ['label' => 'Complementos', 'route' => 'admin.plugins', 'icon' => 'plugins', 'visible' => $isSuperAdmin],
+            ['label' => 'Configuración', 'route' => 'admin.settings', 'icon' => 'settings', 'visible' => $isSuperAdmin],
         ];
     @endphp
 
@@ -68,7 +68,7 @@
             <div class="px-6 py-8">
                 <a href="{{ route('admin.home') }}" class="flex items-center gap-2 text-lg font-black tracking-tight hover:opacity-90 transition-opacity">
                     @if(\App\Helpers\ShopHelper::getSetting('logo_url'))
-                        <img src="{{ \App\Helpers\ShopHelper::getSetting('logo_url') }}" alt="Logo" class="h-8 w-auto max-w-[80px] object-contain rounded-lg">
+                        <img src="{{ \App\Helpers\ShopHelper::getSetting('logo_url') }}" alt="Logo" class="h-8 w-auto object-contain rounded-lg" style="max-width: 80px;">
                     @endif
                     <span class="truncate">{{ config('shop.name', 'ShopCMS') }}</span>
                 </a>

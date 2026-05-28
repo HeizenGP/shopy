@@ -2,7 +2,7 @@
 
 @section('title', 'Usuarios y Roles')
 @section('admin_heading', 'Usuarios y roles')
-@section('admin_subheading', 'Define quién es cliente, Ventas Admin o Super Admin')
+@section('admin_subheading', 'Define quién es cliente, administrador de ventas o superadministrador')
 
 @section('content')
 <div class="space-y-6">
@@ -31,8 +31,8 @@
                                 @csrf
                                 <select name="role" class="text-xs px-2.5 py-1.5 border border-slate-200 rounded-lg bg-white">
                                     <option value="customer" {{ $user->role === 'customer' ? 'selected' : '' }}>Cliente</option>
-                                    <option value="sales_admin" {{ $user->role === 'sales_admin' ? 'selected' : '' }}>Ventas Admin</option>
-                                    <option value="super_admin" {{ $user->role === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
+                                    <option value="sales_admin" {{ $user->role === 'sales_admin' ? 'selected' : '' }}>Administrador de ventas</option>
+                                    <option value="super_admin" {{ $user->role === 'super_admin' ? 'selected' : '' }}>Superadministrador</option>
                                 </select>
                                 <button type="submit" class="rounded-lg bg-slate-950 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800">
                                     Guardar
