@@ -23,6 +23,16 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'admin',
                 'password' => Hash::make('admin123'),
+                'role' => 'super_admin',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'ventas@shopcms.com'],
+            [
+                'name' => 'Ventas Admin',
+                'password' => Hash::make('ventas123'),
+                'role' => 'sales_admin',
             ]
         );
 
@@ -32,6 +42,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Juan Pérez',
                 'password' => Hash::make('password'),
+                'role' => 'customer',
             ]
         );
 

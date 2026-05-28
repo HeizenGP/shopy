@@ -25,6 +25,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             [
                 'name' => $user->name,
                 'password' => $user->password,
+                'role' => $user->role,
             ]
         );
 
@@ -38,6 +39,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             name: $eloquent->name,
             email: $eloquent->email,
             password: $eloquent->password,
+            role: $eloquent->role ?? 'customer',
             emailVerifiedAt: $eloquent->email_verified_at?->toIso8601String()
         );
     }

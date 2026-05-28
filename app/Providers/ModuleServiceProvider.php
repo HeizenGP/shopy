@@ -65,6 +65,9 @@ class ModuleServiceProvider extends ServiceProvider
             ->group(function () {
                 // Auth Routes
                 $this->loadRoutesFrom(app_path('Modules/Auth/Presentation/Routes/auth_routes.php'));
+
+                // Admin Routes
+                $this->loadRoutesFrom(app_path('Modules/Admin/Presentation/Routes/admin_routes.php'));
                 
                 // Catalog Routes
                 $this->loadRoutesFrom(app_path('Modules/Catalog/Presentation/Routes/catalog_routes.php'));

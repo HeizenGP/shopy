@@ -12,7 +12,7 @@ Route::prefix('checkout')->group(function () {
 Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
-Route::middleware(['auth'])->prefix('admin/orders')->group(function () {
+Route::middleware(['auth', 'role:super_admin,sales_admin'])->prefix('admin/orders')->group(function () {
     Route::get('/', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::post('/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.status');
 });

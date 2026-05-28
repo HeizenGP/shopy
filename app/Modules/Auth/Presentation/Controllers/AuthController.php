@@ -19,9 +19,18 @@ class AuthController extends Controller
     public function showLogin()
     {
         if (Auth::check()) {
-            return redirect('/');
+            return $this->redirectAfterLogin();
         }
         return view('auth.login');
+    }
+
+    public function showAdminLogin()
+    {
+        if (Auth::check()) {
+            return $this->redirectAfterLogin();
+        }
+
+        return view('auth.admin-login');
     }
 
     public function login(Request $request)
@@ -39,7 +48,33 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->intended($this->defaultPathForUser($eloquentUser));
+        } catch (Exception $e) {
+            return back()->withErrors([
+                'email' => $e->getMessage(),
+            ])->onlyInput('email');
+        }
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        try {
+            $user = $this->loginUseCase->execute($credentials['email'], $credentials['password']);
+            $eloquentUser = \App\Modules\Auth\Infrastructure\Database\Models\UserEloquent::find($user->id);
+
+            if (!$eloquentUser->hasRole(['super_admin', 'sales_admin'])) {
+                throw new Exception('Esta cuenta no tiene acceso administrativo.');
+            }
+
+            Auth::login($eloquentUser);
+            $request->session()->regenerate();
+
+            return redirect()->intended($this->defaultPathForUser($eloquentUser));
         } catch (Exception $e) {
             return back()->withErrors([
                 'email' => $e->getMessage(),
@@ -85,5 +120,19 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    private function redirectAfterLogin()
+    {
+        return redirect($this->defaultPathForUser(Auth::user()));
+    }
+
+    private function defaultPathForUser($user): string
+    {
+        return match ($user?->role) {
+            'super_admin' => route('admin.dashboard'),
+            'sales_admin' => route('admin.orders.index'),
+            default => '/',
+        };
     }
 }

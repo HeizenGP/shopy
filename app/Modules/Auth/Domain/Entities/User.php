@@ -9,6 +9,7 @@ class User
         public readonly string $name,
         public readonly string $email,
         public readonly string $password,
+        public readonly string $role = 'customer',
         public readonly ?string $emailVerifiedAt = null
     ) {}
 }
