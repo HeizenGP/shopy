@@ -18,7 +18,6 @@
         :root {
             --color-client-page: {{ \App\Helpers\ShopHelper::getSetting('--color-client-page', '#f8fafc') }};
             --color-client-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-client-primary', '#4f46e5') }};
-            --color-client-login-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-login-bg', '#eef2ff') }};
             --color-client-surface: {{ \App\Helpers\ShopHelper::getSetting('--color-client-surface', '#ffffff') }};
             --color-client-surface-alt: {{ \App\Helpers\ShopHelper::getSetting('--color-client-surface-alt', '#f1f5f9') }};
             --color-client-border: {{ \App\Helpers\ShopHelper::getSetting('--color-client-border', '#e2e8f0') }};
@@ -31,12 +30,12 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-[radial-gradient(circle_at_top,rgba(79,70,229,0.16),transparent_34%),linear-gradient(180deg,var(--color-client-login-bg)_0%,#ffffff_58%,#eef2ff_100%)] text-client-text">
+<body class="min-h-screen text-client-text bg-[var(--color-client-page)]" style="background-color: var(--color-client-page);">
     <main class="relative min-h-screen overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
-        <div class="pointer-events-none absolute inset-0 opacity-60">
-            <div class="absolute -left-20 top-16 h-72 w-72 rounded-full bg-client-primary/10 blur-3xl"></div>
-            <div class="absolute right-0 top-40 h-96 w-96 rounded-full bg-sky-300/20 blur-3xl"></div>
-            <div class="absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/50 blur-3xl"></div>
+        <div class="pointer-events-none absolute inset-0 opacity-40">
+            <div class="absolute -left-20 top-16 h-72 w-72 rounded-full bg-client-primary/5 blur-3xl"></div>
+            <div class="absolute right-0 top-40 h-96 w-96 rounded-full bg-client-primary/10 blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-white/30 blur-3xl"></div>
         </div>
 
         <div class="relative mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center justify-center">

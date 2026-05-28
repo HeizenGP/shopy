@@ -188,8 +188,8 @@
 
             <!-- Colors -->
             @php
-                $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_login_bg', 'color_client_surface', 'color_client_surface_alt', 'color_client_border', 'color_client_text', 'color_client_muted', 'color_client_header_bg', 'color_client_footer_bg', 'color_client_card', 'color_client_card_border'];
-                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_accent', 'color_admin_login_bg', 'color_admin_page_bg'];
+                $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_surface', 'color_client_surface_alt', 'color_client_border', 'color_client_text', 'color_client_muted', 'color_client_header_footer_bg', 'color_client_card', 'color_client_card_border'];
+                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_accent', 'color_admin_page_bg'];
 
                 $professionalPalettes = [
                     'client' => [

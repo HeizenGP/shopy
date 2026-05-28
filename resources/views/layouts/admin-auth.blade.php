@@ -19,7 +19,7 @@
             --color-admin-sidebar: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-sidebar', '#202123') }};
             --color-admin-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-primary', '#4f46e5') }};
             --color-admin-accent: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-accent', '#ec4899') }};
-            --color-admin-login-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-bg', '#eef1fa') }};
+            --color-admin-page-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-page-bg', '#f3f4f6') }};
             --color-admin-login-panel: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-panel', '#ffffff') }};
             --color-admin-login-text: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-panel', '#ffffff') === '#111827' ? '#f1f5f9' : '#0f172a' }};
             --color-admin-login-muted: {{ \App\Helpers\ShopHelper::getSetting('--color-admin-login-panel', '#ffffff') === '#111827' ? '#94a3b8' : '#64748b' }};
@@ -34,7 +34,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-[var(--color-admin-login-bg)] text-client-text" style="background-color: var(--color-admin-login-bg);">
+<body class="min-h-screen bg-[var(--color-admin-page-bg)] text-client-text" style="background-color: var(--color-admin-page-bg);">
     <main class="relative min-h-screen overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
 
         <div class="relative mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-5xl items-center justify-center">

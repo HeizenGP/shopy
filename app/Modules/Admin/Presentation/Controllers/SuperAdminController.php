@@ -115,14 +115,7 @@ class SuperAdminController extends Controller
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
                     'description' => 'Color para botones principales, enlaces y acentos.',
                 ],
-                'color_client_login_bg' => [
-                    'key' => '--color-client-login-bg',
-                    'label' => 'Color de Fondo Login (Cliente)',
-                    'type' => 'color',
-                    'default' => '#eef2ff',
-                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Fondo para el formulario de login público.',
-                ],
+
                 'color_client_surface' => [
                     'key' => '--color-client-surface',
                     'label' => 'Superficie Principal (Cliente)',
@@ -163,21 +156,13 @@ class SuperAdminController extends Controller
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
                     'description' => 'Subtítulos, ayudas y labels menos importantes.',
                 ],
-                'color_client_header_bg' => [
-                    'key' => '--color-client-header-bg',
-                    'label' => 'Fondo del Header (Cliente)',
+                'color_client_header_footer_bg' => [
+                    'key' => '--color-client-header-footer-bg',
+                    'label' => 'Fondo de Cabecera y Pie de Página (Cliente)',
                     'type' => 'color',
                     'default' => '#ffffff',
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Barra superior del sitio público.',
-                ],
-                'color_client_footer_bg' => [
-                    'key' => '--color-client-footer-bg',
-                    'label' => 'Fondo del Footer (Cliente)',
-                    'type' => 'color',
-                    'default' => '#ffffff',
-                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Pie de página del sitio público.',
+                    'description' => 'Color de fondo compartido para la barra superior (header) y el pie de página (footer).',
                 ],
                 'color_client_card' => [
                     'key' => '--color-client-card',
@@ -219,14 +204,7 @@ class SuperAdminController extends Controller
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
                     'description' => 'Color de acento en el admin.',
                 ],
-                'color_admin_login_bg' => [
-                    'key' => '--color-admin-login-bg',
-                    'label' => 'Color de Fondo Login (Admin)',
-                    'type' => 'color',
-                    'default' => '#eef2ff',
-                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-                    'description' => 'Color de fondo exclusivo de la pantalla de login del admin.',
-                ],
+
                 'color_admin_page_bg' => [
                     'key' => '--color-admin-page-bg',
                     'label' => 'Color de Fondo Página (Admin)',

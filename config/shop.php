@@ -20,14 +20,12 @@ return [
     'colors_client' => [
         'page_bg' => env('COLOR_CLIENT_PAGE', '#f8fafc'),
         'primary' => env('COLOR_CLIENT_PRIMARY', '#4f46e5'),
-        'login_bg' => env('COLOR_CLIENT_LOGIN_BG', '#eef2ff'),
         'surface' => env('COLOR_CLIENT_SURFACE', '#ffffff'),
         'surface_alt' => env('COLOR_CLIENT_SURFACE_ALT', '#f1f5f9'),
         'border' => env('COLOR_CLIENT_BORDER', '#e2e8f0'),
         'text' => env('COLOR_CLIENT_TEXT', '#0f172a'),
         'muted' => env('COLOR_CLIENT_MUTED', '#64748b'),
-        'header_bg' => env('COLOR_CLIENT_HEADER_BG', '#ffffff'),
-        'footer_bg' => env('COLOR_CLIENT_FOOTER_BG', '#ffffff'),
+        'header_footer_bg' => env('COLOR_CLIENT_HEADER_FOOTER', '#ffffff'),
         'card' => env('COLOR_CLIENT_CARD', '#ffffff'),
         'card_border' => env('COLOR_CLIENT_CARD_BORDER', '#e2e8f0'),
         'success' => env('COLOR_SUCCESS', '#10b981'),
@@ -40,7 +38,6 @@ return [
         'sidebar_bg' => env('COLOR_ADMIN_SIDEBAR', '#202123'),
         'primary' => env('COLOR_ADMIN_PRIMARY', '#4f46e5'),
         'accent' => env('COLOR_ADMIN_ACCENT', '#ec4899'),
-        'login_bg' => env('COLOR_ADMIN_LOGIN_BG', '#eef2ff'),
         'page_bg' => env('COLOR_ADMIN_PAGE_BG', '#f3f4f6'),
     ],
 
@@ -54,14 +51,12 @@ return [
             'colors' => [
                 '--color-client-page' => '#f8fafc',
                 '--color-client-primary' => '#4f46e5',
-                '--color-client-login-bg' => '#eef2ff',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#f1f5f9',
                 '--color-client-border' => '#e2e8f0',
                 '--color-client-text' => '#0f172a',
                 '--color-client-muted' => '#64748b',
-                '--color-client-header-bg' => '#ffffff',
-                '--color-client-footer-bg' => '#ffffff',
+                '--color-client-header-footer-bg' => '#ffffff',
                 '--color-client-card' => '#ffffff',
                 '--color-client-card-border' => '#e2e8f0',
             ]
@@ -71,14 +66,12 @@ return [
             'colors' => [
                 '--color-client-page' => '#fafdfb',
                 '--color-client-primary' => '#059669',
-                '--color-client-login-bg' => '#ecfdf5',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#f0fdf4',
                 '--color-client-border' => '#e6f4ea',
                 '--color-client-text' => '#064e3b',
                 '--color-client-muted' => '#047857',
-                '--color-client-header-bg' => '#ffffff',
-                '--color-client-footer-bg' => '#064e3b',
+                '--color-client-header-footer-bg' => '#ffffff',
                 '--color-client-card' => '#ffffff',
                 '--color-client-card-border' => '#d1fae5',
             ]
@@ -88,14 +81,12 @@ return [
             'colors' => [
                 '--color-client-page' => '#fdfaf2',
                 '--color-client-primary' => '#b45309',
-                '--color-client-login-bg' => '#fffbeb',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#fef3c7',
                 '--color-client-border' => '#fde68a',
                 '--color-client-text' => '#78350f',
                 '--color-client-muted' => '#b45309',
-                '--color-client-header-bg' => '#ffffff',
-                '--color-client-footer-bg' => '#78350f',
+                '--color-client-header-footer-bg' => '#ffffff',
                 '--color-client-card' => '#ffffff',
                 '--color-client-card-border' => '#fef3c7',
             ]
@@ -105,14 +96,12 @@ return [
             'colors' => [
                 '--color-client-page' => '#fdfbf7',
                 '--color-client-primary' => '#881337',
-                '--color-client-login-bg' => '#fff1f2',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#fff5f5',
                 '--color-client-border' => '#fecdd3',
                 '--color-client-text' => '#4c0519',
                 '--color-client-muted' => '#9f1239',
-                '--color-client-header-bg' => '#ffffff',
-                '--color-client-footer-bg' => '#4c0519',
+                '--color-client-header-footer-bg' => '#ffffff',
                 '--color-client-card' => '#ffffff',
                 '--color-client-card-border' => '#ffe4e6',
             ]
@@ -122,14 +111,12 @@ return [
             'colors' => [
                 '--color-client-page' => '#f4f7f6',
                 '--color-client-primary' => '#0f766e',
-                '--color-client-login-bg' => '#f0fdfa',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#ccfbf1',
                 '--color-client-border' => '#e2e8f0',
                 '--color-client-text' => '#0f172a',
                 '--color-client-muted' => '#475569',
-                '--color-client-header-bg' => '#ffffff',
-                '--color-client-footer-bg' => '#ffffff',
+                '--color-client-header-footer-bg' => '#ffffff',
                 '--color-client-card' => '#ffffff',
                 '--color-client-card-border' => '#cbd5e1',
             ]
@@ -139,14 +126,12 @@ return [
             'colors' => [
                 '--color-client-page' => '#fafaff',
                 '--color-client-primary' => '#7c3aed',
-                '--color-client-login-bg' => '#f5f3ff',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#ede9fe',
                 '--color-client-border' => '#e0e0ff',
                 '--color-client-text' => '#2e1065',
                 '--color-client-muted' => '#6d28d9',
-                '--color-client-header-bg' => '#ffffff',
-                '--color-client-footer-bg' => '#2e1065',
+                '--color-client-header-footer-bg' => '#ffffff',
                 '--color-client-card' => '#ffffff',
                 '--color-client-card-border' => '#e0e0ff',
             ]
@@ -161,7 +146,6 @@ return [
                 '--color-admin-page-bg' => '#f3f4f6',
                 '--color-admin-primary' => '#4f46e5',
                 '--color-admin-accent' => '#ec4899',
-                '--color-admin-login-bg' => '#eef2ff',
                 '--color-admin-login-panel' => '#ffffff',
             ]
         ],
@@ -172,7 +156,6 @@ return [
                 '--color-admin-page-bg' => '#f0fdf4',
                 '--color-admin-primary' => '#059669',
                 '--color-admin-accent' => '#10b981',
-                '--color-admin-login-bg' => '#ecfdf5',
                 '--color-admin-login-panel' => '#ffffff',
             ]
         ],
@@ -183,7 +166,6 @@ return [
                 '--color-admin-page-bg' => '#f4f7f6',
                 '--color-admin-primary' => '#d4af37',
                 '--color-admin-accent' => '#f59e0b',
-                '--color-admin-login-bg' => '#070a13',
                 '--color-admin-login-panel' => '#111827',
             ]
         ],
@@ -194,7 +176,6 @@ return [
                 '--color-admin-page-bg' => '#fff5f5',
                 '--color-admin-primary' => '#9f1239',
                 '--color-admin-accent' => '#fb7185',
-                '--color-admin-login-bg' => '#fff1f2',
                 '--color-admin-login-panel' => '#ffffff',
             ]
         ],
@@ -205,7 +186,6 @@ return [
                 '--color-admin-page-bg' => '#f1f5f9',
                 '--color-admin-primary' => '#2563eb',
                 '--color-admin-accent' => '#3b82f6',
-                '--color-admin-login-bg' => '#dbeafe',
                 '--color-admin-login-panel' => '#ffffff',
             ]
         ],
@@ -216,7 +196,6 @@ return [
                 '--color-admin-page-bg' => '#f4f7f6',
                 '--color-admin-primary' => '#0f766e',
                 '--color-admin-accent' => '#14b8a6',
-                '--color-admin-login-bg' => '#f0fdfa',
                 '--color-admin-login-panel' => '#ffffff',
             ]
         ],

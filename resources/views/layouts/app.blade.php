@@ -22,14 +22,12 @@
         :root {
             --color-client-page: {{ \App\Helpers\ShopHelper::getSetting('--color-client-page', '#f8fafc') }};
             --color-client-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-client-primary', '#4f46e5') }};
-            --color-client-login-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-login-bg', '#eef2ff') }};
             --color-client-surface: {{ \App\Helpers\ShopHelper::getSetting('--color-client-surface', '#ffffff') }};
             --color-client-surface-alt: {{ \App\Helpers\ShopHelper::getSetting('--color-client-surface-alt', '#f1f5f9') }};
             --color-client-border: {{ \App\Helpers\ShopHelper::getSetting('--color-client-border', '#e2e8f0') }};
             --color-client-text: {{ \App\Helpers\ShopHelper::getSetting('--color-client-text', '#0f172a') }};
             --color-client-muted: {{ \App\Helpers\ShopHelper::getSetting('--color-client-muted', '#64748b') }};
-            --color-client-header-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-header-bg', '#ffffff') }};
-            --color-client-footer-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-footer-bg', '#ffffff') }};
+            --color-client-header-footer-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-header-footer-bg', '#ffffff') }};
             --color-client-card: {{ \App\Helpers\ShopHelper::getSetting('--color-client-card', '#ffffff') }};
             --color-client-card-border: {{ \App\Helpers\ShopHelper::getSetting('--color-client-card-border', '#e2e8f0') }};
         }
@@ -42,7 +40,7 @@
 <body class="flex flex-col min-h-screen bg-client-page text-client-text">
     
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-client-header-bg/90 backdrop-blur-md border-b border-client-border">
+    <header class="sticky top-0 z-40 border-b border-client-border" style="background-color: var(--color-client-header-footer-bg);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
@@ -163,7 +161,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-client-footer-bg border-t border-client-border mt-16">
+    <footer class="border-t border-client-border mt-16" style="background-color: var(--color-client-header-footer-bg);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-xs text-slate-400">
             <p>&copy; {{ date('Y') }} {{ config('shop.name', 'ShopCMS') }}. Todos los derechos reservados.</p>
             <p class="mt-1 font-mono text-[10px] text-slate-300">Construido con Arquitectura Hexagonal + Vertical Slicing & Laravel 13</p>
