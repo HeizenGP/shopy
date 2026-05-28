@@ -1,19 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Gestión de Inventario')
+@section('admin_heading', 'Inventario Admin')
+@section('admin_subheading', 'Monitorea existencias, edita stock y atiende alertas')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
-    <!-- Title -->
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold tracking-tight text-slate-900">Panel de Inventario</h1>
-        <p class="text-xs text-slate-400 mt-1">Monitorea niveles de existencias, edita stock y gestiona alertas de stock bajo</p>
-    </div>
-
-    <!-- Active Stock Alerts -->
+<div class="space-y-6">
     @if(count($alerts) > 0)
-        <div class="bg-red-50 border border-red-200 rounded-3xl p-6 mb-8">
+        <div class="rounded-[30px] border border-red-200 bg-red-50 p-6">
             <h2 class="text-sm font-bold text-red-800 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <svg class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
@@ -41,8 +35,7 @@
         </div>
     @endif
 
-    <!-- Inventory table -->
-    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+    <div class="overflow-hidden rounded-[30px] bg-white">
         <div class="overflow-x-auto">
             <table class="w-full border-collapse text-left text-sm text-slate-500">
                 <thead class="bg-slate-50 text-xs font-bold uppercase text-slate-700 border-b border-slate-100">

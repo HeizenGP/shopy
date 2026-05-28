@@ -40,11 +40,7 @@
                 <nav class="hidden md:flex space-x-8 text-sm font-medium">
                     <a href="{{ route('catalog.index') }}" class="text-slate-600 hover:text-slate-900 transition-colors">Catálogo</a>
                     @auth
-                        @if(Auth::user()->hasRole('super_admin'))
-                            <a href="{{ route('admin.dashboard') }}" class="text-indigo-600 hover:text-indigo-800 transition-colors font-semibold">Super Admin</a>
-                            <a href="{{ route('admin.orders.index') }}" class="text-slate-600 hover:text-slate-900 transition-colors">Pedidos</a>
-                            <a href="{{ route('admin.inventory.index') }}" class="text-slate-600 hover:text-slate-900 transition-colors">Inventario</a>
-                        @elseif(Auth::user()->hasRole('sales_admin'))
+                        @if(Auth::user()->hasRole('sales_admin'))
                             <a href="{{ route('admin.orders.index') }}" class="text-indigo-600 hover:text-indigo-800 transition-colors font-semibold">Pedidos Admin</a>
                             <a href="{{ route('admin.inventory.index') }}" class="text-indigo-600 hover:text-indigo-800 transition-colors font-semibold">Inventario Admin</a>
                         @else

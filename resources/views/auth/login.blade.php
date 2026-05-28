@@ -8,7 +8,7 @@
         
         <div class="text-center">
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Bienvenido de nuevo</h1>
-            <p class="text-xs text-slate-400 mt-2">Inicia sesión en tu cuenta de ShopCMS</p>
+            <p class="text-xs text-slate-400 mt-2">Inicia sesión para comprar y revisar tus pedidos</p>
         </div>
 
         <form action="{{ route('login') }}" method="POST" class="space-y-4">
@@ -44,12 +44,9 @@
             </p>
         </div>
 
-        <!-- Testing accounts info -->
         <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-left text-xs text-slate-600">
             <p class="font-bold text-indigo-700 mb-1">Cuentas de prueba:</p>
             <ul class="list-disc list-inside space-y-0.5 font-mono text-[10px]">
-                <li><span class="font-bold">Super Admin:</span> admin@shopcms.com / admin123</li>
-                <li><span class="font-bold">Ventas:</span> ventas@shopcms.com / ventas123</li>
                 <li><span class="font-bold">Cliente:</span> user@example.com / password</li>
             </ul>
         </div>

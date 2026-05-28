@@ -1,23 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Administración de Pedidos')
+@section('admin_heading', 'Pedidos Admin')
+@section('admin_subheading', 'Gestión operativa de compras y estados de pedido')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Panel de Pedidos</h1>
-            <p class="text-xs text-slate-400 mt-1">Gestión administrativa de compras y estados de pedido</p>
-        </div>
-    </div>
-
+<div class="space-y-6">
     @if(count($orders) === 0)
-        <div class="bg-white text-center py-16 px-4 rounded-3xl border border-slate-100 shadow-sm">
+        <div class="rounded-[30px] bg-white px-4 py-16 text-center">
             <h3 class="mt-4 text-sm font-semibold text-slate-900">No hay pedidos registrados</h3>
             <p class="mt-1 text-sm text-slate-500">Los pedidos de tus clientes aparecerán en este listado.</p>
         </div>
     @else
-        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <div class="overflow-hidden rounded-[30px] bg-white">
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse text-left text-sm text-slate-500">
                     <thead class="bg-slate-50 text-xs font-bold uppercase text-slate-700 border-b border-slate-100">

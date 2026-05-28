@@ -24,8 +24,13 @@ class SuperAdminController extends Controller
         ];
 
         $recentOrders = OrderEloquent::latest()->limit(5)->get();
+        $topCategories = ProductEloquent::selectRaw('category, count(*) as total')
+            ->groupBy('category')
+            ->orderByDesc('total')
+            ->limit(3)
+            ->get();
 
-        return view('admin.super.dashboard', compact('stats', 'recentOrders'));
+        return view('admin.super.dashboard', compact('stats', 'recentOrders', 'topCategories'));
     }
 
     public function users()

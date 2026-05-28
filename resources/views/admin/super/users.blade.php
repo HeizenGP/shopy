@@ -1,15 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Usuarios y Roles')
+@section('admin_heading', 'Usuarios y roles')
+@section('admin_subheading', 'Define quién es cliente, Ventas Admin o Super Admin')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold tracking-tight text-slate-900">Usuarios y roles</h1>
-        <p class="text-xs text-slate-400 mt-1">Define quién es cliente, Ventas Admin o Super Admin</p>
-    </div>
-
-    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+<div class="space-y-6">
+    <div class="overflow-hidden rounded-[30px] bg-white">
         <table class="w-full text-sm text-left">
             <thead class="bg-slate-50 text-xs uppercase text-slate-500">
                 <tr>
@@ -37,7 +34,7 @@
                                     <option value="sales_admin" {{ $user->role === 'sales_admin' ? 'selected' : '' }}>Ventas Admin</option>
                                     <option value="super_admin" {{ $user->role === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
                                 </select>
-                                <button type="submit" class="py-1 px-2.5 text-xs font-bold text-indigo-600 hover:text-indigo-800">
+                                <button type="submit" class="rounded-lg bg-slate-950 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800">
                                     Guardar
                                 </button>
                             </form>
