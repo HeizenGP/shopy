@@ -23,7 +23,7 @@
     --color-client-surface-alt: #f1f5f9;
 
     /* Bordes y separadores del frontend cliente */
-    --color-client-border: #e2e8f0;
+    --color-client-border: var(--color-client-surface-alt);
 
     /* Texto principal del frontend cliente */
     --color-client-text: #0f172a;
@@ -31,17 +31,14 @@
     /* Texto secundario y ayudas contextuales */
     --color-client-muted: #64748b;
 
-    /* Encabezado del frontend cliente */
-    --color-client-header-bg: #ffffff;
-
-    /* Pie de página del frontend cliente */
-    --color-client-footer-bg: #ffffff;
+    /* Fondo de cabecera y pie de página */
+    --color-client-header-footer-bg: var(--color-client-surface);
 
     /* Tarjetas y paneles de contenido */
-    --color-client-card: #ffffff;
+    --color-client-card: var(--color-client-surface);
 
     /* Borde de tarjetas y paneles */
-    --color-client-card-border: #e2e8f0;
+    --color-client-card-border: var(--color-client-surface-alt);
 
     /* Fondo sidebar admin */
     --color-admin-sidebar: #202123;

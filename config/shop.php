@@ -22,12 +22,8 @@ return [
         'primary' => env('COLOR_CLIENT_PRIMARY', '#4f46e5'),
         'surface' => env('COLOR_CLIENT_SURFACE', '#ffffff'),
         'surface_alt' => env('COLOR_CLIENT_SURFACE_ALT', '#f1f5f9'),
-        'border' => env('COLOR_CLIENT_BORDER', '#e2e8f0'),
         'text' => env('COLOR_CLIENT_TEXT', '#0f172a'),
         'muted' => env('COLOR_CLIENT_MUTED', '#64748b'),
-        'header_footer_bg' => env('COLOR_CLIENT_HEADER_FOOTER', '#ffffff'),
-        'card' => env('COLOR_CLIENT_CARD', '#ffffff'),
-        'card_border' => env('COLOR_CLIENT_CARD_BORDER', '#e2e8f0'),
         'success' => env('COLOR_SUCCESS', '#10b981'),
         'error' => env('COLOR_ERROR', '#ef4444'),
         'warning' => env('COLOR_WARNING', '#f59e0b'),
@@ -53,12 +49,8 @@ return [
                 '--color-client-primary' => '#4f46e5',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#f1f5f9',
-                '--color-client-border' => '#e2e8f0',
                 '--color-client-text' => '#0f172a',
                 '--color-client-muted' => '#64748b',
-                '--color-client-header-footer-bg' => '#ffffff',
-                '--color-client-card' => '#ffffff',
-                '--color-client-card-border' => '#e2e8f0',
             ]
         ],
         'emerald_luxury' => [
@@ -68,12 +60,8 @@ return [
                 '--color-client-primary' => '#059669',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#f0fdf4',
-                '--color-client-border' => '#e6f4ea',
                 '--color-client-text' => '#064e3b',
                 '--color-client-muted' => '#047857',
-                '--color-client-header-footer-bg' => '#ffffff',
-                '--color-client-card' => '#ffffff',
-                '--color-client-card-border' => '#d1fae5',
             ]
         ],
         'champagne_amber' => [
@@ -83,12 +71,8 @@ return [
                 '--color-client-primary' => '#b45309',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#fef3c7',
-                '--color-client-border' => '#fde68a',
                 '--color-client-text' => '#78350f',
                 '--color-client-muted' => '#b45309',
-                '--color-client-header-footer-bg' => '#ffffff',
-                '--color-client-card' => '#ffffff',
-                '--color-client-card-border' => '#fef3c7',
             ]
         ],
         'burgundy_cream' => [
@@ -98,12 +82,8 @@ return [
                 '--color-client-primary' => '#881337',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#fff5f5',
-                '--color-client-border' => '#fecdd3',
                 '--color-client-text' => '#4c0519',
                 '--color-client-muted' => '#9f1239',
-                '--color-client-header-footer-bg' => '#ffffff',
-                '--color-client-card' => '#ffffff',
-                '--color-client-card-border' => '#ffe4e6',
             ]
         ],
         'nordic_teal' => [
@@ -113,12 +93,8 @@ return [
                 '--color-client-primary' => '#0f766e',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#ccfbf1',
-                '--color-client-border' => '#e2e8f0',
                 '--color-client-text' => '#0f172a',
                 '--color-client-muted' => '#475569',
-                '--color-client-header-footer-bg' => '#ffffff',
-                '--color-client-card' => '#ffffff',
-                '--color-client-card-border' => '#cbd5e1',
             ]
         ],
         'lavender_platinum' => [
@@ -128,12 +104,8 @@ return [
                 '--color-client-primary' => '#7c3aed',
                 '--color-client-surface' => '#ffffff',
                 '--color-client-surface-alt' => '#ede9fe',
-                '--color-client-border' => '#e0e0ff',
                 '--color-client-text' => '#2e1065',
                 '--color-client-muted' => '#6d28d9',
-                '--color-client-header-footer-bg' => '#ffffff',
-                '--color-client-card' => '#ffffff',
-                '--color-client-card-border' => '#e0e0ff',
             ]
         ],
     ],

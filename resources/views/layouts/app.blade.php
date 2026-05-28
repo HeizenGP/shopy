@@ -24,16 +24,66 @@
             --color-client-primary: {{ \App\Helpers\ShopHelper::getSetting('--color-client-primary', '#4f46e5') }};
             --color-client-surface: {{ \App\Helpers\ShopHelper::getSetting('--color-client-surface', '#ffffff') }};
             --color-client-surface-alt: {{ \App\Helpers\ShopHelper::getSetting('--color-client-surface-alt', '#f1f5f9') }};
-            --color-client-border: {{ \App\Helpers\ShopHelper::getSetting('--color-client-border', '#e2e8f0') }};
             --color-client-text: {{ \App\Helpers\ShopHelper::getSetting('--color-client-text', '#0f172a') }};
             --color-client-muted: {{ \App\Helpers\ShopHelper::getSetting('--color-client-muted', '#64748b') }};
-            --color-client-header-footer-bg: {{ \App\Helpers\ShopHelper::getSetting('--color-client-header-footer-bg', '#ffffff') }};
-            --color-client-card: {{ \App\Helpers\ShopHelper::getSetting('--color-client-card', '#ffffff') }};
-            --color-client-card-border: {{ \App\Helpers\ShopHelper::getSetting('--color-client-card-border', '#e2e8f0') }};
+
+            /* Variables derivadas profesionales */
+            --color-client-border: var(--color-client-surface-alt);
+            --color-client-header-footer-bg: var(--color-client-surface);
+            --color-client-card: var(--color-client-surface);
+            --color-client-card-border: var(--color-client-surface-alt);
         }
 
         body {
             font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+            background-color: var(--color-client-page) !important;
+            color: var(--color-client-text) !important;
+        }
+
+        /* Overrides profesionales para Texto Principal y Texto Secundario */
+        .text-slate-950,
+        .text-slate-900,
+        .text-slate-800,
+        .text-zinc-900,
+        .text-zinc-950,
+        .text-slate-700,
+        .text-zinc-800,
+        .text-zinc-700 {
+            color: var(--color-client-text) !important;
+        }
+
+        .text-slate-600,
+        .text-slate-500,
+        .text-slate-400,
+        .text-zinc-500,
+        .text-zinc-400,
+        .text-zinc-600 {
+            color: var(--color-client-muted) !important;
+        }
+
+        /* Vinculación de botones e interacciones con el Color Primario */
+        .bg-indigo-600, 
+        .hover\:bg-indigo-700:hover, 
+        .bg-primary, 
+        .bg-indigo-700 {
+            background-color: var(--color-client-primary) !important;
+        }
+
+        .text-indigo-600, 
+        .hover\:text-indigo-700:hover, 
+        .hover\:text-indigo-600:hover,
+        .text-indigo-700 {
+            color: var(--color-client-primary) !important;
+        }
+
+        .border-indigo-600,
+        .focus\:ring-indigo-500:focus {
+            border-color: var(--color-client-primary) !important;
+            --tw-ring-color: var(--color-client-primary) !important;
+        }
+
+        .border-slate-200, .border-slate-100, .border-zinc-200 {
+            border-color: var(--color-client-border) !important;
         }
     </style>
 </head>

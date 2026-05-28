@@ -188,7 +188,7 @@
 
             <!-- Colors -->
             @php
-                $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_surface', 'color_client_surface_alt', 'color_client_border', 'color_client_text', 'color_client_muted', 'color_client_header_footer_bg', 'color_client_card', 'color_client_card_border'];
+                $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_surface', 'color_client_surface_alt', 'color_client_text', 'color_client_muted'];
                 $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_container_bg', 'color_admin_page_bg'];
 
                 $professionalPalettes = [
