@@ -16,4 +16,5 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/reports', [SuperAdminController::class, 'reports'])->name('reports');
     Route::get('/plugins', [SuperAdminController::class, 'plugins'])->name('plugins');
     Route::get('/settings', [SuperAdminController::class, 'settings'])->name('settings');
+    Route::post('/settings', [SuperAdminController::class, 'updateSettings'])->name('settings.update');
 });

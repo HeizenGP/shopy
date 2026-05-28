@@ -17,7 +17,34 @@
     <!-- Tailwind & App Assets via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @php
+        $themeDefaults = [
+            '--color-client-page' => '#f8fafc',
+            '--color-client-primary' => '#4f46e5',
+            '--color-client-login-bg' => '#eef2ff',
+        ];
+
+        $themeSettings = [];
+        if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+            $themeSettings = \App\Modules\Settings\Infrastructure\Database\Models\SettingEloquent::whereIn(
+                'key',
+                array_keys($themeDefaults)
+            )->pluck('value', 'key')->toArray();
+        }
+
+        $themeVars = [];
+        foreach ($themeDefaults as $key => $value) {
+            $themeVars[$key] = $themeSettings[$key] ?? $value;
+        }
+    @endphp
+
     <style>
+        :root {
+            --color-client-page: {{ $themeVars['--color-client-page'] }};
+            --color-client-primary: {{ $themeVars['--color-client-primary'] }};
+            --color-client-login-bg: {{ $themeVars['--color-client-login-bg'] }};
+        }
+
         body {
             font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
         }
