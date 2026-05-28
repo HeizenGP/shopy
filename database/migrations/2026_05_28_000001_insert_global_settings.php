@@ -86,6 +86,51 @@ return new class extends Migration
             'value' => '#eef2ff',
             'description' => 'Fondo exclusivo de la pantalla de login del cliente.',
         ],
+        [
+            'key' => '--color-client-surface',
+            'value' => '#ffffff',
+            'description' => 'Superficie principal del frontend cliente: header, tarjetas y paneles base.',
+        ],
+        [
+            'key' => '--color-client-surface-alt',
+            'value' => '#f1f5f9',
+            'description' => 'Superficie alternativa para bloques suaves, badges y fondos secundarios.',
+        ],
+        [
+            'key' => '--color-client-border',
+            'value' => '#e2e8f0',
+            'description' => 'Color de bordes, separadores y contenedores de formulario.',
+        ],
+        [
+            'key' => '--color-client-text',
+            'value' => '#0f172a',
+            'description' => 'Color principal del texto del cliente: títulos, contenido y navegación.',
+        ],
+        [
+            'key' => '--color-client-muted',
+            'value' => '#64748b',
+            'description' => 'Color de texto secundario, ayuda contextual y etiquetas suaves.',
+        ],
+        [
+            'key' => '--color-client-header-bg',
+            'value' => '#ffffff',
+            'description' => 'Fondo del encabezado superior del frontend.',
+        ],
+        [
+            'key' => '--color-client-footer-bg',
+            'value' => '#ffffff',
+            'description' => 'Fondo del pie de página del frontend.',
+        ],
+        [
+            'key' => '--color-client-card',
+            'value' => '#ffffff',
+            'description' => 'Fondo de tarjetas, listas y cajas de contenido.',
+        ],
+        [
+            'key' => '--color-client-card-border',
+            'value' => '#e2e8f0',
+            'description' => 'Borde de tarjetas, cajas destacadas y paneles.',
+        ],
 
         // Admin Colors
         [
@@ -150,7 +195,7 @@ return new class extends Migration
     public function down(): void
     {
         // We only delete the keys we explicitly added, except the ones that were there initially
-        $initialKeys = ['--color-client-page', '--color-client-primary', '--color-client-login-bg'];
+        $initialKeys = ['--color-client-page', '--color-client-primary', '--color-client-login-bg', '--color-client-surface', '--color-client-surface-alt', '--color-client-border', '--color-client-text', '--color-client-muted', '--color-client-header-bg', '--color-client-footer-bg', '--color-client-card', '--color-client-card-border'];
         
         $keysToDelete = array_filter(
             array_column(self::SETTINGS, 'key'),

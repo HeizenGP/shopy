@@ -11,7 +11,9 @@ class RedirectSuperAdminFromStore
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()?->hasRole('super_admin')) {
+        $user = Auth::user();
+
+        if ($user && method_exists($user, 'hasPermission') && $user->hasPermission('admin.access')) {
             return redirect()->route('admin.dashboard');
         }
 

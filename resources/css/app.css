@@ -16,6 +16,33 @@
     /* Fondo exclusivo de la pantalla de login del cliente */
     --color-client-login-bg: #eef2ff;
 
+    /* Superficie principal del frontend cliente */
+    --color-client-surface: #ffffff;
+
+    /* Superficie alternativa para bloques suaves y badges */
+    --color-client-surface-alt: #f1f5f9;
+
+    /* Bordes y separadores del frontend cliente */
+    --color-client-border: #e2e8f0;
+
+    /* Texto principal del frontend cliente */
+    --color-client-text: #0f172a;
+
+    /* Texto secundario y ayudas contextuales */
+    --color-client-muted: #64748b;
+
+    /* Encabezado del frontend cliente */
+    --color-client-header-bg: #ffffff;
+
+    /* Pie de página del frontend cliente */
+    --color-client-footer-bg: #ffffff;
+
+    /* Tarjetas y paneles de contenido */
+    --color-client-card: #ffffff;
+
+    /* Borde de tarjetas y paneles */
+    --color-client-card-border: #e2e8f0;
+
     /* Fondo sidebar admin */
     --color-admin-sidebar: #202123;
 

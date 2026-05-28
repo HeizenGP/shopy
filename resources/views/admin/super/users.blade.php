@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Usuarios y Roles')
-@section('admin_heading', 'Usuarios y roles')
-@section('admin_subheading', 'Define quién es cliente, administrador de ventas o superadministrador')
+@section('title', $sectionTitle ?? 'Usuarios y Roles')
+@section('admin_heading', $sectionTitle ?? 'Usuarios y roles')
+@section('admin_subheading', $sectionSubtitle ?? 'Gestiona los usuarios y sus roles')
 
 @section('content')
 <div class="space-y-6">
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
-                @foreach($users as $user)
+                @forelse($users as $user)
                     <tr>
                         <td class="px-6 py-4 font-bold text-slate-900">{{ $user->name }}</td>
                         <td class="px-6 py-4 text-slate-600">{{ $user->email }}</td>
@@ -30,9 +30,9 @@
                             <form action="{{ route('admin.users.role', $user->id) }}" method="POST" class="inline-flex gap-2">
                                 @csrf
                                 <select name="role" class="text-xs px-2.5 py-1.5 border border-slate-200 rounded-lg bg-white">
-                                    <option value="customer" {{ $user->role === 'customer' ? 'selected' : '' }}>Cliente</option>
-                                    <option value="sales_admin" {{ $user->role === 'sales_admin' ? 'selected' : '' }}>Administrador de ventas</option>
-                                    <option value="super_admin" {{ $user->role === 'super_admin' ? 'selected' : '' }}>Superadministrador</option>
+                                    @foreach($roles as $roleOpt)
+                                        <option value="{{ $roleOpt->key }}" {{ $user->role === $roleOpt->key ? 'selected' : '' }}>{{ $roleOpt->name }}</option>
+                                    @endforeach
                                 </select>
                                 <button type="submit" class="rounded-lg bg-slate-950 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800">
                                     Guardar
@@ -40,7 +40,11 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-6 py-10 text-center text-sm text-slate-500">No hay usuarios en esta sección.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

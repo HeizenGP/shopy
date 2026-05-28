@@ -1,10 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('title', 'Iniciar Sesión')
 
 @section('content')
-<div class="min-h-[calc(100vh-12rem)] bg-client-login-bg px-4 py-16">
-    <div class="max-w-md mx-auto bg-white rounded-3xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
+<div class="rounded-[30px] border border-white/70 bg-white/85 p-6 shadow-2xl backdrop-blur-xl sm:p-8 space-y-6">
         
         <div class="text-center">
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Bienvenido de nuevo</h1>

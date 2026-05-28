@@ -67,7 +67,7 @@ class AuthController extends Controller
             $user = $this->loginUseCase->execute($credentials['email'], $credentials['password']);
             $eloquentUser = \App\Modules\Auth\Infrastructure\Database\Models\UserEloquent::find($user->id);
 
-            if (!$eloquentUser->hasRole(['super_admin', 'sales_admin'])) {
+            if (!$eloquentUser->hasPermission('admin.access')) {
                 throw new Exception('Esta cuenta no tiene acceso administrativo.');
             }
 
@@ -114,12 +114,14 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $redirectTo = $request->input('redirect_to', '/');
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect($redirectTo);
     }
 
     private function redirectAfterLogin()
@@ -129,9 +131,8 @@ class AuthController extends Controller
 
     private function defaultPathForUser($user): string
     {
-        return match ($user?->role) {
-            'super_admin' => route('admin.dashboard'),
-            'sales_admin' => route('admin.orders.index'),
+        return match (true) {
+            $user?->hasPermission('admin.access') => route('admin.dashboard'),
             default => '/',
         };
     }

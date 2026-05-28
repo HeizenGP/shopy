@@ -100,24 +100,149 @@
             </div>
 
             <!-- Colors -->
-            <h4 class="text-sm font-bold text-slate-700 mb-4">Paleta de Colores</h4>
-            <div class="grid gap-6 md:grid-cols-3">
-                @foreach($groups['branding']['fields'] as $name => $field)
-                    @if($field['type'] === 'color')
-                        <div class="space-y-2 rounded-2xl border border-slate-100 p-4 bg-slate-50/50" x-data="{ color: '{{ old($name, $field['value']) }}' }">
-                            <label class="text-xs font-semibold text-slate-500">{{ $field['label'] }}</label>
-                            <div class="flex items-center gap-4">
-                                <input type="color"
-                                       name="{{ $name }}"
-                                       x-model="color"
-                                       class="h-11 w-16 cursor-pointer rounded-xl border border-slate-200 bg-white p-1">
-                                <input type="text" 
-                                       x-model="color"
-                                       class="w-24 rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-mono text-slate-700 uppercase focus:border-admin-primary focus:outline-none">
+            @php
+                $clientColorFields = ['color_client_page', 'color_client_primary', 'color_client_login_bg', 'color_client_surface', 'color_client_surface_alt', 'color_client_border', 'color_client_text', 'color_client_muted', 'color_client_header_bg', 'color_client_footer_bg', 'color_client_card', 'color_client_card_border'];
+                $adminColorFields = ['color_admin_sidebar', 'color_admin_primary', 'color_admin_accent'];
+
+                $professionalPalettes = [
+                    'client' => [
+                        ['name' => 'Elegante', 'value' => '#4f46e5', 'swatches' => ['#0f172a', '#4f46e5', '#f8fafc', '#e2e8f0']],
+                        ['name' => 'Fresco', 'value' => '#0ea5e9', 'swatches' => ['#0f172a', '#0ea5e9', '#ffffff', '#dbeafe']],
+                        ['name' => 'Natural', 'value' => '#22c55e', 'swatches' => ['#14532d', '#22c55e', '#f8fafc', '#dcfce7']],
+                        ['name' => 'Cálido', 'value' => '#f97316', 'swatches' => ['#7c2d12', '#f97316', '#fff7ed', '#fed7aa']],
+                    ],
+                    'admin' => [
+                        ['name' => 'Corporativo', 'value' => '#4f46e5', 'swatches' => ['#202123', '#4f46e5', '#ffffff', '#e2e8f0']],
+                        ['name' => 'Sólido', 'value' => '#2563eb', 'swatches' => ['#111827', '#2563eb', '#f8fafc', '#cbd5e1']],
+                        ['name' => 'Acento', 'value' => '#ec4899', 'swatches' => ['#202123', '#ec4899', '#ffffff', '#fce7f3']],
+                        ['name' => 'Enérgico', 'value' => '#f97316', 'swatches' => ['#0f172a', '#f97316', '#ffffff', '#fed7aa']],
+                    ],
+                ];
+
+                $colorSections = [
+                    ['title' => 'Configuración de Cliente', 'description' => 'Ajustes visuales de la tienda pública y la experiencia del cliente.', 'fields' => $clientColorFields, 'palette' => $professionalPalettes['client']],
+                    ['title' => 'Panel Administrativo', 'description' => 'Colores propios del panel interno y sus módulos.', 'fields' => $adminColorFields, 'palette' => $professionalPalettes['admin']],
+                ];
+            @endphp
+
+            <div class="space-y-8">
+                @foreach($colorSections as $section)
+                    <div class="space-y-4 rounded-[28px] border border-slate-100 bg-slate-50/40 p-5">
+                        <div class="flex flex-wrap items-end justify-between gap-3">
+                            <div>
+                                <h4 class="text-sm font-black uppercase tracking-wider text-slate-700">{{ $section['title'] }}</h4>
+                                <p class="mt-1 text-xs text-slate-400">{{ $section['description'] }}</p>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-1">{{ $field['description'] }}</p>
+                            <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400">
+                                <span class="inline-flex h-2 w-2 rounded-full bg-slate-300"></span>
+                                Paletas profesionales
+                            </div>
                         </div>
-                    @endif
+
+                        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                            @foreach($section['fields'] as $name)
+                                @php $field = $groups['branding']['fields'][$name]; @endphp
+                                <div x-data="{ color: '{{ old($name, $field['value']) }}', open: false, manual: false }" class="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                                    <div class="flex items-start gap-4">
+                                        <div class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-slate-200 shadow-sm" :style="`background-color: ${color}`">
+                                            <span class="sr-only">{{ $field['label'] }}</span>
+                                        </div>
+                                        <div class="min-w-0 flex-1 space-y-2">
+                                            <label class="block text-xs font-semibold text-slate-500">{{ $field['label'] }}</label>
+                                            <input type="hidden" name="{{ $name }}" x-model="color">
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-slate-700" x-text="color"></span>
+                                                <button type="button" @click="open = true" class="rounded-full border border-slate-200 px-3 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100">
+                                                    Cambiar
+                                                </button>
+                                            </div>
+                                            <p class="text-[11px] text-slate-400">{{ $field['description'] }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Combinaciones profesionales</p>
+                                        <div class="grid gap-2 sm:grid-cols-2">
+                                            @foreach($section['palette'] as $preset)
+                                                <div class="rounded-2xl border border-slate-200 p-3 transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-sm">
+                                                    <p class="text-xs font-black text-slate-800">{{ $preset['name'] }}</p>
+                                                    <div class="flex overflow-hidden rounded-full border border-slate-200">
+                                                        @foreach($preset['swatches'] as $swatch)
+                                                            <button type="button" @click="color = @js($swatch)" class="h-2 flex-1 transition hover:brightness-110 focus:outline-none" :class="color === @js($swatch) ? 'ring-2 ring-inset ring-admin-primary' : ''" :style="'background-color: ' + @js($swatch) + ';'" title="{{ $swatch }}"></button>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="mt-2 flex items-center justify-between gap-2">
+                                                        <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Elige cualquiera de los 4 colores</span>
+                                                        <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Profesional</span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/55 p-4 md:items-center">
+                                        <div @click.outside="open = false" class="w-full max-w-3xl rounded-[30px] bg-white p-5 shadow-2xl md:p-6">
+                                            <div class="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
+                                                <div>
+                                                    <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">{{ $section['title'] }}</p>
+                                                    <h5 class="mt-1 text-lg font-black text-slate-900">{{ $field['label'] }}</h5>
+                                                </div>
+                                                <button type="button" @click="open = false" class="rounded-full border border-slate-200 px-3 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100">
+                                                    Cerrar
+                                                </button>
+                                            </div>
+
+                                            <div class="mt-4 grid gap-3 md:grid-cols-2">
+                                                @foreach($section['palette'] as $preset)
+                                                        <div class="rounded-3xl border border-slate-200 p-4 text-left transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-sm">
+                                                            <p class="text-sm font-black text-slate-900">{{ $preset['name'] }}</p>
+                                                            <p class="text-xs text-slate-400">Paleta profesional</p>
+                                                            <div class="mt-3 grid grid-cols-4 gap-2">
+                                                                @foreach($preset['swatches'] as $swatch)
+                                                                    <button type="button" @click="color = @js($swatch)" class="h-10 rounded-2xl border border-slate-200 shadow-sm transition hover:scale-[1.02] focus:outline-none" :class="color === @js($swatch) ? 'ring-2 ring-offset-2 ring-admin-primary' : ''" :style="'background-color: ' + @js($swatch) + ';'" title="{{ $swatch }}"></button>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                            </div>
+
+                                            <div class="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                                                <div class="flex flex-wrap items-center justify-between gap-3">
+                                                    <div>
+                                                        <p class="text-sm font-bold text-slate-800">Más opciones</p>
+                                                        <p class="text-xs text-slate-500">Aparece el selector libre para elegir cualquier color.</p>
+                                                    </div>
+                                                    <button type="button" @click="manual = !manual" class="rounded-full border border-slate-200 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-white">
+                                                        Más
+                                                    </button>
+                                                </div>
+
+                                                <div x-show="manual" x-cloak class="mt-4 grid gap-4 md:grid-cols-[auto_1fr]">
+                                                    <input type="color" x-model="color" class="h-20 w-20 cursor-pointer rounded-2xl border border-slate-200 bg-white p-1">
+                                                    <div class="space-y-3">
+                                                        <input type="text" x-model="color" class="block w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold uppercase tracking-wider text-slate-700 focus:border-admin-primary focus:outline-none focus:ring-1 focus:ring-admin-primary">
+                                                        <div class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3">
+                                                            <div class="h-10 w-10 rounded-2xl border border-slate-200" :style="`background-color: ${color}`"></div>
+                                                            <div>
+                                                                <p class="text-xs font-bold text-slate-700">Vista previa libre</p>
+                                                                <p class="text-[11px] text-slate-400">Usa el selector visual o escribe el valor hexadecimal.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-5 flex justify-end gap-3 border-t border-slate-100 pt-4">
+                                                <button type="button" @click="open = false" class="rounded-full border border-slate-200 px-5 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100">
+                                                    Aceptar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 @endforeach
             </div>
 

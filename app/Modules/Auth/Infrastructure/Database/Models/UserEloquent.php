@@ -2,7 +2,11 @@
 
 namespace App\Modules\Auth\Infrastructure\Database\Models;
 
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -28,4 +32,34 @@ class UserEloquent extends Authenticatable
     {
         return in_array($this->role, (array) $roles, true);
     }
+
+    public function roleRecord(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role', 'key');
+    }
+
+    public function hasPermission(string|array $permissions): bool
+    {
+        $permissions = (array) $permissions;
+
+        if ($this->role === 'super_admin') {
+            return true;
+        }
+
+        $role = $this->roleRecord()->with('permissions')->first();
+
+        if (!$role) {
+            return false;
+        }
+
+        $allowed = $role->permissions->pluck('key')->all();
+
+        return count(array_intersect($permissions, $allowed)) > 0;
+    }
+
+    public function permissions(): Collection
+    {
+        return $this->roleRecord()->first()?->permissions ?? collect();
+    }
 }
+

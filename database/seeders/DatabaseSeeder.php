@@ -11,6 +11,7 @@ use App\Modules\Catalog\Infrastructure\Database\Models\VariantOptionEloquent;
 use App\Modules\Inventory\Infrastructure\Database\Models\InventoryEloquent;
 use App\Modules\Coupons\Infrastructure\Database\Models\CouponEloquent;
 use App\Modules\Reviews\Infrastructure\Database\Models\ReviewEloquent;
+use App\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,14 +28,25 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::updateOrCreate(
-            ['email' => 'ventas@shopcms.com'],
-            [
-                'name' => 'Ventas Admin',
-                'password' => Hash::make('ventas123'),
-                'role' => 'sales_admin',
-            ]
-        );
+        // Roles (created as records to manage options in admin)
+        $superAdminRole = \App\Models\Role::updateOrCreate(['key' => 'super_admin'], ['name' => 'Superadministrador', 'description' => 'Acceso completo al panel administrativo']);
+        \App\Models\Role::updateOrCreate(['key' => 'customer'], ['name' => 'Cliente', 'description' => 'Usuario cliente de la tienda']);
+
+        foreach (config('permissions.groups', []) as $groupKey => $group) {
+            foreach ($group['permissions'] as $permission) {
+                Permission::updateOrCreate(
+                    ['key' => $permission['key']],
+                    [
+                        'name' => $permission['name'],
+                        'group_key' => $groupKey,
+                        'description' => $permission['description'] ?? null,
+                    ]
+                );
+            }
+        }
+
+        $superAdminRole->permissions()->sync(Permission::pluck('id')->all());
+
 
         // Customer
         $customer = User::updateOrCreate(

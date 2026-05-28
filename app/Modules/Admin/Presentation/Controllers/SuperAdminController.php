@@ -3,6 +3,8 @@
 namespace App\Modules\Admin\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Modules\Auth\Infrastructure\Database\Models\UserEloquent;
 use App\Modules\Catalog\Infrastructure\Database\Models\ProductEloquent;
 use App\Modules\Inventory\Infrastructure\Database\Models\InventoryEloquent;
@@ -104,6 +106,78 @@ class SuperAdminController extends Controller
                     'default' => '#eef2ff',
                     'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
                     'description' => 'Fondo para el formulario de login público.',
+                ],
+                'color_client_surface' => [
+                    'key' => '--color-client-surface',
+                    'label' => 'Superficie Principal (Cliente)',
+                    'type' => 'color',
+                    'default' => '#ffffff',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Header, tarjetas principales y bloques base del frontend.',
+                ],
+                'color_client_surface_alt' => [
+                    'key' => '--color-client-surface-alt',
+                    'label' => 'Superficie Alterna (Cliente)',
+                    'type' => 'color',
+                    'default' => '#f1f5f9',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Bloques suaves, chips, fondos secundarios y paneles auxiliares.',
+                ],
+                'color_client_border' => [
+                    'key' => '--color-client-border',
+                    'label' => 'Borde General (Cliente)',
+                    'type' => 'color',
+                    'default' => '#e2e8f0',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Bordes de inputs, cards, tablas y divisores.',
+                ],
+                'color_client_text' => [
+                    'key' => '--color-client-text',
+                    'label' => 'Texto Principal (Cliente)',
+                    'type' => 'color',
+                    'default' => '#0f172a',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Títulos, navegación y contenido principal del frontend.',
+                ],
+                'color_client_muted' => [
+                    'key' => '--color-client-muted',
+                    'label' => 'Texto Secundario (Cliente)',
+                    'type' => 'color',
+                    'default' => '#64748b',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Subtítulos, ayudas y labels menos importantes.',
+                ],
+                'color_client_header_bg' => [
+                    'key' => '--color-client-header-bg',
+                    'label' => 'Fondo del Header (Cliente)',
+                    'type' => 'color',
+                    'default' => '#ffffff',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Barra superior del sitio público.',
+                ],
+                'color_client_footer_bg' => [
+                    'key' => '--color-client-footer-bg',
+                    'label' => 'Fondo del Footer (Cliente)',
+                    'type' => 'color',
+                    'default' => '#ffffff',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Pie de página del sitio público.',
+                ],
+                'color_client_card' => [
+                    'key' => '--color-client-card',
+                    'label' => 'Fondo de Tarjetas (Cliente)',
+                    'type' => 'color',
+                    'default' => '#ffffff',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Tarjetas de productos, paneles y módulos del frontend.',
+                ],
+                'color_client_card_border' => [
+                    'key' => '--color-client-card-border',
+                    'label' => 'Borde de Tarjetas (Cliente)',
+                    'type' => 'color',
+                    'default' => '#e2e8f0',
+                    'rules' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+                    'description' => 'Borde visual de tarjetas, paneles y contenedores.',
                 ],
                 'color_admin_sidebar' => [
                     'key' => '--color-admin-sidebar',
@@ -248,20 +322,120 @@ class SuperAdminController extends Controller
 
     public function users()
     {
-        $users = UserEloquent::orderBy('role')->orderBy('name')->get();
+        return redirect()->route('admin.users.admin.index');
+    }
 
-        return view('admin.super.users', compact('users'));
+    public function administrativeUsers()
+    {
+        $users = UserEloquent::where('role', '!=', 'customer')->orderBy('role')->orderBy('name')->get();
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.super.users', [
+            'users' => $users,
+            'roles' => $roles,
+            'sectionTitle' => 'Usuarios administrativos',
+            'sectionSubtitle' => 'Gestiona los usuarios con acceso al panel y sus roles',
+            'tableSubtitle' => 'Usuarios administrativos',
+        ]);
+    }
+
+    public function webUsers()
+    {
+        $users = UserEloquent::where('role', 'customer')->orderBy('name')->get();
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.super.users', [
+            'users' => $users,
+            'roles' => $roles,
+            'sectionTitle' => 'Usuarios de la web',
+            'sectionSubtitle' => 'Usuarios registrados del sitio público',
+            'tableSubtitle' => 'Usuarios de la web',
+        ]);
     }
 
     public function updateUserRole(Request $request, int $id)
     {
         $data = $request->validate([
-            'role' => 'required|in:super_admin,sales_admin,customer',
+            'role' => 'required|exists:roles,key',
         ]);
 
         UserEloquent::findOrFail($id)->update(['role' => $data['role']]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Rol actualizado correctamente.');
+        return back()->with('success', 'Rol actualizado correctamente.');
+    }
+
+    public function roles()
+    {
+        $roles = Role::with('permissions')->orderBy('name')->get();
+        $permissionGroups = config('permissions.groups', []);
+
+        return view('admin.super.roles', compact('roles', 'permissionGroups'));
+    }
+
+    public function storeRole(Request $request)
+    {
+        $data = $request->validate([
+            'key' => 'required|string|max:50|alpha_dash|unique:roles,key',
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string|max:255',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,key',
+        ]);
+
+        $role = Role::create([
+            'key' => $data['key'],
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+        ]);
+
+        $this->syncRolePermissions($role, $data['permissions'] ?? []);
+
+        return redirect()->route('admin.roles.index')->with('success', 'Rol creado correctamente.');
+    }
+
+    public function updateRole(Request $request, int $id)
+    {
+        $role = Role::findOrFail($id);
+
+        $data = $request->validate([
+            'key' => 'required|string|max:50|alpha_dash|unique:roles,key,' . $role->id,
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string|max:255',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,key',
+        ]);
+
+        if ($role->key === 'super_admin' && $data['key'] !== 'super_admin') {
+            return back()->with('error', 'El rol super_admin no puede cambiar de clave.');
+        }
+
+        $role->update([
+            'key' => $data['key'],
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+        ]);
+
+        $this->syncRolePermissions($role, $data['permissions'] ?? []);
+
+        return redirect()->route('admin.roles.index')->with('success', 'Rol actualizado correctamente.');
+    }
+
+    public function deleteRole(int $id)
+    {
+        $role = Role::findOrFail($id);
+
+        if ($role->key === 'super_admin') {
+            return back()->with('error', 'No puedes eliminar el rol super_admin.');
+        }
+
+        if (UserEloquent::where('role', $role->key)->exists()) {
+            return back()->with('error', 'No puedes eliminar un rol que todavía está asignado a usuarios.');
+        }
+
+        $role->permissions()->detach();
+        $role->delete();
+
+        return redirect()->route('admin.roles.index')->with('success', 'Rol eliminado correctamente.');
     }
 
     public function reports()
@@ -339,6 +513,12 @@ class SuperAdminController extends Controller
         }
 
         return redirect()->route('admin.settings')->with('success', 'Configuración actualizada correctamente.');
+    }
+
+    private function syncRolePermissions(Role $role, array $permissionKeys): void
+    {
+        $permissionIds = Permission::whereIn('key', $permissionKeys)->pluck('id')->all();
+        $role->permissions()->sync($permissionIds);
     }
 
     public function exportSettings()
