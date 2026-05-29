@@ -8,10 +8,14 @@
     </head>
     <body @class(['catalog-admin' => request()->routeIs('admin.catalog.*')])>
         <header class="site-header">
-            <a class="brand" href="{{ route('home') }}">Shopy</a>
+            <a class="brand" href="{{ route('home') }}">ShopCMS</a>
             <nav class="nav">
-                <a @class(['is-active' => request()->routeIs('products.*') || request()->routeIs('categories.*')]) href="{{ route('products.index') }}">Productos</a>
-                <a @class(['is-active' => request()->routeIs('admin.catalog.*')]) href="{{ route('admin.catalog.products.index') }}">Admin</a>
+                <a @class(['is-active' => request()->routeIs('home')]) href="{{ route('home') }}">Inicio</a>
+                <a @class(['is-active' => request()->routeIs('products.*')]) href="{{ route('products.index') }}">Productos</a>
+                <a @class(['is-active' => request()->routeIs('categories.*')]) href="{{ route('products.index') }}#categorias">Categorias</a>
+                <a href="{{ route('products.index') }}#ofertas">Ofertas</a>
+                <a href="{{ route('home') }}#contacto">Contacto</a>
+                <a class="cart-link" href="{{ route('products.index') }}">Carrito · 2</a>
             </nav>
         </header>
 

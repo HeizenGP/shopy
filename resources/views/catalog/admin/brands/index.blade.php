@@ -1,44 +1,109 @@
-<x-layouts.catalog title="Admin marcas">
-    <section class="admin-shell">
-        @include('catalog.admin.partials.nav')
-        <div class="admin-content">
-            <div class="admin-panel">
-                <div class="section-title"><h1>Marcas</h1></div>
-                <form class="inline-form brands-form" method="POST" action="{{ route('admin.catalog.brands.store') }}">
-                    @csrf
-                    <input name="name" placeholder="Nombre" required>
-                    <input name="slug" placeholder="slug-opcional">
-                    <label class="check-inline"><input type="checkbox" name="is_active" value="1" checked> Activa</label>
-                    <button class="button" type="submit">Agregar</button>
-                </form>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Marca</th><th>Slug</th><th>Activa</th><th></th></tr></thead>
-                        <tbody>
-                            @foreach ($brands as $brand)
-                                <tr>
-                                    <form method="POST" action="{{ route('admin.catalog.brands.update', $brand) }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <td><input name="name" value="{{ $brand->name }}"></td>
-                                        <td><input name="slug" value="{{ $brand->slug }}"></td>
-                                        <td><input type="checkbox" name="is_active" value="1" @checked($brand->is_active)></td>
-                                        <td class="actions">
-                                            <button type="submit">Guardar</button>
-                                    </form>
-                                            <form method="POST" action="{{ route('admin.catalog.brands.destroy', $brand) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit">Eliminar</button>
-                                            </form>
-                                        </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+<x-layouts.admin title="Marcas">
+    <!-- Page Header -->
+    <div class="page-header-block">
+        <div class="page-title-area">
+            <h1>Marcas</h1>
+            <p>Mantenimiento de marcas asociadas a los productos del catálogo.</p>
+        </div>
+    </div>
+
+    <!-- Main Content Panel -->
+    <div class="dashboard-content-panel">
+        <div class="panel-header">
+            <h2 class="panel-title">Marcas Registradas</h2>
+        </div>
+
+        <!-- Inline Quick Add Form -->
+        <form class="panel-form-inline" method="POST" action="{{ route('admin.catalog.brands.store') }}">
+            @csrf
+            <div class="form-group-inline">
+                <label for="brand_name">Nombre de Marca</label>
+                <input type="text" id="brand_name" name="name" placeholder="Ej: Nike, Apple" required>
+            </div>
+            
+            <div class="form-group-inline">
+                <label for="brand_slug">Slug (Opcional)</label>
+                <input type="text" id="brand_slug" name="slug" placeholder="ej-nike-apple">
+            </div>
+
+            <div class="form-group-inline checkbox-group">
+                <input type="checkbox" id="brand_is_active" name="is_active" value="1" checked>
+                <label for="brand_is_active">Activa</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="height: 38px;">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Agregar Marca
+            </button>
+        </form>
+
+        <!-- Brands Data Table -->
+        <div class="table-responsive-wrapper">
+            <table class="admin-datatable">
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>Slug</th>
+                        <th style="width: 100px; text-align: center;">Activa</th>
+                        <th style="width: 200px; text-align: right;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($brands as $brand)
+                        <tr>
+                            <!-- Inline Edit Form -->
+                            <form method="POST" action="{{ route('admin.catalog.brands.update', $brand) }}" id="update-form-{{ $brand->id }}">
+                                @csrf
+                                @method('PUT')
+                                <td>
+                                    <input type="text" name="name" value="{{ $brand->name }}" class="table-inline-input" required>
+                                </td>
+                                <td>
+                                    <input type="text" name="slug" value="{{ $brand->slug }}" class="table-inline-input">
+                                </td>
+                                <td style="text-align: center;">
+                                    <input type="checkbox" name="is_active" value="1" @checked($brand->is_active) style="width: 16px; height: 16px; accent-color: var(--primary);">
+                                </td>
+                                <td>
+                                    <div class="actions" style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                                        <button type="submit" class="btn btn-secondary btn-sm" title="Guardar cambios">
+                                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                            </svg>
+                                            Guardar
+                                        </button>
+                            </form>
+                                        <form method="POST" action="{{ route('admin.catalog.brands.destroy', $brand) }}" onsubmit="return confirm('¿Estás seguro de eliminar esta marca?')" style="display: inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Eliminar marca">
+                                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                No hay marcas registradas.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        @if ($brands->hasPages())
+            <div class="admin-pagination-container">
                 {{ $brands->links() }}
             </div>
-        </div>
-    </section>
-</x-layouts.catalog>
+        @endif
+    </div>
+</x-layouts.admin>

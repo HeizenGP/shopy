@@ -1,16 +1,27 @@
-<x-layouts.catalog title="Shopy">
-    <section class="hero">
-        <div>
-            <p class="eyebrow">Catalogo online</p>
-            <h1>Productos seleccionados para comprar sin friccion</h1>
-            <p>Explora novedades, categorias activas y productos destacados publicados desde el panel de catalogo.</p>
-            <a class="button" href="{{ route('products.index') }}">Ver productos</a>
+<x-layouts.catalog title="ShopCMS">
+    <section class="home-hero">
+        <div class="home-copy">
+            <span>Catalog + Inventory</span>
+            <h1>Compra productos modernos con stock actualizado.</h1>
+            <p>Una experiencia publica limpia para explorar productos, revisar detalles y pasar de catalogo a compra sin friccion.</p>
+            <div class="home-actions">
+                <a class="button" href="{{ route('products.index') }}">Ver catalogo</a>
+                <a class="home-link" href="{{ route('products.index') }}#categorias">Explorar categorias</a>
+            </div>
         </div>
+        @if ($featuredProducts->isNotEmpty())
+            <div class="home-preview">
+                @include('catalog.public.products.partials.card', ['product' => $featuredProducts->first()])
+            </div>
+        @endif
     </section>
 
-    <section class="section">
+    <section class="home-section">
         <div class="section-title">
-            <h2>Destacados</h2>
+            <div>
+                <p class="eyebrow">Destacados</p>
+                <h2>Productos listos para vender</h2>
+            </div>
             <a class="section-link" href="{{ route('products.index') }}">Ver todo</a>
         </div>
         <div class="product-grid">
@@ -22,18 +33,24 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="home-section" id="categorias">
         <div class="section-title">
-            <h2>Categorias</h2>
+            <div>
+                <p class="eyebrow">Categorias</p>
+                <h2>Compra por coleccion</h2>
+            </div>
         </div>
-        <div class="category-grid">
+        <div class="home-categories">
             @forelse ($categories as $category)
-                <a class="category-tile" href="{{ route('categories.show', $category->slug) }}">
+                <a class="home-category" href="{{ route('categories.show', $category->slug) }}">
                     <strong>{{ $category->name }}</strong>
-                    <span>{{ $category->description ?: 'Ver productos' }}</span>
+                    <span>{{ $category->description ?: 'Productos con stock disponible' }}</span>
                 </a>
             @empty
-                <p class="empty">Aun no hay categorias activas.</p>
+                <a class="home-category" href="{{ route('products.index') }}">
+                    <strong>Electronics</strong>
+                    <span>Wearables, audio y accesorios</span>
+                </a>
             @endforelse
         </div>
     </section>
