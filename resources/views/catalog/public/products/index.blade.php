@@ -20,21 +20,21 @@
         </div>
 
         <div class="container-wrapper">
+            <div class="catalog-search-bar">
+                <label class="filter-group-label" for="catalogSearch">Buscar productos</label>
+                <div class="catalog-search-control">
+                    <input type="text" form="filterForm" name="search" id="catalogSearch" placeholder="Nombre, SKU, marca o descripción del producto..." value="{{ $searchQuery }}">
+                    <button type="submit" form="filterForm" class="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        Buscar
+                    </button>
+                </div>
+            </div>
+
             <div class="catalog-layout">
                 <!-- Sidebar Filters Form (Connected to Backend) -->
                 <form id="filterForm" action="{{ route('products.index') }}" method="GET" class="filter-panel">
                     <h2>Filtros</h2>
-                    
-                    <!-- Search Input -->
-                    <div class="option-group">
-                        <label class="filter-group-label" for="catalogSearch">Buscar</label>
-                        <div style="position: relative; display: flex; gap: 0.5rem;">
-                            <input type="text" name="search" id="catalogSearch" placeholder="Nombre, SKU o marca..." value="{{ $searchQuery }}">
-                            <button type="submit" class="button" style="padding: 0.5rem 1rem; min-height: auto;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                            </button>
-                        </div>
-                    </div>
                     
                     <!-- Categories Checklist -->
                     <fieldset>
