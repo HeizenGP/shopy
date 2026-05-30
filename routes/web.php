@@ -14,6 +14,14 @@ Route::get('/products', [PublicProductController::class, 'index'])->name('produc
 Route::get('/products/{slug}', [PublicProductController::class, 'show'])->name('products.show');
 Route::get('/categories/{slug}', [PublicCategoryController::class, 'show'])->name('categories.show');
 
+Route::get('/cart', function () {
+    return view('catalog.public.cart');
+})->name('cart');
+
+Route::get('/checkout', function () {
+    return view('catalog.public.checkout');
+})->name('checkout');
+
 Route::prefix('admin/catalog')->name('admin.catalog.')->group(function (): void {
     Route::resource('products', AdminProductController::class)->except(['show']);
     Route::resource('categories', AdminCategoryController::class)->only(['index', 'create', 'store', 'update', 'destroy']);
