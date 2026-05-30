@@ -40,13 +40,16 @@
                         <input type="text" id="category_slug" name="slug" value="{{ old('slug') }}" placeholder="opcional">
                     </div>
                     <div class="form-field-group">
-                        <label for="category_parent">Categoría Padre</label>
+                        <label for="category_parent">Ubicación en Jerarquía</label>
                         <select id="category_parent" name="parent_id">
-                            <option value="">Ninguna</option>
+                            <option value="">Categoría padre (nivel 0)</option>
                             @foreach ($parents as $parent)
-                                <option value="{{ $parent->id }}" @selected(old('parent_id') == $parent->id)>{{ $parent->name }}</option>
+                                <option value="{{ $parent->id }}" @selected(old('parent_id') == $parent->id)>
+                                    {{ $parent->level() === 0 ? 'Subcategoría de: '.$parent->name : 'Sub-subcategoría de: '.$parent->parent->name.' / '.$parent->name }}
+                                </option>
                             @endforeach
                         </select>
+                        <span class="theme-label-sm">Máximo 3 niveles: padre, subcategoría y sub-subcategoría.</span>
                     </div>
                     <div class="form-field-group">
                         <label for="category_order">Orden</label>

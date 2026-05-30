@@ -45,6 +45,28 @@ class CategoryModel extends Model
         return $this->hasMany(self::class, 'parent_id')->orderBy('sort_order')->orderBy('name');
     }
 
+    public function level(): int
+    {
+        $level = 0;
+        $parent = $this->parent;
+
+        while ($parent) {
+            $level++;
+            $parent = $parent->parent;
+        }
+
+        return $level;
+    }
+
+    public function hierarchyLabel(): string
+    {
+        return match ($this->level()) {
+            0 => 'Categoría padre',
+            1 => 'Subcategoría',
+            default => 'Sub-subcategoría',
+        };
+    }
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(ProductModel::class, 'product_category', 'category_id', 'product_id');

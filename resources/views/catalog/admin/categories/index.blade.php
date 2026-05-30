@@ -31,7 +31,9 @@
                 <select id="filter_parent" name="parent_id">
                     <option value="">Todas</option>
                     @foreach ($parents as $parent)
-                        <option value="{{ $parent->id }}" @selected((string) request('parent_id') === (string) $parent->id)>{{ $parent->name }}</option>
+                        <option value="{{ $parent->id }}" @selected((string) request('parent_id') === (string) $parent->id)>
+                            {{ $parent->level() === 0 ? $parent->name : $parent->parent->name.' / '.$parent->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -55,6 +57,7 @@
                 <thead>
                     <tr>
                         <th>Categoría</th>
+                        <th style="width: 150px;">Nivel</th>
                         <th>Categoría Padre</th>
                         <th style="width: 100px;">Orden</th>
                         <th style="width: 100px; text-align: center;">Activa</th>
@@ -81,11 +84,19 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <span class="badge {{ $category->level() === 0 ? 'badge-primary' : ($category->level() === 1 ? 'badge-info' : 'badge-success') }}">
+                                        Nivel {{ $category->level() }}
+                                    </span>
+                                    <div class="theme-label-sm" style="margin-top: 0.25rem;">{{ $category->hierarchyLabel() }}</div>
+                                </td>
+                                <td>
                                     <select name="parent_id" class="table-select">
-                                        <option value="">Ninguna</option>
+                                        <option value="">Ninguna (nivel 0)</option>
                                         @foreach ($parents as $parent)
                                             @if ($parent->id !== $category->id)
-                                                <option value="{{ $parent->id }}" @selected($category->parent_id === $parent->id)>{{ $parent->name }}</option>
+                                                <option value="{{ $parent->id }}" @selected($category->parent_id === $parent->id)>
+                                                    {{ $parent->level() === 0 ? 'Nivel 0 - '.$parent->name : 'Nivel 1 - '.$parent->parent->name.' / '.$parent->name }}
+                                                </option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -121,7 +132,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
                                 No hay categorías registradas.
                             </td>
                         </tr>

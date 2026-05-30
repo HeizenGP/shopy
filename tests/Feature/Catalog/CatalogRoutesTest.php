@@ -104,3 +104,43 @@ it('updates a product while keeping its existing variant sku', function (): void
         'deleted_at' => null,
     ]);
 });
+
+it('allows only three category levels', function (): void {
+    $parent = CategoryModel::query()->create([
+        'name' => 'Ropa',
+        'slug' => 'ropa',
+        'is_active' => true,
+    ]);
+
+    $subcategory = CategoryModel::query()->create([
+        'parent_id' => $parent->id,
+        'name' => 'Hombre',
+        'slug' => 'hombre',
+        'is_active' => true,
+    ]);
+
+    $subsubcategory = CategoryModel::query()->create([
+        'parent_id' => $subcategory->id,
+        'name' => 'Polos',
+        'slug' => 'polos',
+        'is_active' => true,
+    ]);
+
+    $this->post('/admin/catalog/categories', [
+        'parent_id' => $subcategory->id,
+        'name' => 'Camisas',
+        'slug' => 'camisas',
+        'is_active' => '1',
+    ])->assertRedirect('/admin/catalog/categories');
+
+    $this->post('/admin/catalog/categories', [
+        'parent_id' => $subsubcategory->id,
+        'name' => 'Manga corta',
+        'slug' => 'manga-corta',
+        'is_active' => '1',
+    ])->assertSessionHasErrors('parent_id');
+
+    $this->assertDatabaseMissing('categories', [
+        'slug' => 'manga-corta',
+    ]);
+});
