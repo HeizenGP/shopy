@@ -276,17 +276,28 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
     user-select: none;
 }
 
+.sidebar-catalog-label {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.65rem;
+}
+
 .sidebar-catalog-summary::-webkit-details-marker {
     display: none;
 }
 
-.sidebar-catalog-summary svg {
+.sidebar-catalog-icon {
+    height: 18px;
+    width: 18px;
+}
+
+.sidebar-catalog-chevron {
     height: 14px;
     transition: transform 0.2s ease;
     width: 14px;
 }
 
-.sidebar-catalog-group[open] .sidebar-catalog-summary svg {
+.sidebar-catalog-group[open] .sidebar-catalog-chevron {
     transform: rotate(180deg);
 }
 
@@ -900,6 +911,18 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
     align-items: flex-end;
     display: flex;
     gap: 0.5rem;
+}
+
+.panel-filter-form .form-group-inline input,
+.panel-filter-form .form-group-inline select,
+.panel-filter-form .btn {
+    height: 38px;
+    min-height: 38px;
+}
+
+.panel-filter-form .btn {
+    padding-bottom: 0.55rem;
+    padding-top: 0.55rem;
 }
 
 .form-group-inline {

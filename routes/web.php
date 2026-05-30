@@ -18,5 +18,5 @@ Route::prefix('admin/catalog')->name('admin.catalog.')->group(function (): void 
     Route::resource('products', AdminProductController::class)->except(['show']);
     Route::resource('categories', AdminCategoryController::class)->only(['index', 'create', 'store', 'update', 'destroy']);
     Route::resource('brands', AdminBrandController::class)->only(['index', 'create', 'store', 'update', 'destroy']);
-    Route::resource('variants', AdminProductVariantController::class)->only(['index', 'store', 'destroy']);
+    Route::resource('variants', AdminProductVariantController::class)->only(['index', 'create', 'store', 'destroy']);
 });

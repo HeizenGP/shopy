@@ -4,42 +4,14 @@
             <h1>Variantes</h1>
             <p>Crea variantes comerciales asociadas a productos, como talla, color o capacidad.</p>
         </div>
-    </div>
-
-    <div class="dashboard-content-panel">
-        <div class="panel-header">
-            <h2 class="panel-title">Crear Variante</h2>
+        <div class="page-actions-area">
+            <a href="{{ route('admin.catalog.variants.create') }}" class="btn btn-primary">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Agregar Variante
+            </a>
         </div>
-
-        <form class="panel-form-inline" method="POST" action="{{ route('admin.catalog.variants.store') }}">
-            @csrf
-            <div class="form-group-inline">
-                <label for="variant_product">Producto</label>
-                <select id="variant_product" name="product_id" required>
-                    <option value="">Seleccionar producto</option>
-                    @foreach ($products as $product)
-                        <option value="{{ $product->id }}" @selected(old('product_id') == $product->id)>{{ $product->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group-inline">
-                <label for="variant_name">Nombre</label>
-                <input type="text" id="variant_name" name="name" value="{{ old('name') }}" placeholder="Color Azul / Talla M" required>
-            </div>
-            <div class="form-group-inline">
-                <label for="variant_sku">SKU</label>
-                <input type="text" id="variant_sku" name="sku" value="{{ old('sku') }}" placeholder="SKU-AZUL-M" required>
-            </div>
-            <div class="form-group-inline narrow">
-                <label for="variant_price">Precio</label>
-                <input type="number" step="0.01" min="0" id="variant_price" name="regular_price" value="{{ old('regular_price') }}">
-            </div>
-            <div class="form-group-inline checkbox-group">
-                <input type="checkbox" id="variant_is_active" name="is_active" value="1" checked>
-                <label for="variant_is_active">Activa</label>
-            </div>
-            <button type="submit" class="btn btn-primary" style="height: 38px;">Agregar Variante</button>
-        </form>
     </div>
 
     <div class="dashboard-content-panel">

@@ -120,7 +120,7 @@ final class EloquentProductRepository implements ProductRepositoryInterface
     private function syncAssociations(ProductModel $product, array $categoryIds, array $variants): void
     {
         $product->categories()->sync($categoryIds);
-        $product->variants()->delete();
+        $product->variants()->withTrashed()->get()->each->forceDelete();
 
         foreach ($variants as $variant) {
             if (($variant['name'] ?? '') === '' || ($variant['sku'] ?? '') === '') {

@@ -35,6 +35,13 @@ class AdminProductVariantController extends Controller
         ]);
     }
 
+    public function create(): View
+    {
+        return view('catalog.admin.variants.create', [
+            'products' => ProductModel::query()->orderBy('name')->get(['id', 'name']),
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
@@ -54,7 +61,7 @@ class AdminProductVariantController extends Controller
         ProductVariantModel::query()->create($data);
         ProductModel::query()->whereKey($data['product_id'])->update(['has_variants' => true]);
 
-        return back()->with('status', 'Variante creada.');
+        return redirect()->route('admin.catalog.variants.index')->with('status', 'Variante creada.');
     }
 
     public function destroy(int $variant): RedirectResponse

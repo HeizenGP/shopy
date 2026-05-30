@@ -4,6 +4,7 @@ use App\Catalog\Domain\ValueObjects\ProductStatus;
 use App\Catalog\Infrastructure\Models\BrandModel;
 use App\Catalog\Infrastructure\Models\CategoryModel;
 use App\Catalog\Infrastructure\Models\ProductModel;
+use App\Catalog\Infrastructure\Models\ProductVariantModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -62,5 +63,44 @@ it('creates a product from the admin catalog', function (): void {
     $this->assertDatabaseHas('products', [
         'slug' => 'lampara-desk',
         'sku' => 'LAMP-001',
+    ]);
+});
+
+it('updates a product while keeping its existing variant sku', function (): void {
+    $product = ProductModel::query()->create([
+        'name' => 'Polo Basic',
+        'slug' => 'polo-basic',
+        'sku' => 'POLO-001',
+        'regular_price' => 49.9,
+        'status' => ProductStatus::Draft,
+    ]);
+
+    ProductVariantModel::query()->create([
+        'product_id' => $product->id,
+        'name' => 'Talla M',
+        'sku' => 'SKU-M-BLU',
+        'regular_price' => 49.9,
+    ]);
+
+    $this->put("/admin/catalog/products/{$product->id}", [
+        'name' => 'Polo Basic Actualizado',
+        'slug' => 'polo-basic',
+        'sku' => 'POLO-001',
+        'regular_price' => 49.9,
+        'status' => ProductStatus::Draft->value,
+        'has_variants' => '1',
+        'variants' => [
+            [
+                'name' => 'Talla M',
+                'sku' => 'SKU-M-BLU',
+                'regular_price' => 49.9,
+            ],
+        ],
+    ])->assertRedirect();
+
+    $this->assertDatabaseHas('product_variants', [
+        'product_id' => $product->id,
+        'sku' => 'SKU-M-BLU',
+        'deleted_at' => null,
     ]);
 });
