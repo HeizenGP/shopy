@@ -16,7 +16,7 @@
     </div>
 
     <!-- Product Create Form Wrapper -->
-    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.products.store') }}">
+    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.products.store') }}" enctype="multipart/form-data">
         @csrf
         @include('catalog.admin.products.partials.form', ['product' => null])
     </form>

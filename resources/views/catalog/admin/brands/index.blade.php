@@ -5,6 +5,14 @@
             <h1>Marcas</h1>
             <p>Mantenimiento de marcas asociadas a los productos del catálogo.</p>
         </div>
+        <div class="page-actions-area">
+            <a href="{{ route('admin.catalog.brands.create') }}" class="btn btn-primary">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Agregar Marca
+            </a>
+        </div>
     </div>
 
     <!-- Main Content Panel -->
@@ -13,30 +21,23 @@
             <h2 class="panel-title">Marcas Registradas</h2>
         </div>
 
-        <!-- Inline Quick Add Form -->
-        <form class="panel-form-inline" method="POST" action="{{ route('admin.catalog.brands.store') }}">
-            @csrf
+        <form class="panel-filter-form" method="GET" action="{{ route('admin.catalog.brands.index') }}">
             <div class="form-group-inline">
-                <label for="brand_name">Nombre de Marca</label>
-                <input type="text" id="brand_name" name="name" placeholder="Ej: Nike, Apple" required>
+                <label for="brand_search">Buscar</label>
+                <input type="text" id="brand_search" name="search" value="{{ request('search') }}" placeholder="Nombre o slug">
             </div>
-            
             <div class="form-group-inline">
-                <label for="brand_slug">Slug (Opcional)</label>
-                <input type="text" id="brand_slug" name="slug" placeholder="ej-nike-apple">
+                <label for="brand_active">Estado</label>
+                <select id="brand_active" name="is_active">
+                    <option value="">Todas</option>
+                    <option value="1" @selected(request('is_active') === '1')>Activas</option>
+                    <option value="0" @selected(request('is_active') === '0')>Inactivas</option>
+                </select>
             </div>
-
-            <div class="form-group-inline checkbox-group">
-                <input type="checkbox" id="brand_is_active" name="is_active" value="1" checked>
-                <label for="brand_is_active">Activa</label>
+            <div class="panel-filter-actions">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="{{ route('admin.catalog.brands.index') }}" class="btn btn-secondary">Limpiar</a>
             </div>
-
-            <button type="submit" class="btn btn-primary" style="height: 38px;">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                Agregar Marca
-            </button>
         </form>
 
         <!-- Brands Data Table -->
@@ -58,7 +59,16 @@
                                 @csrf
                                 @method('PUT')
                                 <td>
-                                    <input type="text" name="name" value="{{ $brand->name }}" class="table-inline-input" required>
+                                    <div class="table-entity-cell">
+                                        <span class="table-logo-thumb">
+                                            @if ($brand->logo_path)
+                                                <img src="{{ Storage::url($brand->logo_path) }}" alt="{{ $brand->name }}">
+                                            @else
+                                                {{ substr($brand->name, 0, 1) }}
+                                            @endif
+                                        </span>
+                                        <input type="text" name="name" value="{{ $brand->name }}" class="table-inline-input" required>
+                                    </div>
                                 </td>
                                 <td>
                                     <input type="text" name="slug" value="{{ $brand->slug }}" class="table-inline-input">

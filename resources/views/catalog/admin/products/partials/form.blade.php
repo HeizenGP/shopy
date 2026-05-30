@@ -6,6 +6,7 @@
         'regular_price' => $variant->regular_price,
         'sale_price' => $variant->sale_price,
     ])->all() ?? [['name' => '', 'sku' => '', 'regular_price' => '', 'sale_price' => '']]);
+    $mainImage = $product?->images->firstWhere('is_main', true) ?? $product?->images->first();
 @endphp
 
 <!-- Main Form Cards Column -->
@@ -83,7 +84,39 @@
         </div>
     </div>
 
-    <!-- Section 2: Organization & Categories -->
+    <!-- Section 2: Product Image -->
+    <div class="form-section-card">
+        <div class="form-section-header">
+            <div class="form-section-header-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V19a2 2 0 002 2h14a2 2 0 002-2v-2.5M16 10l-4-4m0 0l-4 4m4-4v12" />
+                </svg>
+            </div>
+            <div>
+                <h3>Imagen del Producto</h3>
+                <p>Carga la imagen principal que se mostrará en listados y detalle del catálogo.</p>
+            </div>
+        </div>
+
+        <div class="form-layout-grid">
+            <div class="form-field-group form-col-span-2">
+                <label for="p_image">Imagen Principal</label>
+                <input type="file" id="p_image" name="image" accept="image/*">
+            </div>
+
+            @if ($mainImage)
+                <div class="current-media-preview form-col-span-2">
+                    <img src="{{ Storage::url($mainImage->path) }}" alt="{{ $product->name }}">
+                    <div>
+                        <strong style="display: block; color: var(--text-main); font-size: 0.9rem;">Imagen actual</strong>
+                        <span class="theme-label-sm">{{ $mainImage->path }}</span>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    <!-- Section 3: Organization & Categories -->
     <div class="form-section-card">
         <div class="form-section-header">
             <div class="form-section-header-icon">
@@ -126,7 +159,7 @@
         </div>
     </div>
 
-    <!-- Section 3: Basic Variants -->
+    <!-- Section 4: Basic Variants -->
     <div class="form-section-card">
         <div class="form-section-header">
             <div class="form-section-header-icon">

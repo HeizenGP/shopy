@@ -9,9 +9,9 @@ final readonly class ListProductsUseCase
 {
     public function __construct(private ProductRepositoryInterface $products) {}
 
-    public function forAdmin(int $perPage = 12): LengthAwarePaginator
+    public function forAdmin(int $perPage = 12, array $filters = []): LengthAwarePaginator
     {
-        return $this->products->paginateForAdmin($perPage);
+        return $this->products->paginateForAdmin($perPage, $filters);
     }
 
     public function publicCatalog(int $perPage = 12): LengthAwarePaginator

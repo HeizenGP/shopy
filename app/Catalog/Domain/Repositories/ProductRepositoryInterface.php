@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 interface ProductRepositoryInterface
 {
-    public function paginateForAdmin(int $perPage = 12): LengthAwarePaginator;
+    public function paginateForAdmin(int $perPage = 12, array $filters = []): LengthAwarePaginator;
 
     public function published(int $perPage = 12): LengthAwarePaginator;
 

@@ -37,6 +37,7 @@ class StoreProductRequest extends FormRequest
             'variants.*.sku' => ['nullable', 'string', 'max:120', 'distinct', 'unique:product_variants,sku'],
             'variants.*.regular_price' => ['nullable', 'numeric', 'min:0'],
             'variants.*.sale_price' => ['nullable', 'numeric', 'min:0'],
+            'image' => ['nullable', 'image', 'max:4096'],
         ];
     }
 

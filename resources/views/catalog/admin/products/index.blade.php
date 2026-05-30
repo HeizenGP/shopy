@@ -79,12 +79,50 @@
             <h2 class="panel-title">Listado de Catálogo</h2>
             
             <div class="panel-tabs-list">
-                <button class="panel-tab is-active">Todos</button>
-                <button class="panel-tab">Publicados</button>
-                <button class="panel-tab">Borradores</button>
-                <button class="panel-tab">Archivados</button>
+                <a class="panel-tab {{ request('status') === null ? 'is-active' : '' }}" href="{{ route('admin.catalog.products.index', request()->except('status', 'page')) }}">Todos</a>
+                <a class="panel-tab {{ request('status') === 'published' ? 'is-active' : '' }}" href="{{ route('admin.catalog.products.index', [...request()->except('page'), 'status' => 'published']) }}">Publicados</a>
+                <a class="panel-tab {{ request('status') === 'draft' ? 'is-active' : '' }}" href="{{ route('admin.catalog.products.index', [...request()->except('page'), 'status' => 'draft']) }}">Borradores</a>
+                <a class="panel-tab {{ request('status') === 'archived' ? 'is-active' : '' }}" href="{{ route('admin.catalog.products.index', [...request()->except('page'), 'status' => 'archived']) }}">Archivados</a>
             </div>
         </div>
+
+        <form class="panel-filter-form" method="GET" action="{{ route('admin.catalog.products.index') }}">
+            <div class="form-group-inline">
+                <label for="product_search">Buscar</label>
+                <input type="text" id="product_search" name="search" value="{{ request('search') }}" placeholder="Nombre o SKU">
+            </div>
+            <div class="form-group-inline">
+                <label for="product_brand">Marca</label>
+                <select id="product_brand" name="brand_id">
+                    <option value="">Todas</option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}" @selected((string) request('brand_id') === (string) $brand->id)>{{ $brand->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group-inline">
+                <label for="product_category">Categoría</label>
+                <select id="product_category" name="category_id">
+                    <option value="">Todas</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected((string) request('category_id') === (string) $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group-inline">
+                <label for="product_status">Estado</label>
+                <select id="product_status" name="status">
+                    <option value="">Todos</option>
+                    @foreach ($statuses as $status)
+                        <option value="{{ $status->value }}" @selected(request('status') === $status->value)>{{ $status->label() }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="panel-filter-actions">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="{{ route('admin.catalog.products.index') }}" class="btn btn-secondary">Limpiar</a>
+            </div>
+        </form>
 
         <!-- Products Data Table -->
         <div class="table-responsive-wrapper">
@@ -109,10 +147,15 @@
                             };
                         @endphp
                         <tr>
+                            @php($mainImage = $product->images->firstWhere('is_main', true) ?? $product->images->first())
                             <td>
                                 <div class="admin-table-product-cell">
                                     <div class="admin-table-product-thumb">
-                                        {{ substr($product->name, 0, 1) }}
+                                        @if ($mainImage)
+                                            <img src="{{ Storage::url($mainImage->path) }}" alt="{{ $product->name }}">
+                                        @else
+                                            {{ substr($product->name, 0, 1) }}
+                                        @endif
                                     </div>
                                     <div class="admin-table-product-details">
                                         <span class="admin-table-product-name">{{ $product->name }}</span>

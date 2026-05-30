@@ -13,8 +13,31 @@ class AdminCategoryController extends Controller
 {
     public function index(): View
     {
+        $request = request();
+
         return view('catalog.admin.categories.index', [
-            'categories' => CategoryModel::query()->with('parent')->orderBy('sort_order')->orderBy('name')->paginate(15),
+            'categories' => CategoryModel::query()
+                ->with('parent')
+                ->when($request->filled('search'), function ($query) use ($request): void {
+                    $search = $request->string('search')->toString();
+                    $query->where(function ($query) use ($search): void {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('slug', 'like', "%{$search}%");
+                    });
+                })
+                ->when($request->filled('parent_id'), fn ($query) => $query->where('parent_id', $request->integer('parent_id')))
+                ->when($request->filled('is_active'), fn ($query) => $query->where('is_active', $request->boolean('is_active')))
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->paginate(15)
+                ->withQueryString(),
+            'parents' => CategoryModel::query()->whereNull('parent_id')->orderBy('name')->get(),
+        ]);
+    }
+
+    public function create(): View
+    {
+        return view('catalog.admin.categories.create', [
             'parents' => CategoryModel::query()->whereNull('parent_id')->orderBy('name')->get(),
         ]);
     }
@@ -23,7 +46,7 @@ class AdminCategoryController extends Controller
     {
         CategoryModel::query()->create($this->validated($request));
 
-        return back()->with('status', 'Categoría creada.');
+        return redirect()->route('admin.catalog.categories.index')->with('status', 'Categoría creada.');
     }
 
     public function update(Request $request, int $category): RedirectResponse
@@ -49,11 +72,16 @@ class AdminCategoryController extends Controller
             'description' => ['nullable', 'string'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
+            'image' => ['nullable', 'image', 'max:4096'],
         ]);
 
         $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = (int) ($data['sort_order'] ?? 0);
+
+        if ($request->hasFile('image')) {
+            $data['image_path'] = $request->file('image')->store('catalog/categories', 'public');
+        }
 
         return $data;
     }

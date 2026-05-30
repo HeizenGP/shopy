@@ -16,7 +16,7 @@
     </div>
 
     <!-- Product Edit Form Wrapper -->
-    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.products.update', $product) }}">
+    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.products.update', $product) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @include('catalog.admin.products.partials.form', ['product' => $product])

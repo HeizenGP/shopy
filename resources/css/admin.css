@@ -262,6 +262,40 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
     margin-top: 1rem;
 }
 
+.sidebar-catalog-group {
+    margin-top: 0.5rem;
+}
+
+.sidebar-catalog-summary {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin-top: 0;
+    user-select: none;
+}
+
+.sidebar-catalog-summary::-webkit-details-marker {
+    display: none;
+}
+
+.sidebar-catalog-summary svg {
+    height: 14px;
+    transition: transform 0.2s ease;
+    width: 14px;
+}
+
+.sidebar-catalog-group[open] .sidebar-catalog-summary svg {
+    transform: rotate(180deg);
+}
+
+.sidebar-submenu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .sidebar-link {
     display: flex;
     align-items: center;
@@ -853,6 +887,21 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
     align-items: flex-end;
 }
 
+.panel-filter-form {
+    background-color: var(--table-header-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    padding: 1.25rem 1.5rem;
+}
+
+.panel-filter-actions {
+    align-items: flex-end;
+    display: flex;
+    gap: 0.5rem;
+}
+
 .form-group-inline {
     display: flex;
     flex-direction: column;
@@ -1032,6 +1081,41 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
     font-weight: 700;
     font-size: 0.85rem;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.admin-table-product-thumb img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.table-logo-thumb {
+    align-items: center;
+    background-color: var(--primary-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    height: 38px;
+    justify-content: center;
+    overflow: hidden;
+    width: 38px;
+}
+
+.table-logo-thumb img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.table-entity-cell {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
 }
 
 .admin-table-product-details {
@@ -1158,6 +1242,7 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
 .form-field-group input[type="text"],
 .form-field-group input[type="number"],
 .form-field-group input[type="email"],
+.form-field-group input[type="file"],
 .form-field-group select,
 .form-field-group textarea {
     background-color: var(--bg-card);
@@ -1169,6 +1254,23 @@ html[data-theme-mode="dark"][data-theme-color="slate"] {
     outline: none;
     transition: all 0.2s ease;
     width: 100%;
+}
+
+.current-media-preview {
+    align-items: center;
+    background-color: var(--table-header-bg);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+}
+
+.current-media-preview img {
+    border-radius: var(--radius-sm);
+    height: 64px;
+    object-fit: cover;
+    width: 64px;
 }
 
 .form-field-group textarea {

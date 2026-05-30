@@ -5,6 +5,14 @@
             <h1>Categorías</h1>
             <p>Organiza el catálogo de productos por categorías y jerarquías.</p>
         </div>
+        <div class="page-actions-area">
+            <a href="{{ route('admin.catalog.categories.create') }}" class="btn btn-primary">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Agregar Categoría
+            </a>
+        </div>
     </div>
 
     <!-- Main Content Panel -->
@@ -13,45 +21,32 @@
             <h2 class="panel-title">Categorías Registradas</h2>
         </div>
 
-        <!-- Inline Quick Add Form -->
-        <form class="panel-form-inline" method="POST" action="{{ route('admin.catalog.categories.store') }}">
-            @csrf
+        <form class="panel-filter-form" method="GET" action="{{ route('admin.catalog.categories.index') }}">
             <div class="form-group-inline">
-                <label for="category_name">Nombre</label>
-                <input type="text" id="category_name" name="name" placeholder="Ej: Ropa, Electrónica" required>
+                <label for="category_search">Buscar</label>
+                <input type="text" id="category_search" name="search" value="{{ request('search') }}" placeholder="Nombre o slug">
             </div>
-            
             <div class="form-group-inline">
-                <label for="category_slug">Slug (Opcional)</label>
-                <input type="text" id="category_slug" name="slug" placeholder="ropa-deportiva">
-            </div>
-
-            <div class="form-group-inline">
-                <label for="category_parent">Categoría Padre</label>
-                <select id="category_parent" name="parent_id">
-                    <option value="">Ninguna (Categoría raíz)</option>
+                <label for="filter_parent">Categoría Padre</label>
+                <select id="filter_parent" name="parent_id">
+                    <option value="">Todas</option>
                     @foreach ($parents as $parent)
-                        <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                        <option value="{{ $parent->id }}" @selected((string) request('parent_id') === (string) $parent->id)>{{ $parent->name }}</option>
                     @endforeach
                 </select>
             </div>
-
-            <div class="form-group-inline narrow">
-                <label for="category_order">Orden</label>
-                <input type="number" id="category_order" name="sort_order" min="0" value="0">
+            <div class="form-group-inline">
+                <label for="filter_category_active">Estado</label>
+                <select id="filter_category_active" name="is_active">
+                    <option value="">Todas</option>
+                    <option value="1" @selected(request('is_active') === '1')>Activas</option>
+                    <option value="0" @selected(request('is_active') === '0')>Inactivas</option>
+                </select>
             </div>
-
-            <div class="form-group-inline checkbox-group">
-                <input type="checkbox" id="category_is_active" name="is_active" value="1" checked>
-                <label for="category_is_active">Activa</label>
+            <div class="panel-filter-actions">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="{{ route('admin.catalog.categories.index') }}" class="btn btn-secondary">Limpiar</a>
             </div>
-
-            <button type="submit" class="btn btn-primary" style="height: 38px;">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                Agregar
-            </button>
         </form>
 
         <!-- Categories Data Table -->
@@ -74,7 +69,16 @@
                                 @csrf
                                 @method('PUT')
                                 <td>
-                                    <input type="text" name="name" value="{{ $category->name }}" class="table-inline-input" required>
+                                    <div class="table-entity-cell">
+                                        <span class="table-logo-thumb">
+                                            @if ($category->image_path)
+                                                <img src="{{ Storage::url($category->image_path) }}" alt="{{ $category->name }}">
+                                            @else
+                                                {{ substr($category->name, 0, 1) }}
+                                            @endif
+                                        </span>
+                                        <input type="text" name="name" value="{{ $category->name }}" class="table-inline-input" required>
+                                    </div>
                                 </td>
                                 <td>
                                     <select name="parent_id" class="table-select">

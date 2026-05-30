@@ -13,16 +13,34 @@ class AdminBrandController extends Controller
 {
     public function index(): View
     {
+        $request = request();
+
         return view('catalog.admin.brands.index', [
-            'brands' => BrandModel::query()->orderBy('name')->paginate(15),
+            'brands' => BrandModel::query()
+                ->when($request->filled('search'), function ($query) use ($request): void {
+                    $search = $request->string('search')->toString();
+                    $query->where(function ($query) use ($search): void {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('slug', 'like', "%{$search}%");
+                    });
+                })
+                ->when($request->filled('is_active'), fn ($query) => $query->where('is_active', $request->boolean('is_active')))
+                ->orderBy('name')
+                ->paginate(15)
+                ->withQueryString(),
         ]);
+    }
+
+    public function create(): View
+    {
+        return view('catalog.admin.brands.create');
     }
 
     public function store(Request $request): RedirectResponse
     {
         BrandModel::query()->create($this->validated($request));
 
-        return back()->with('status', 'Marca creada.');
+        return redirect()->route('admin.catalog.brands.index')->with('status', 'Marca creada.');
     }
 
     public function update(Request $request, int $brand): RedirectResponse
@@ -46,10 +64,15 @@ class AdminBrandController extends Controller
             'slug' => ['nullable', 'string', 'max:180', 'unique:brands,slug'.($brandId ? ','.$brandId : '')],
             'description' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
+            'logo' => ['nullable', 'image', 'max:4096'],
         ]);
 
         $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
         $data['is_active'] = $request->boolean('is_active');
+
+        if ($request->hasFile('logo')) {
+            $data['logo_path'] = $request->file('logo')->store('catalog/brands', 'public');
+        }
 
         return $data;
     }

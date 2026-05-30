@@ -10,18 +10,27 @@ use App\Catalog\Application\UseCases\UpdateProductUseCase;
 use App\Catalog\Domain\ValueObjects\ProductStatus;
 use App\Catalog\Infrastructure\Models\BrandModel;
 use App\Catalog\Infrastructure\Models\CategoryModel;
+use App\Catalog\Infrastructure\Models\ProductModel;
 use App\Catalog\Presentation\Requests\StoreProductRequest;
 use App\Catalog\Presentation\Requests\UpdateProductRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
 
 class AdminProductController extends Controller
 {
-    public function index(ListProductsUseCase $products): View
+    public function index(Request $request, ListProductsUseCase $products): View
     {
+        $filters = $request->only(['search', 'status']);
+        $filters['brand_id'] = $request->filled('brand_id') ? $request->integer('brand_id') : null;
+        $filters['category_id'] = $request->filled('category_id') ? $request->integer('category_id') : null;
+
         return view('catalog.admin.products.index', [
-            'products' => $products->forAdmin(),
+            'products' => $products->forAdmin(filters: $filters),
+            'brands' => BrandModel::query()->orderBy('name')->get(),
+            'categories' => CategoryModel::query()->orderBy('name')->get(),
+            'statuses' => ProductStatus::cases(),
         ]);
     }
 
@@ -33,6 +42,7 @@ class AdminProductController extends Controller
     public function store(StoreProductRequest $request, CreateProductUseCase $createProduct): RedirectResponse
     {
         $product = $createProduct->execute($request->toData());
+        $this->storeImage($request, $product);
 
         return redirect()
             ->route('admin.catalog.products.edit', $product)
@@ -52,7 +62,8 @@ class AdminProductController extends Controller
         int $product,
         UpdateProductUseCase $updateProduct
     ): RedirectResponse {
-        $updateProduct->execute($product, $request->toData());
+        $updatedProduct = $updateProduct->execute($product, $request->toData());
+        $this->storeImage($request, $updatedProduct);
 
         return redirect()
             ->route('admin.catalog.products.edit', $product)
@@ -75,5 +86,22 @@ class AdminProductController extends Controller
             'categories' => CategoryModel::query()->where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
             'statuses' => ProductStatus::cases(),
         ];
+    }
+
+    private function storeImage(StoreProductRequest|UpdateProductRequest $request, ProductModel $product): void
+    {
+        if (! $request->hasFile('image')) {
+            return;
+        }
+
+        $path = $request->file('image')->store('catalog/products', 'public');
+
+        $product->images()->update(['is_main' => false]);
+        $product->images()->create([
+            'path' => $path,
+            'alt_text' => $product->name,
+            'is_main' => true,
+            'sort_order' => 0,
+        ]);
     }
 }

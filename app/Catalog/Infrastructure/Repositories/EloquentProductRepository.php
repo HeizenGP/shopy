@@ -13,12 +13,27 @@ use Illuminate\Support\Facades\DB;
 
 final class EloquentProductRepository implements ProductRepositoryInterface
 {
-    public function paginateForAdmin(int $perPage = 12): LengthAwarePaginator
+    public function paginateForAdmin(int $perPage = 12, array $filters = []): LengthAwarePaginator
     {
         return ProductModel::query()
-            ->with(['brand', 'mainCategory'])
+            ->with(['brand', 'mainCategory', 'images'])
+            ->when($filters['search'] ?? null, function ($query, string $search): void {
+                $query->where(function ($query) use ($search): void {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('sku', 'like', "%{$search}%");
+                });
+            })
+            ->when($filters['status'] ?? null, fn ($query, string $status) => $query->where('status', $status))
+            ->when($filters['brand_id'] ?? null, fn ($query, int $brandId) => $query->where('brand_id', $brandId))
+            ->when($filters['category_id'] ?? null, function ($query, int $categoryId): void {
+                $query->where(function ($query) use ($categoryId): void {
+                    $query->where('main_category_id', $categoryId)
+                        ->orWhereHas('categories', fn ($categoryQuery) => $categoryQuery->where('categories.id', $categoryId));
+                });
+            })
             ->latest()
-            ->paginate($perPage);
+            ->paginate($perPage)
+            ->withQueryString();
     }
 
     public function published(int $perPage = 12): LengthAwarePaginator
