@@ -2476,7 +2476,7 @@ nav[role="navigation"] {
 
 .shop-heading p,
 .breadcrumb {
-    color: #6c7a96;
+    color: var(--color-muted);
     font-size: 1rem;
     margin: 0;
 }
@@ -2494,7 +2494,7 @@ nav[role="navigation"] {
 .info-box,
 .category-tabs,
 .category-product-card {
-    background: #fff;
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 14px;
 }
@@ -2520,8 +2520,9 @@ nav[role="navigation"] {
 
 .filter-panel label,
 .filter-panel legend {
-    color: #51617f;
+    color: var(--color-muted);
     font-size: 0.78rem;
+    font-weight: 800;
 }
 
 .filter-panel fieldset label {
@@ -2532,8 +2533,39 @@ nav[role="navigation"] {
 }
 
 .filter-panel input[type="checkbox"] {
+    accent-color: var(--color-primary);
     min-height: auto;
     width: auto;
+}
+
+html[data-theme="dark"] .filter-panel,
+html[data-theme="dark"] .catalog-toolbar,
+html[data-theme="dark"] .product-card {
+    background: color-mix(in srgb, var(--color-surface) 88%, #000);
+}
+
+html[data-theme="dark"] .filter-panel input[type="text"],
+html[data-theme="dark"] .filter-panel input[type="search"],
+html[data-theme="dark"] .toolbar-controls select {
+    background: #111217;
+    border-color: #303039;
+    color: var(--color-text);
+}
+
+html[data-theme="dark"] .filter-panel input::placeholder {
+    color: #a1a1aa;
+}
+
+html[data-theme="dark"] .filter-panel label,
+html[data-theme="dark"] .filter-panel legend,
+html[data-theme="dark"] .toolbar-controls label,
+html[data-theme="dark"] .shop-heading p {
+    color: var(--color-muted);
+}
+
+html[data-theme="dark"] .filter-panel h2,
+html[data-theme="dark"] .catalog-toolbar strong {
+    color: var(--color-text);
 }
 
 .range-input {
@@ -2560,16 +2592,16 @@ nav[role="navigation"] {
 .catalog-toolbar span,
 .stock-pill,
 .category-product-card small {
-    background: #def7ea;
+    background: var(--color-success-bg);
     border-radius: 999px;
-    color: #08784b;
+    color: var(--color-success);
     font-size: 0.72rem;
     font-weight: 900;
     padding: 0.45rem 0.9rem;
 }
 
 .catalog-toolbar small {
-    background: #f6f7fb;
+    background: var(--color-bg);
     border-radius: 999px;
     color: var(--color-text);
     font-weight: 900;
@@ -2585,6 +2617,9 @@ nav[role="navigation"] {
 }
 
 .toolbar-controls select {
+    background: var(--color-bg);
+    border-color: var(--color-border);
+    color: var(--color-text);
     min-height: 40px;
     min-width: 220px;
     padding-bottom: 0.5rem;
