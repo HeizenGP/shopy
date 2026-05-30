@@ -56,36 +56,31 @@
                     
                     <!-- Theme Selector Dropdown -->
                     <div class="theme-dropdown-wrapper">
-                        <button class="icon-button" id="themeBtn" aria-label="Cambiar Tema" title="Cambiar Combinación de Colores">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/><path d="m5 3 2.25 2.25"/><path d="m19 19 2.25 2.25"/><path d="m19 3 2.25 2.25"/><path d="m5 19 2.25 2.25"/></svg>
+                        <button class="icon-button" id="themeBtn" aria-label="Cambiar tema" title="Colores y modo oscuro">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 4 4 0 0 0 0 8h1a3 3 0 0 1 0 6h-1a4 4 0 0 0 0 8Z"/><circle cx="7.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="9.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="14.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="16.5" cy="10.5" r=".5" fill="currentColor"/></svg>
                         </button>
                         <div class="theme-dropdown-content">
-                            <div class="dropdown-header">Elegir Combinación Visual</div>
+                            <div class="dropdown-header">Colores y modo</div>
                             <button onclick="setGlobalTheme('default')" class="theme-opt default" data-theme-val="default">
-                                <span class="theme-dot"></span> Amethyst Store (Default)
+                                <span class="theme-dot"></span> Amethyst
                             </button>
                             <button onclick="setGlobalTheme('navy')" class="theme-opt navy" data-theme-val="navy">
-                                <span class="theme-dot"></span> Tech Navy
+                                <span class="theme-dot"></span> Navy
                             </button>
                             <button onclick="setGlobalTheme('emerald')" class="theme-opt emerald" data-theme-val="emerald">
-                                <span class="theme-dot"></span> Emerald Organic
+                                <span class="theme-dot"></span> Emerald
                             </button>
                             <button onclick="setGlobalTheme('orange')" class="theme-opt orange" data-theme-val="orange">
-                                <span class="theme-dot"></span> Sunset Orange
+                                <span class="theme-dot"></span> Orange
                             </button>
                             <button onclick="setGlobalTheme('black')" class="theme-opt black" data-theme-val="black">
-                                <span class="theme-dot"></span> Charcoal Minimal
+                                <span class="theme-dot"></span> Claro oscuro
                             </button>
                             <button onclick="setGlobalTheme('dark')" class="theme-opt dark" data-theme-val="dark">
-                                <span class="theme-dot"></span> Luxury Dark Mode
+                                <span class="theme-dot"></span> Oscuro
                             </button>
                         </div>
                     </div>
-
-                    <!-- Search Trigger -->
-                    <button class="icon-button" onclick="openSearchModal()" aria-label="Buscar" title="Buscar productos">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                    </button>
 
                     <!-- Cart Trigger -->
                     <button class="cart-trigger-btn" onclick="toggleCartDrawer(true)" aria-label="Ver Carrito">

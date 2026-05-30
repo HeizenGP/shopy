@@ -1,13 +1,16 @@
 <x-layouts.catalog title="Catálogo de Productos">
     
     @php
-        // Dynamically load all active categories and brands for filtering
+        // Load all active categories and brands for the sidebar checkboxes
         $allCategories = \App\Catalog\Infrastructure\Models\CategoryModel::where('is_active', true)->orderBy('name')->get();
         $allBrands = \App\Catalog\Infrastructure\Models\BrandModel::where('is_active', true)->orderBy('name')->get();
         
-        // Check if there is an active search query from request
+        // Retrieve current active filters from the request
         $searchQuery = request('search', '');
-        $isFeaturedFilter = request('featured', '');
+        $selectedCategories = (array) request('category', []);
+        $selectedBrands = (array) request('brand', []);
+        $maxPrice = request('max_price', 500);
+        $activeSort = request('sort', 'latest');
     @endphp
 
     <section class="shop-page">
@@ -18,14 +21,19 @@
 
         <div class="container-wrapper">
             <div class="catalog-layout">
-                <!-- Sidebar Filters -->
-                <aside class="filter-panel">
+                <!-- Sidebar Filters Form (Connected to Backend) -->
+                <form id="filterForm" action="{{ route('products.index') }}" method="GET" class="filter-panel">
                     <h2>Filtros</h2>
                     
                     <!-- Search Input -->
                     <div class="option-group">
                         <label class="filter-group-label" for="catalogSearch">Buscar</label>
-                        <input type="text" id="catalogSearch" placeholder="Nombre, SKU o marca..." value="{{ $searchQuery }}" onkeyup="filterProducts()">
+                        <div style="position: relative; display: flex; gap: 0.5rem;">
+                            <input type="text" name="search" id="catalogSearch" placeholder="Nombre, SKU o marca..." value="{{ $searchQuery }}">
+                            <button type="submit" class="button" style="padding: 0.5rem 1rem; min-height: auto;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            </button>
+                        </div>
                     </div>
                     
                     <!-- Categories Checklist -->
@@ -34,7 +42,7 @@
                         <div class="filter-checkbox-list">
                             @forelse ($allCategories as $cat)
                                 <label>
-                                    <input type="checkbox" class="category-filter" value="{{ $cat->slug }}" onchange="filterProducts()">
+                                    <input type="checkbox" name="category[]" value="{{ $cat->slug }}" onchange="this.form.submit()" @checked(in_array($cat->slug, $selectedCategories))>
                                     {{ $cat->name }}
                                 </label>
                             @empty
@@ -49,7 +57,7 @@
                         <div class="filter-checkbox-list">
                             @forelse ($allBrands as $br)
                                 <label>
-                                    <input type="checkbox" class="brand-filter" value="{{ $br->slug }}" onchange="filterProducts()">
+                                    <input type="checkbox" name="brand[]" value="{{ $br->slug }}" onchange="this.form.submit()" @checked(in_array($br->slug, $selectedBrands))>
                                     {{ $br->name }}
                                 </label>
                             @empty
@@ -61,29 +69,37 @@
                     <!-- Price Range Slider -->
                     <div class="range-slider-wrapper">
                         <label class="filter-group-label" for="priceRange">Precio Máximo</label>
-                        <input class="range-input" type="range" id="priceRange" min="0" max="500" value="450" oninput="updatePriceLabel(this.value); filterProducts();">
+                        <input class="range-input" type="range" name="max_price" id="priceRange" min="0" max="500" value="{{ $maxPrice }}" oninput="updatePriceLabel(this.value);" onchange="this.form.submit()">
                         <div class="range-values">
                             <span>S/ 0.00</span>
-                            <span id="priceMaxLabel" style="color: var(--color-primary); font-weight: 800;">S/ 450.00</span>
+                            <span id="priceMaxLabel" style="color: var(--color-primary); font-weight: 800;">S/ {{ number_format((float)$maxPrice, 2) }}</span>
                         </div>
                     </div>
                     
-                    <button class="button secondary-btn" type="button" style="width: 100%;" onclick="clearFilters()">Limpiar Filtros</button>
-                </aside>
+                    <!-- Keep featured parameter if active -->
+                    @if(request()->has('featured'))
+                        <input type="hidden" name="featured" value="1">
+                    @endif
+
+                    <!-- Hidden sort input, filled and submitted by toolbar dropdown -->
+                    <input type="hidden" name="sort" id="formSortInput" value="{{ $activeSort }}">
+
+                    <a href="{{ route('products.index') }}" class="button secondary-btn" style="width: 100%; text-align: center; display: block;">Limpiar Filtros</a>
+                </form>
 
                 <!-- Grid and Results Toolbar -->
                 <div class="catalog-results">
                     <div class="catalog-toolbar">
-                        <strong><span id="resultsCount">{{ $products->total() }}</span> productos encontrados</strong>
+                        <strong><span>{{ $products->total() }}</span> productos encontrados</strong>
                         
                         <div class="toolbar-controls">
                             <!-- Sort Selector -->
                             <label for="sortSelect" style="font-size: 0.8rem; font-weight: 700; color: var(--color-muted); text-transform: uppercase;">Ordenar por</label>
                             <select id="sortSelect" onchange="sortProducts(this.value)">
-                                <option value="default">Destacados</option>
-                                <option value="price-asc">Precio: Menor a Mayor</option>
-                                <option value="price-desc">Precio: Mayor a Menor</option>
-                                <option value="name-asc">Nombre: A - Z</option>
+                                <option value="latest" @selected($activeSort === 'latest')>Novedades</option>
+                                <option value="price-asc" @selected($activeSort === 'price-asc')>Precio: Menor a Mayor</option>
+                                <option value="price-desc" @selected($activeSort === 'price-desc')>Precio: Mayor a Menor</option>
+                                <option value="name-asc" @selected($activeSort === 'name-asc')>Nombre: A - Z</option>
                             </select>
                         </div>
                     </div>
@@ -105,68 +121,64 @@
                                 }
                             @endphp
                             
-                            <!-- Wraps card with filter attributes -->
-                            <div class="product-card-wrapper" 
-                                 data-name="{{ strtolower($product->name) }}"
-                                 data-price="{{ $activePrice }}"
-                                 data-category="{{ $product->mainCategory?->slug ?? '' }}"
-                                 data-brand="{{ $product->brand?->slug ?? '' }}"
-                                 data-featured="{{ $product->is_featured ? 'true' : 'false' }}">
-                                
-                                <div class="product-card">
-                                    <a href="{{ route('products.show', $product->slug) }}" style="display: block; color: inherit;">
-                                        <div class="product-thumb">
-                                            @if($hasDiscount)
-                                                <span class="card-discount-badge">-{{ $discountPercentage }}%</span>
-                                            @endif
-                                            <img src="{{ $imagePath }}" alt="{{ $product->name }}" loading="lazy">
-                                        </div>
-                                        
-                                        <div class="card-kicker">
-                                            {{ $product->brand?->name ?? 'Exclusivo' }}
-                                        </div>
-                                        
-                                        <h3>{{ $product->name }}</h3>
-                                        
-                                        <div class="product-rating" style="margin-bottom: 0.5rem;">
-                                            <div class="stars">
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                                                @endfor
-                                            </div>
-                                            <span style="color: var(--color-muted); font-size: 0.78rem;">(4.9)</span>
-                                        </div>
-
-                                        <div class="price-row-card">
-                                            @if($hasDiscount)
-                                                <span class="card-price">S/ {{ number_format((float)$product->sale_price, 2) }}</span>
-                                                <span class="card-old-price">S/ {{ number_format((float)$product->regular_price, 2) }}</span>
-                                            @else
-                                                <span class="card-price">S/ {{ number_format((float)$product->regular_price, 2) }}</span>
-                                            @endif
-                                        </div>
-                                    </a>
-
-                                    <div class="card-footer">
-                                        <span class="stock-badge">
-                                            <span class="stock-dot"></span>
-                                            En Stock
-                                        </span>
-                                        <button type="button" class="detail-button" onclick="event.preventDefault(); addToCart({
-                                            id: {{ $product->id }},
-                                            name: '{{ addslashes($product->name) }}',
-                                            price: {{ $activePrice }},
-                                            formattedPrice: 'S/ {{ number_format((float)$activePrice, 2) }}',
-                                            slug: '{{ $product->slug }}',
-                                            image: '{{ $imagePath }}'
-                                        }, 1)">
-                                            Agregar
-                                        </button>
+                            <div class="product-card">
+                                <a href="{{ route('products.show', $product->slug) }}" style="display: block; color: inherit;">
+                                    <div class="product-thumb">
+                                        @if($hasDiscount)
+                                            <span class="card-discount-badge">-{{ $discountPercentage }}%</span>
+                                        @endif
+                                        <img src="{{ $imagePath }}" alt="{{ $product->name }}" loading="lazy">
                                     </div>
+                                    
+                                    <div class="card-kicker">
+                                        {{ $product->brand?->name ?? 'Exclusivo' }}
+                                    </div>
+                                    
+                                    <h3>{{ $product->name }}</h3>
+                                    
+                                    <div class="product-rating" style="margin-bottom: 0.5rem;">
+                                        <div class="stars">
+                                            @for ($i = 0; $i < 5; $i++)
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                            @endfor
+                                        </div>
+                                        <span style="color: var(--color-muted); font-size: 0.78rem;">(4.9)</span>
+                                    </div>
+
+                                    <div class="price-row-card">
+                                        @if($hasDiscount)
+                                            <span class="card-price">S/ {{ number_format((float)$product->sale_price, 2) }}</span>
+                                            <span class="card-old-price">S/ {{ number_format((float)$product->regular_price, 2) }}</span>
+                                        @else
+                                            <span class="card-price">S/ {{ number_format((float)$product->regular_price, 2) }}</span>
+                                        @endif
+                                    </div>
+                                </a>
+
+                                <div class="card-footer">
+                                    <span class="stock-badge">
+                                        <span class="stock-dot"></span>
+                                        En Stock
+                                    </span>
+                                    <button type="button" class="detail-button" onclick="event.preventDefault(); addToCart({
+                                        id: {{ $product->id }},
+                                        name: '{{ addslashes($product->name) }}',
+                                        price: {{ $activePrice }},
+                                        formattedPrice: 'S/ {{ number_format((float)$activePrice, 2) }}',
+                                        slug: '{{ $product->slug }}',
+                                        image: '{{ $imagePath }}'
+                                    }, 1)">
+                                        Agregar
+                                    </button>
                                 </div>
                             </div>
                         @empty
-                            <p style="grid-column: span 3; text-align: center; padding: 4rem 0; color: var(--color-muted);">Aún no hay productos publicados.</p>
+                            <div style="grid-column: span 3; text-align: center; padding: 5rem 0; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-main);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--color-muted); margin-bottom: 1rem;"><circle cx="12" cy="12" r="10"/><line x1="8" x2="16" y1="12" y2="12"/></svg>
+                                <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem;">Sin resultados</h3>
+                                <p style="color: var(--color-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">No se encontraron productos que coincidan con los filtros seleccionados.</p>
+                                <a href="{{ route('products.index') }}" class="button">Limpiar Filtros</a>
+                            </div>
                         @endforelse
                     </div>
                     
@@ -179,114 +191,15 @@
         </div>
     </section>
 
-    <!-- Client-side Interactive Filter Script -->
+    <!-- Client-side script connecting toolbar sorting and slider labels to the form -->
     <script>
         function updatePriceLabel(value) {
             document.getElementById('priceMaxLabel').innerText = 'S/ ' + parseFloat(value).toFixed(2);
         }
 
-        function filterProducts() {
-            const searchQuery = document.getElementById('catalogSearch').value.toLowerCase();
-            const maxPrice = parseFloat(document.getElementById('priceRange').value);
-            
-            // Get selected categories
-            const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
-                .map(cb => cb.value);
-            
-            // Get selected brands
-            const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked'))
-                .map(cb => cb.value);
-                
-            const wrappers = document.querySelectorAll('.product-card-wrapper');
-            let visibleCount = 0;
-            
-            wrappers.forEach(wrap => {
-                const name = wrap.getAttribute('data-name');
-                const price = parseFloat(wrap.getAttribute('data-price'));
-                const category = wrap.getAttribute('data-category');
-                const brand = wrap.getAttribute('data-brand');
-                
-                // Matches filters
-                const matchesSearch = name.includes(searchQuery);
-                const matchesPrice = price <= maxPrice;
-                const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(category);
-                const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(brand);
-                
-                if (matchesSearch && matchesPrice && matchesCategory && matchesBrand) {
-                    wrap.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    wrap.style.display = 'none';
-                }
-            });
-            
-            document.getElementById('resultsCount').innerText = visibleCount;
-        }
-
         function sortProducts(sortBy) {
-            const grid = document.getElementById('catalogProductGrid');
-            const wrappers = Array.from(grid.querySelectorAll('.product-card-wrapper'));
-            
-            if (sortBy === 'default') {
-                // Keep original seeded order (no action or reload)
-                return;
-            }
-            
-            wrappers.sort((a, b) => {
-                const priceA = parseFloat(a.getAttribute('data-price'));
-                const priceB = parseFloat(b.getAttribute('data-price'));
-                const nameA = a.getAttribute('data-name');
-                const nameB = b.getAttribute('data-name');
-                
-                if (sortBy === 'price-asc') return priceA - priceB;
-                if (sortBy === 'price-desc') return priceB - priceA;
-                if (sortBy === 'name-asc') return nameA.localeCompare(nameB);
-                return 0;
-            });
-            
-            // Re-append in new order
-            wrappers.forEach(wrap => grid.appendChild(wrap));
+            document.getElementById('formSortInput').value = sortBy;
+            document.getElementById('filterForm').submit();
         }
-
-        function clearFilters() {
-            document.getElementById('catalogSearch').value = '';
-            document.getElementById('priceRange').value = 500;
-            updatePriceLabel(500);
-            
-            document.querySelectorAll('.category-filter').forEach(cb => cb.checked = false);
-            document.querySelectorAll('.brand-filter').forEach(cb => cb.checked = false);
-            document.getElementById('sortSelect').value = 'default';
-            
-            // Reset styles
-            const wrappers = document.querySelectorAll('.product-card-wrapper');
-            wrappers.forEach(wrap => wrap.style.display = 'block');
-            document.getElementById('resultsCount').innerText = wrappers.length;
-            
-            showToast('Filtros limpiados', 'info');
-        }
-
-        // Initialize features on load
-        window.addEventListener('DOMContentLoaded', () => {
-            const searchVal = document.getElementById('catalogSearch').value;
-            if (searchVal) {
-                filterProducts();
-            }
-            
-            // Check if there is an active featured query
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('featured')) {
-                const wrappers = document.querySelectorAll('.product-card-wrapper');
-                let count = 0;
-                wrappers.forEach(wrap => {
-                    if (wrap.getAttribute('data-featured') === 'true') {
-                        wrap.style.display = 'block';
-                        count++;
-                    } else {
-                        wrap.style.display = 'none';
-                    }
-                });
-                document.getElementById('resultsCount').innerText = count;
-            }
-        });
     </script>
 </x-layouts.catalog>

@@ -257,6 +257,82 @@ class DatabaseSeeder extends Seeder
                     'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&auto=format&fit=crop&q=60'
                 ],
                 'variants' => []
+            ],
+            [
+                'brand_id' => $sleek->id,
+                'main_category_id' => $home->id,
+                'name' => 'Organizador de Escritorio Sleek Wood',
+                'slug' => 'organizador-de-escritorio-sleek-wood',
+                'sku' => 'SLEEK-WOD-008',
+                'short_description' => 'Organizador de madera de nogal natural y ranuras para smartphone.',
+                'description' => 'Añade calidez y orden a tu escritorio. Fabricado a mano en madera maciza de nogal con acabados de aceites naturales. Dispone de ranura vertical para tablet o celular, bandeja para clips y monedas, y espacio para notas y bolígrafos.',
+                'regular_price' => 89.90,
+                'sale_price' => 69.90,
+                'status' => ProductStatus::Published,
+                'is_featured' => false,
+                'has_variants' => false,
+                'categories' => [$home->id],
+                'images' => [
+                    'https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=800&auto=format&fit=crop&q=60'
+                ],
+                'variants' => []
+            ],
+            [
+                'brand_id' => $apex->id,
+                'main_category_id' => $electronics->id,
+                'name' => 'Cargador Solar Apex Power',
+                'slug' => 'cargador-solar-apex-power',
+                'sku' => 'APEX-SOL-009',
+                'short_description' => 'Powerbank solar de 20000mAh a prueba de golpes y agua.',
+                'description' => 'El cargador portátil definitivo para tus aventuras al aire libre. Equipado con celdas solares de alta eficiencia, linterna LED doble con función S.O.S., 2 puertos USB de carga rápida y chasis de caucho reforzado anticaídas IP65.',
+                'regular_price' => 129.90,
+                'sale_price' => 99.90,
+                'status' => ProductStatus::Published,
+                'is_featured' => true,
+                'has_variants' => false,
+                'categories' => [$electronics->id, $accessories->id],
+                'images' => [
+                    'https://images.unsplash.com/photo-1609592424109-dd7715891395?w=800&auto=format&fit=crop&q=60'
+                ],
+                'variants' => []
+            ],
+            [
+                'brand_id' => $lumina->id,
+                'main_category_id' => $accessories->id,
+                'name' => 'Lentes Anti Luz Azul Lumina Shield',
+                'slug' => 'lentes-anti-luz-azul-lumina-shield',
+                'sku' => 'LUMINA-SHD-010',
+                'short_description' => 'Protección para fatiga ocular con montura ligera y estilizada.',
+                'description' => 'Protege tus ojos de las pantallas digitales. Las lunas especiales Lumina Shield bloquean el 99% de la luz azul dañina emitida por laptops y celulares. Montura de policarbonato ultraligero y patillas flexibles para máximo confort.',
+                'regular_price' => 69.90,
+                'sale_price' => 49.90,
+                'status' => ProductStatus::Published,
+                'is_featured' => false,
+                'has_variants' => false,
+                'categories' => [$accessories->id, $home->id],
+                'images' => [
+                    'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&auto=format&fit=crop&q=60'
+                ],
+                'variants' => []
+            ],
+            [
+                'brand_id' => $lumina->id,
+                'main_category_id' => $home->id,
+                'name' => 'Humidificador Ultrasónico Lumina Mist',
+                'slug' => 'humidificador-ultrasonico-lumina-mist',
+                'sku' => 'LUMINA-MST-011',
+                'short_description' => 'Humidificador y difusor de aromas silencioso con luz cálida LED.',
+                'description' => 'Crea un ambiente relajante y saludable en casa. Con capacidad de 500ml y apagado automático inteligente sin agua. Su tecnología ultrasónica produce una niebla fría y fina, funcionando silenciosamente por más de 10 horas de difusión.',
+                'regular_price' => 119.90,
+                'sale_price' => 89.90,
+                'status' => ProductStatus::Published,
+                'is_featured' => true,
+                'has_variants' => false,
+                'categories' => [$home->id],
+                'images' => [
+                    'https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=800&auto=format&fit=crop&q=60'
+                ],
+                'variants' => []
             ]
         ];
 
