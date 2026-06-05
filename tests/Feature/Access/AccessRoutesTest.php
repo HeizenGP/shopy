@@ -2,10 +2,13 @@
 
 use App\Access\Infrastructure\Database\Seeders\AccessSeeder;
 use App\Access\Infrastructure\Models\AccessAuditLogModel;
+use App\Access\Infrastructure\Models\PermissionModel;
 use App\Access\Infrastructure\Models\RoleModel;
 use App\Access\Infrastructure\Models\UserModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 uses(RefreshDatabase::class);
 
@@ -23,6 +26,25 @@ function createAccessUser(?RoleModel $role = null, bool $isActive = true, string
     }
 
     return $user;
+}
+
+function createAccessRoleWithPermission(string $permissionSlug): RoleModel
+{
+    [$module] = explode('.', $permissionSlug, 2);
+
+    $permission = PermissionModel::query()->create([
+        'name' => $permissionSlug,
+        'slug' => $permissionSlug,
+        'module' => $module,
+    ]);
+
+    $role = RoleModel::query()->create([
+        'name' => 'Permitted Role',
+        'slug' => Str::slug($permissionSlug, '_'),
+    ]);
+    $role->permissions()->attach($permission);
+
+    return $role;
 }
 
 it('logs in an active administrative user and records audit data', function (): void {
@@ -44,6 +66,62 @@ it('logs in an active administrative user and records audit data', function (): 
         'event' => 'login_success',
     ]);
     expect($user->fresh()->last_login_at)->not->toBeNull();
+});
+
+it('uses a generic message for failed login attempts', function (): void {
+    $user = createAccessUser(email: 'failed-login@shopy.test');
+
+    $this->post('/admin/login', [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])->assertSessionHasErrors([
+        'email' => 'Credenciales incorrectas.',
+    ]);
+
+    $this->assertGuest();
+    $this->assertDatabaseHas('access_audit_logs', [
+        'user_id' => $user->id,
+        'event' => 'login_failed',
+    ]);
+});
+
+it('rate limits repeated failed login attempts', function (): void {
+    $email = 'rate-limit@shopy.test';
+    $key = Str::transliterate(Str::lower($email).'|127.0.0.1');
+    RateLimiter::clear($key);
+
+    foreach (range(1, 5) as $attempt) {
+        $this->post('/admin/login', [
+            'email' => $email,
+            'password' => 'wrong-password',
+        ])->assertSessionHasErrors('email');
+    }
+
+    expect(RateLimiter::tooManyAttempts($key, 5))->toBeTrue();
+
+    $this->post('/admin/login', [
+        'email' => $email,
+        'password' => 'wrong-password',
+    ])->assertSessionHasErrors('email');
+});
+
+it('logs out the authenticated user and records audit data', function (): void {
+    $role = RoleModel::query()->create([
+        'name' => 'Super Admin',
+        'slug' => 'super_admin',
+        'is_system' => true,
+    ]);
+    $user = createAccessUser($role, email: 'logout@shopy.test');
+
+    $this->actingAs($user)
+        ->post('/admin/logout')
+        ->assertRedirect('/admin/login');
+
+    $this->assertGuest();
+    $this->assertDatabaseHas('access_audit_logs', [
+        'user_id' => $user->id,
+        'event' => 'logout',
+    ]);
 });
 
 it('rejects inactive users with a generic login error', function (): void {
@@ -69,6 +147,13 @@ it('denies access by default when the user lacks explicit permissions', function
     $user = createAccessUser($role);
 
     $this->actingAs($user)->get('/admin/access/users')->assertForbidden();
+});
+
+it('allows a user with explicit access view permission to reach the dashboard', function (): void {
+    $role = createAccessRoleWithPermission('access.view');
+    $user = createAccessUser($role, email: 'access-view@shopy.test');
+
+    $this->actingAs($user)->get('/admin/dashboard')->assertOk();
 });
 
 it('allows super admin to browse access users', function (): void {
@@ -120,11 +205,12 @@ it('creates users through the access admin and records an audit event', function
 it('seeds initial access roles permissions and super admin user', function (): void {
     $this->seed(AccessSeeder::class);
 
-    $user = UserModel::query()->where('email', 'heizen@shopy.test')->firstOrFail();
+    $user = UserModel::query()->where('email', 'admin@shopy.test')->firstOrFail();
 
     $this->assertDatabaseHas('permissions', ['slug' => 'access.view']);
     $this->assertDatabaseHas('permissions', ['slug' => 'catalog.manage_images']);
     $this->assertDatabaseHas('roles', ['slug' => 'super_admin', 'is_system' => true]);
-    expect(Hash::check('heizen123', $user->password))->toBeTrue();
+    expect(Hash::check('AdminShopy2026!', $user->password))->toBeTrue();
+    expect($user->getRawOriginal('password'))->not->toBe('AdminShopy2026!');
     expect($user->roles()->where('slug', 'super_admin')->exists())->toBeTrue();
 });

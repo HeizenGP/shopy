@@ -10,11 +10,15 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
+        $name = env('ACCESS_ADMIN_NAME') ?: 'Super Admin';
+        $email = env('ACCESS_ADMIN_EMAIL') ?: 'admin@shopy.test';
+        $password = env('ACCESS_ADMIN_PASSWORD') ?: 'AdminShopy2026!';
+
         $user = UserModel::query()->updateOrCreate(
-            ['email' => 'heizen@shopy.test'],
+            ['email' => $email],
             [
-                'name' => 'Super Admin',
-                'password' => 'heizen123',
+                'name' => $name,
+                'password' => $password,
                 'is_active' => true,
                 'password_changed_at' => now(),
             ]

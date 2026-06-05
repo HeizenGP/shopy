@@ -37,7 +37,9 @@ Route::prefix('admin')
     ->middleware('auth')
     ->group(function (): void {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->middleware('permission:access.view')
+            ->name('dashboard');
 
         Route::prefix('access')
             ->name('access.')
