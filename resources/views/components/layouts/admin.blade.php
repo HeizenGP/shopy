@@ -87,13 +87,15 @@
                         </div>
 
                         <!-- User Profile Widget -->
-                        <div class="user-profile-widget">
-                            <span class="user-avatar">AD</span>
+                        <form method="POST" action="{{ route('admin.logout') }}" class="user-profile-widget">
+                            @csrf
+                            @php($adminUser = auth()->user())
+                            <span class="user-avatar">{{ $adminUser ? strtoupper(substr($adminUser->name, 0, 2)) : 'AD' }}</span>
                             <div class="user-details">
-                                <span class="user-name">Administrador</span>
-                                <span class="user-role">Super Admin</span>
+                                <span class="user-name">{{ $adminUser?->name ?? 'Administrador' }}</span>
+                                <button type="submit" class="user-role" style="background: transparent; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer;">Cerrar sesión</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </header>
 

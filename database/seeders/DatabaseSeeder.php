@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Access\Infrastructure\Database\Seeders\AccessSeeder;
 use App\Catalog\Domain\ValueObjects\ProductStatus;
 use App\Catalog\Infrastructure\Models\BrandModel;
 use App\Catalog\Infrastructure\Models\CategoryModel;
+use App\Catalog\Infrastructure\Models\ProductImageModel;
 use App\Catalog\Infrastructure\Models\ProductModel;
 use App\Catalog\Infrastructure\Models\ProductVariantModel;
-use App\Catalog\Infrastructure\Models\ProductImageModel;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(AccessSeeder::class);
+
         // Disable foreign key constraints to truncate tables safely across different DB engines
         Schema::disableForeignKeyConstraints();
         DB::table('product_category')->truncate();
@@ -106,13 +108,13 @@ class DatabaseSeeder extends Seeder
                 'images' => [
                     'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60',
                     'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&auto=format&fit=crop&q=60',
-                    'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&auto=format&fit=crop&q=60',
                 ],
                 'variants' => [
                     ['name' => 'Negro Mate', 'sku' => 'NOVA-AIR-BLK', 'regular_price' => 199.90, 'sale_price' => 149.90, 'is_default' => true],
                     ['name' => 'Blanco Platino', 'sku' => 'NOVA-AIR-WHT', 'regular_price' => 199.90, 'sale_price' => 159.90, 'is_default' => false],
-                    ['name' => 'Azul Medianoche', 'sku' => 'NOVA-AIR-BLU', 'regular_price' => 209.90, 'sale_price' => 169.90, 'is_default' => false]
-                ]
+                    ['name' => 'Azul Medianoche', 'sku' => 'NOVA-AIR-BLU', 'regular_price' => 209.90, 'sale_price' => 169.90, 'is_default' => false],
+                ],
             ],
             [
                 'brand_id' => $apex->id,
@@ -130,12 +132,12 @@ class DatabaseSeeder extends Seeder
                 'categories' => [$electronics->id, $home->id],
                 'images' => [
                     'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop&q=60',
-                    'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&auto=format&fit=crop&q=60',
                 ],
                 'variants' => [
                     ['name' => 'Interruptores Red Lineales', 'sku' => 'APEX-KEY-RED', 'regular_price' => 349.00, 'sale_price' => 299.90, 'is_default' => true],
-                    ['name' => 'Interruptores Brown Táctiles', 'sku' => 'APEX-KEY-BRW', 'regular_price' => 349.00, 'sale_price' => 309.90, 'is_default' => false]
-                ]
+                    ['name' => 'Interruptores Brown Táctiles', 'sku' => 'APEX-KEY-BRW', 'regular_price' => 349.00, 'sale_price' => 309.90, 'is_default' => false],
+                ],
             ],
             [
                 'brand_id' => $apex->id,
@@ -153,9 +155,9 @@ class DatabaseSeeder extends Seeder
                 'categories' => [$electronics->id, $accessories->id],
                 'images' => [
                     'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=800&auto=format&fit=crop&q=60',
-                    'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $sleek->id,
@@ -173,9 +175,9 @@ class DatabaseSeeder extends Seeder
                 'categories' => [$accessories->id],
                 'images' => [
                     'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=60',
-                    'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $lumina->id,
@@ -193,9 +195,9 @@ class DatabaseSeeder extends Seeder
                 'categories' => [$home->id],
                 'images' => [
                     'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&auto=format&fit=crop&q=60',
-                    'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $sleek->id,
@@ -213,12 +215,12 @@ class DatabaseSeeder extends Seeder
                 'categories' => [$accessories->id, $home->id],
                 'images' => [
                     'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&auto=format&fit=crop&q=60',
-                    'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=800&auto=format&fit=crop&q=60',
                 ],
                 'variants' => [
                     ['name' => 'Verde Salvia', 'sku' => 'SLEEK-FLW-GRN', 'regular_price' => 79.90, 'sale_price' => 59.90, 'is_default' => true],
-                    ['name' => 'Gris Ceniza', 'sku' => 'SLEEK-FLW-GRY', 'regular_price' => 79.90, 'sale_price' => 59.90, 'is_default' => false]
-                ]
+                    ['name' => 'Gris Ceniza', 'sku' => 'SLEEK-FLW-GRY', 'regular_price' => 79.90, 'sale_price' => 59.90, 'is_default' => false],
+                ],
             ],
             [
                 'brand_id' => $lumina->id,
@@ -235,9 +237,9 @@ class DatabaseSeeder extends Seeder
                 'has_variants' => false,
                 'categories' => [$home->id],
                 'images' => [
-                    'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $apex->id,
@@ -254,9 +256,9 @@ class DatabaseSeeder extends Seeder
                 'has_variants' => false,
                 'categories' => [$electronics->id],
                 'images' => [
-                    'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $sleek->id,
@@ -273,9 +275,9 @@ class DatabaseSeeder extends Seeder
                 'has_variants' => false,
                 'categories' => [$home->id],
                 'images' => [
-                    'https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $apex->id,
@@ -292,9 +294,9 @@ class DatabaseSeeder extends Seeder
                 'has_variants' => false,
                 'categories' => [$electronics->id, $accessories->id],
                 'images' => [
-                    'https://images.unsplash.com/photo-1609592424109-dd7715891395?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1609592424109-dd7715891395?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $lumina->id,
@@ -311,9 +313,9 @@ class DatabaseSeeder extends Seeder
                 'has_variants' => false,
                 'categories' => [$accessories->id, $home->id],
                 'images' => [
-                    'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
+                'variants' => [],
             ],
             [
                 'brand_id' => $lumina->id,
@@ -330,10 +332,10 @@ class DatabaseSeeder extends Seeder
                 'has_variants' => false,
                 'categories' => [$home->id],
                 'images' => [
-                    'https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=800&auto=format&fit=crop&q=60'
+                    'https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=800&auto=format&fit=crop&q=60',
                 ],
-                'variants' => []
-            ]
+                'variants' => [],
+            ],
         ];
 
         foreach ($productsData as $item) {
@@ -377,12 +379,5 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Ensure admin user exists
-        User::query()->firstOrCreate([
-            'email' => 'admin@shopcms.com'
-        ], [
-            'name' => 'Administrator',
-            'password' => bcrypt('password'),
-        ]);
     }
 }
