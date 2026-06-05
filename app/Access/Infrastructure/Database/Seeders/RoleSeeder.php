@@ -30,20 +30,14 @@ class RoleSeeder extends Seeder
 
         $adminPermissions = PermissionModel::query()
             ->whereIn('slug', [
-                'access.view',
-                'users.view',
-                'users.create',
-                'users.update',
-                'roles.view',
-                'permissions.view',
-                'catalog.view',
-                'catalog.create',
-                'catalog.update',
-                'catalog.delete',
+                'dashboard.view',
+                'access.manage_users',
+                'access.manage_roles',
+                'access.manage_permissions',
+                'catalog.manage_products',
                 'catalog.manage_categories',
                 'catalog.manage_brands',
                 'catalog.manage_variants',
-                'catalog.manage_images',
             ])
             ->pluck('id')
             ->all();

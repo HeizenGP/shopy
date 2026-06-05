@@ -5,7 +5,12 @@
             <p>Administra cuentas administrativas, estado y roles.</p>
         </div>
         <div class="page-actions-area">
-            <a href="{{ route('admin.access.users.create') }}" class="btn btn-primary">Nuevo usuario</a>
+            <a href="{{ route('admin.access.users.create') }}" class="btn btn-primary">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Nuevo usuario
+            </a>
         </div>
     </div>
 

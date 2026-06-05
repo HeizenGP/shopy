@@ -1,9 +1,7 @@
 <x-layouts.admin title="Productos">
     @php
         $adminUser = auth()->user();
-        $canCreateProducts = $adminUser?->hasPermission('catalog.create');
-        $canUpdateProducts = $adminUser?->hasPermission('catalog.update');
-        $canDeleteProducts = $adminUser?->hasPermission('catalog.delete');
+        $canManageProducts = $adminUser?->hasPermission('catalog.manage_products');
         $visibleProducts = $products->getCollection();
         $publishedCount = $visibleProducts->filter(fn ($product) => $product->status->value === 'published')->count();
         $draftCount = $visibleProducts->filter(fn ($product) => $product->status->value === 'draft')->count();
@@ -16,7 +14,7 @@
             <h1>Productos</h1>
             <p>Administra el catálogo de productos, variantes, imágenes y estados de publicación.</p>
         </div>
-        @if ($canCreateProducts)
+        @if ($canManageProducts)
             <div class="page-actions-area">
                 <a href="{{ route('admin.catalog.products.create') }}" class="btn btn-primary">
                     <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -186,7 +184,7 @@
                             </td>
                             <td>
                                 <div class="actions">
-                                    @if ($canUpdateProducts)
+                                    @if ($canManageProducts)
                                         <a href="{{ route('admin.catalog.products.edit', $product) }}" class="btn btn-secondary btn-sm">
                                             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -195,7 +193,7 @@
                                         </a>
                                     @endif
 
-                                    @if ($canDeleteProducts)
+                                    @if ($canManageProducts)
                                         <form method="POST" action="{{ route('admin.catalog.products.destroy', $product) }}" onsubmit="return confirm('¿Estás seguro de eliminar este producto?')" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')

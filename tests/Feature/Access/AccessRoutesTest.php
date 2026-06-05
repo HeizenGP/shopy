@@ -149,11 +149,36 @@ it('denies access by default when the user lacks explicit permissions', function
     $this->actingAs($user)->get('/admin/access/users')->assertForbidden();
 });
 
-it('allows a user with explicit access view permission to reach the dashboard', function (): void {
-    $role = createAccessRoleWithPermission('access.view');
-    $user = createAccessUser($role, email: 'access-view@shopy.test');
+it('allows a user with explicit dashboard permission to reach the dashboard', function (): void {
+    $role = createAccessRoleWithPermission('dashboard.view');
+    $user = createAccessUser($role, email: 'dashboard-view@shopy.test');
 
     $this->actingAs($user)->get('/admin/dashboard')->assertOk();
+});
+
+it('redirects a catalog-only user to their first permitted module after login', function (): void {
+    $role = createAccessRoleWithPermission('catalog.manage_categories');
+    $user = createAccessUser($role, email: 'categories-only@shopy.test');
+
+    $this->post('/admin/login', [
+        'email' => $user->email,
+        'password' => 'password12345',
+    ])->assertRedirect('/admin/catalog/categories');
+});
+
+it('hides admin links when the user lacks those permissions', function (): void {
+    $role = createAccessRoleWithPermission('catalog.manage_categories');
+    $user = createAccessUser($role, email: 'category-sidebar@shopy.test');
+
+    $this->actingAs($user)
+        ->get('/admin/catalog/categories')
+        ->assertOk()
+        ->assertSee('/admin/catalog/categories', false)
+        ->assertDontSee('/admin/dashboard', false)
+        ->assertDontSee('/admin/access/users', false)
+        ->assertDontSee('/admin/catalog/products', false)
+        ->assertDontSee('/admin/catalog/brands', false)
+        ->assertDontSee('/admin/catalog/variants', false);
 });
 
 it('allows super admin to browse access users', function (): void {
@@ -203,12 +228,67 @@ it('creates users through the access admin and records an audit event', function
 });
 
 it('seeds initial access roles permissions and super admin user', function (): void {
+    foreach ([
+        'access.view',
+        'users.view',
+        'users.create',
+        'users.update',
+        'users.delete',
+        'roles.view',
+        'roles.create',
+        'roles.update',
+        'roles.delete',
+        'roles.assign_permissions',
+        'permissions.view',
+        'catalog.view',
+        'catalog.create',
+        'catalog.update',
+        'catalog.delete',
+        'catalog.manage_images',
+        'orders.view',
+    ] as $slug) {
+        [$module] = explode('.', $slug, 2);
+
+        PermissionModel::query()->create([
+            'name' => $slug,
+            'slug' => $slug,
+            'module' => $module,
+        ]);
+    }
+
     $this->seed(AccessSeeder::class);
 
     $user = UserModel::query()->where('email', 'admin@shopy.test')->firstOrFail();
+    $permissionSlugs = PermissionModel::query()
+        ->orderBy('slug')
+        ->pluck('slug')
+        ->all();
 
-    $this->assertDatabaseHas('permissions', ['slug' => 'access.view']);
-    $this->assertDatabaseHas('permissions', ['slug' => 'catalog.manage_images']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Ver dashboard', 'slug' => 'dashboard.view']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar usuarios', 'slug' => 'access.manage_users']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar roles', 'slug' => 'access.manage_roles']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar permisos', 'slug' => 'access.manage_permissions']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar productos', 'slug' => 'catalog.manage_products']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar categorías', 'slug' => 'catalog.manage_categories']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar marcas', 'slug' => 'catalog.manage_brands']);
+    $this->assertDatabaseHas('permissions', ['name' => 'Gestionar variantes', 'slug' => 'catalog.manage_variants']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'access.view']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'catalog.view']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'catalog.create']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'catalog.update']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'catalog.delete']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'catalog.manage_images']);
+    $this->assertDatabaseMissing('permissions', ['slug' => 'orders.view']);
+    expect($permissionSlugs)->toBe([
+        'access.manage_permissions',
+        'access.manage_roles',
+        'access.manage_users',
+        'catalog.manage_brands',
+        'catalog.manage_categories',
+        'catalog.manage_products',
+        'catalog.manage_variants',
+        'dashboard.view',
+    ]);
     $this->assertDatabaseHas('roles', ['slug' => 'super_admin', 'is_system' => true]);
     expect(Hash::check('AdminShopy2026!', $user->password))->toBeTrue();
     expect($user->getRawOriginal('password'))->not->toBe('AdminShopy2026!');

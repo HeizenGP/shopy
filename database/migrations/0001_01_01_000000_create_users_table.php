@@ -98,7 +98,7 @@ return new class extends Migration
         |--------------------------------------------------------------------------
         | Tabla de permisos granulares.
         | Formato recomendado del slug: modulo.accion
-        | Ejemplos: catalog.view, users.create, roles.assign_permissions.
+        | Ejemplos: dashboard.view, access.manage_users, catalog.manage_products.
         */
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();

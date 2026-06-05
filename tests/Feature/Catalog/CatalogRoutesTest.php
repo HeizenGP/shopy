@@ -115,7 +115,7 @@ it('renders the public catalog routes', function (): void {
 });
 
 it('creates a product from the admin catalog', function (): void {
-    $user = catalogPermissionUser(['catalog.create']);
+    $user = catalogPermissionUser(['catalog.manage_products']);
 
     $category = CategoryModel::query()->create([
         'name' => 'Hogar',
@@ -140,7 +140,7 @@ it('creates a product from the admin catalog', function (): void {
 });
 
 it('updates a product while keeping its existing variant sku', function (): void {
-    $user = catalogPermissionUser(['catalog.update']);
+    $user = catalogPermissionUser(['catalog.manage_products']);
     $product = catalogProductFixture();
 
     ProductVariantModel::query()->create([
@@ -220,41 +220,41 @@ it('redirects guests away from the admin catalog', function (): void {
         ->assertRedirect('/admin/login');
 });
 
-it('returns 403 when a user lacks catalog view permission', function (): void {
-    $user = catalogPermissionUser(['access.view']);
+it('returns 403 when a user lacks catalog products permission', function (): void {
+    $user = catalogPermissionUser(['dashboard.view']);
 
     $this->actingAs($user)
         ->get('/admin/catalog/products')
         ->assertForbidden();
 });
 
-it('allows a user with catalog view permission to browse products', function (): void {
-    $user = catalogPermissionUser(['catalog.view']);
+it('allows a user with catalog manage products permission to browse products', function (): void {
+    $user = catalogPermissionUser(['catalog.manage_products']);
 
     $this->actingAs($user)
         ->get('/admin/catalog/products')
         ->assertOk()
-        ->assertDontSee('Nuevo Producto');
+        ->assertSee('Nuevo Producto');
 });
 
-it('allows a user with catalog create permission to access product creation', function (): void {
-    $user = catalogPermissionUser(['catalog.create']);
+it('allows a user with catalog manage products permission to access product creation', function (): void {
+    $user = catalogPermissionUser(['catalog.manage_products']);
 
     $this->actingAs($user)
         ->get('/admin/catalog/products/create')
         ->assertOk();
 });
 
-it('blocks product creation when catalog create permission is missing', function (): void {
-    $user = catalogPermissionUser(['catalog.view']);
+it('blocks product creation when catalog manage products permission is missing', function (): void {
+    $user = catalogPermissionUser(['catalog.manage_categories']);
 
     $this->actingAs($user)
         ->get('/admin/catalog/products/create')
         ->assertForbidden();
 });
 
-it('allows a user with catalog update permission to access product editing', function (): void {
-    $user = catalogPermissionUser(['catalog.update']);
+it('allows a user with catalog manage products permission to access product editing', function (): void {
+    $user = catalogPermissionUser(['catalog.manage_products']);
     $product = catalogProductFixture();
 
     $this->actingAs($user)
@@ -262,8 +262,8 @@ it('allows a user with catalog update permission to access product editing', fun
         ->assertOk();
 });
 
-it('blocks product deletion when catalog delete permission is missing', function (): void {
-    $user = catalogPermissionUser(['catalog.view']);
+it('blocks product deletion when catalog manage products permission is missing', function (): void {
+    $user = catalogPermissionUser(['catalog.manage_categories']);
     $product = catalogProductFixture();
 
     $this->actingAs($user)

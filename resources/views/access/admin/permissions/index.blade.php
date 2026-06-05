@@ -2,7 +2,7 @@
     <div class="page-header-block">
         <div class="page-title-area">
             <h1>Permisos</h1>
-            <p>Consulta los permisos granulares disponibles para roles.</p>
+            <p>Consulta los permisos disponibles para asignar acceso por módulo.</p>
         </div>
     </div>
 

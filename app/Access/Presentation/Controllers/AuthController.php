@@ -6,6 +6,7 @@ use App\Access\Application\UseCases\LoginUseCase;
 use App\Access\Application\UseCases\LogoutUseCase;
 use App\Access\Infrastructure\Models\UserModel;
 use App\Access\Presentation\Requests\LoginRequest;
+use App\Access\Presentation\Support\AdminNavigation;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
@@ -26,7 +27,7 @@ class AuthController extends Controller
         $this->ensureIsNotRateLimited($request);
 
         try {
-            $login->execute($request->toData(), $request->ip(), $request->userAgent());
+            $user = $login->execute($request->toData(), $request->ip(), $request->userAgent());
         } catch (ValidationException $exception) {
             RateLimiter::hit($this->throttleKey($request));
 
@@ -36,7 +37,7 @@ class AuthController extends Controller
         RateLimiter::clear($this->throttleKey($request));
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.dashboard'));
+        return redirect()->route(AdminNavigation::firstRouteNameFor($user) ?? 'admin.no-permissions');
     }
 
     public function logout(LogoutUseCase $logout): RedirectResponse
