@@ -5,6 +5,7 @@ use App\Access\Presentation\Controllers\AdminRoleController;
 use App\Access\Presentation\Controllers\AdminUserController;
 use App\Access\Presentation\Controllers\AuthController;
 use App\Access\Presentation\Controllers\DashboardController;
+use App\Access\Presentation\Controllers\PasswordResetController;
 use App\Access\Presentation\Support\AdminNavigation;
 use App\Catalog\Presentation\Controllers\AdminBrandController;
 use App\Catalog\Presentation\Controllers\AdminCategoryController;
@@ -32,6 +33,10 @@ Route::get('/checkout', function () {
 Route::middleware('guest')->group(function (): void {
     Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.store');
+    Route::get('/admin/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])->name('admin.password.request');
+    Route::post('/admin/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('admin.password.email');
+    Route::get('/admin/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])->name('admin.password.reset');
+    Route::post('/admin/reset-password', [PasswordResetController::class, 'reset'])->name('admin.password.update');
 });
 
 Route::prefix('admin')
