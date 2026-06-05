@@ -87,11 +87,37 @@ Route::prefix('admin')
                     ->middleware('permission:permissions.view')
                     ->name('permissions.index');
             });
-    });
 
-Route::prefix('admin/catalog')->name('admin.catalog.')->group(function (): void {
-    Route::resource('products', AdminProductController::class)->except(['show']);
-    Route::resource('categories', AdminCategoryController::class)->only(['index', 'create', 'store', 'update', 'destroy']);
-    Route::resource('brands', AdminBrandController::class)->only(['index', 'create', 'store', 'update', 'destroy']);
-    Route::resource('variants', AdminProductVariantController::class)->only(['index', 'create', 'store', 'destroy']);
-});
+        Route::prefix('catalog')
+            ->name('catalog.')
+            ->group(function (): void {
+                Route::get('products', [AdminProductController::class, 'index'])
+                    ->middleware('permission:catalog.view')
+                    ->name('products.index');
+                Route::get('products/create', [AdminProductController::class, 'create'])
+                    ->middleware('permission:catalog.create')
+                    ->name('products.create');
+                Route::post('products', [AdminProductController::class, 'store'])
+                    ->middleware('permission:catalog.create')
+                    ->name('products.store');
+                Route::get('products/{product}/edit', [AdminProductController::class, 'edit'])
+                    ->middleware('permission:catalog.update')
+                    ->name('products.edit');
+                Route::match(['put', 'patch'], 'products/{product}', [AdminProductController::class, 'update'])
+                    ->middleware('permission:catalog.update')
+                    ->name('products.update');
+                Route::delete('products/{product}', [AdminProductController::class, 'destroy'])
+                    ->middleware('permission:catalog.delete')
+                    ->name('products.destroy');
+
+                Route::resource('categories', AdminCategoryController::class)
+                    ->only(['index', 'create', 'store', 'update', 'destroy'])
+                    ->middleware('permission:catalog.manage_categories');
+                Route::resource('brands', AdminBrandController::class)
+                    ->only(['index', 'create', 'store', 'update', 'destroy'])
+                    ->middleware('permission:catalog.manage_brands');
+                Route::resource('variants', AdminProductVariantController::class)
+                    ->only(['index', 'create', 'store', 'destroy'])
+                    ->middleware('permission:catalog.manage_variants');
+            });
+    });
