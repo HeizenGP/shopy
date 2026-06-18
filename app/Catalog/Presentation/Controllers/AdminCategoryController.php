@@ -43,6 +43,14 @@ class AdminCategoryController extends Controller
         ]);
     }
 
+    public function edit(int $category): View
+    {
+        return view('catalog.admin.categories.edit', [
+            'category' => CategoryModel::query()->with(['parent.parent'])->findOrFail($category),
+            'parents' => $this->parentOptions(),
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         CategoryModel::query()->create($this->validated($request));
@@ -54,7 +62,7 @@ class AdminCategoryController extends Controller
     {
         CategoryModel::query()->findOrFail($category)->update($this->validated($request, $category));
 
-        return back()->with('status', 'Categoría actualizada.');
+        return redirect()->route('admin.catalog.categories.edit', $category)->with('status', 'Categoría actualizada.');
     }
 
     public function destroy(int $category): RedirectResponse

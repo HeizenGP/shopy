@@ -262,6 +262,93 @@ it('allows a user with catalog manage products permission to access product edit
         ->assertOk();
 });
 
+it('allows catalog managers to edit categories brands and variants from dedicated forms', function (): void {
+    $user = catalogPermissionUser([
+        'catalog.manage_categories',
+        'catalog.manage_brands',
+        'catalog.manage_variants',
+    ]);
+
+    $category = CategoryModel::query()->create([
+        'name' => 'Accesorios',
+        'slug' => 'accesorios',
+        'is_active' => true,
+    ]);
+
+    $brand = BrandModel::query()->create([
+        'name' => 'Nova',
+        'slug' => 'nova',
+        'is_active' => true,
+    ]);
+
+    $product = ProductModel::query()->create([
+        'brand_id' => $brand->id,
+        'main_category_id' => $category->id,
+        'name' => 'Audifonos Nova',
+        'slug' => 'audifonos-nova',
+        'sku' => 'NOVA-001',
+        'regular_price' => 129.90,
+        'status' => ProductStatus::Draft,
+    ]);
+
+    $variant = ProductVariantModel::query()->create([
+        'product_id' => $product->id,
+        'name' => 'Negro',
+        'sku' => 'NOVA-NEGRO',
+        'regular_price' => 129.90,
+        'is_active' => true,
+    ]);
+
+    $this->actingAs($user)->get("/admin/catalog/categories/{$category->id}/edit")
+        ->assertOk()
+        ->assertSee('Editar Categoría');
+    $this->actingAs($user)->get("/admin/catalog/brands/{$brand->id}/edit")
+        ->assertOk()
+        ->assertSee('Editar Marca');
+    $this->actingAs($user)->get("/admin/catalog/variants/{$variant->id}/edit")
+        ->assertOk()
+        ->assertSee('Editar Variante');
+
+    $this->actingAs($user)->put("/admin/catalog/categories/{$category->id}", [
+        'name' => 'Accesorios Premium',
+        'slug' => 'accesorios-premium',
+        'sort_order' => 2,
+        'is_active' => '0',
+    ])->assertRedirect("/admin/catalog/categories/{$category->id}/edit");
+
+    $this->actingAs($user)->put("/admin/catalog/brands/{$brand->id}", [
+        'name' => 'Nova Labs',
+        'slug' => 'nova-labs',
+        'is_active' => '0',
+    ])->assertRedirect("/admin/catalog/brands/{$brand->id}/edit");
+
+    $this->actingAs($user)->put("/admin/catalog/variants/{$variant->id}", [
+        'product_id' => $product->id,
+        'name' => 'Negro Mate',
+        'sku' => 'NOVA-NEGRO',
+        'regular_price' => 139.90,
+        'is_active' => '0',
+        'is_default' => '1',
+    ])->assertRedirect("/admin/catalog/variants/{$variant->id}/edit");
+
+    $this->assertDatabaseHas('categories', [
+        'id' => $category->id,
+        'name' => 'Accesorios Premium',
+        'is_active' => false,
+    ]);
+    $this->assertDatabaseHas('brands', [
+        'id' => $brand->id,
+        'name' => 'Nova Labs',
+        'is_active' => false,
+    ]);
+    $this->assertDatabaseHas('product_variants', [
+        'id' => $variant->id,
+        'name' => 'Negro Mate',
+        'is_active' => false,
+        'is_default' => true,
+    ]);
+});
+
 it('blocks product deletion when catalog manage products permission is missing', function (): void {
     $user = catalogPermissionUser(['catalog.manage_categories']);
     $product = catalogProductFixture();

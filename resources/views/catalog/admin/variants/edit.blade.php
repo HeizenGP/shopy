@@ -1,8 +1,8 @@
-<x-layouts.admin title="Nueva Variante">
+<x-layouts.admin title="Editar {{ $variant->name }}">
     <div class="page-header-block">
         <div class="page-title-area">
-            <h1>Crear Variante</h1>
-            <p>Registra una variante comercial asociada a un producto.</p>
+            <h1>Editar Variante</h1>
+            <p>Actualiza la variante <strong>{{ $variant->name }}</strong> y su producto asociado.</p>
         </div>
         <div class="page-actions-area">
             <a href="{{ route('admin.catalog.variants.index') }}" class="btn btn-secondary">
@@ -14,8 +14,9 @@
         </div>
     </div>
 
-    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.variants.store') }}">
+    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.variants.update', $variant) }}">
         @csrf
+        @method('PUT')
         <div class="form-card-container">
             <div class="form-section-card">
                 <div class="form-section-header">
@@ -36,29 +37,29 @@
                         <select id="variant_product" name="product_id" required>
                             <option value="">Seleccionar producto</option>
                             @foreach ($products as $product)
-                                <option value="{{ $product->id }}" @selected(old('product_id') == $product->id)>{{ $product->name }}</option>
+                                <option value="{{ $product->id }}" @selected(old('product_id', $variant->product_id) == $product->id)>{{ $product->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-field-group">
                         <label for="variant_name">Nombre</label>
-                        <input type="text" id="variant_name" name="name" value="{{ old('name') }}" placeholder="Color Azul / Talla M" required>
+                        <input type="text" id="variant_name" name="name" value="{{ old('name', $variant->name) }}" placeholder="Color Azul / Talla M" required>
                     </div>
                     <div class="form-field-group">
                         <label for="variant_sku">SKU</label>
-                        <input type="text" id="variant_sku" name="sku" value="{{ old('sku') }}" placeholder="SKU-AZUL-M" required>
+                        <input type="text" id="variant_sku" name="sku" value="{{ old('sku', $variant->sku) }}" placeholder="SKU-AZUL-M" required>
                     </div>
                     <div class="form-field-group">
                         <label for="variant_regular_price">Precio Regular</label>
-                        <input type="number" step="0.01" min="0" id="variant_regular_price" name="regular_price" value="{{ old('regular_price') }}" placeholder="0.00">
+                        <input type="number" step="0.01" min="0" id="variant_regular_price" name="regular_price" value="{{ old('regular_price', $variant->regular_price) }}" placeholder="0.00">
                     </div>
                     <div class="form-field-group">
                         <label for="variant_sale_price">Precio Oferta</label>
-                        <input type="number" step="0.01" min="0" id="variant_sale_price" name="sale_price" value="{{ old('sale_price') }}" placeholder="0.00">
+                        <input type="number" step="0.01" min="0" id="variant_sale_price" name="sale_price" value="{{ old('sale_price', $variant->sale_price) }}" placeholder="0.00">
                     </div>
                     <div class="form-field-group">
                         <label for="variant_weight">Peso</label>
-                        <input type="number" step="0.01" min="0" id="variant_weight" name="weight" value="{{ old('weight') }}" placeholder="0.00">
+                        <input type="number" step="0.01" min="0" id="variant_weight" name="weight" value="{{ old('weight', $variant->weight) }}" placeholder="0.00">
                     </div>
                 </div>
             </div>
@@ -67,15 +68,15 @@
         <aside class="publish-card-actions">
             <div class="form-checkbox-row">
                 <input type="hidden" name="is_active" value="0">
-                <input type="checkbox" id="variant_is_active" name="is_active" value="1" @checked(old('is_active', true))>
+                <input type="checkbox" id="variant_is_active" name="is_active" value="1" @checked(old('is_active', $variant->is_active))>
                 <label for="variant_is_active">Variante activa</label>
             </div>
             <div class="form-checkbox-row">
                 <input type="hidden" name="is_default" value="0">
-                <input type="checkbox" id="variant_is_default" name="is_default" value="1" @checked(old('is_default'))>
+                <input type="checkbox" id="variant_is_default" name="is_default" value="1" @checked(old('is_default', $variant->is_default))>
                 <label for="variant_is_default">Variante principal</label>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar Variante</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Actualizar Variante</button>
         </aside>
     </form>
 </x-layouts.admin>

@@ -7,6 +7,7 @@ use App\Catalog\Infrastructure\Models\ProductVariantModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class AdminProductVariantController extends Controller
@@ -42,21 +43,17 @@ class AdminProductVariantController extends Controller
         ]);
     }
 
+    public function edit(int $variant): View
+    {
+        return view('catalog.admin.variants.edit', [
+            'variant' => ProductVariantModel::query()->with('product')->findOrFail($variant),
+            'products' => ProductModel::query()->orderBy('name')->get(['id', 'name']),
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
-            'name' => ['required', 'string', 'max:180'],
-            'sku' => ['required', 'string', 'max:120', 'unique:product_variants,sku'],
-            'regular_price' => ['nullable', 'numeric', 'min:0'],
-            'sale_price' => ['nullable', 'numeric', 'min:0'],
-            'weight' => ['nullable', 'numeric', 'min:0'],
-            'is_active' => ['nullable', 'boolean'],
-            'is_default' => ['nullable', 'boolean'],
-        ]);
-
-        $data['is_active'] = $request->boolean('is_active', true);
-        $data['is_default'] = $request->boolean('is_default');
+        $data = $this->validated($request, null, true);
 
         ProductVariantModel::query()->create($data);
         ProductModel::query()->whereKey($data['product_id'])->update(['has_variants' => true]);
@@ -64,10 +61,40 @@ class AdminProductVariantController extends Controller
         return redirect()->route('admin.catalog.variants.index')->with('status', 'Variante creada.');
     }
 
+    public function update(Request $request, int $variant): RedirectResponse
+    {
+        $variantModel = ProductVariantModel::query()->findOrFail($variant);
+        $data = $this->validated($request, $variant);
+
+        $variantModel->update($data);
+        ProductModel::query()->whereKey($data['product_id'])->update(['has_variants' => true]);
+
+        return redirect()->route('admin.catalog.variants.edit', $variant)->with('status', 'Variante actualizada.');
+    }
+
     public function destroy(int $variant): RedirectResponse
     {
         ProductVariantModel::query()->findOrFail($variant)->delete();
 
         return back()->with('status', 'Variante eliminada.');
+    }
+
+    private function validated(Request $request, ?int $variantId = null, bool $defaultActive = false): array
+    {
+        $data = $request->validate([
+            'product_id' => ['required', 'exists:products,id'],
+            'name' => ['required', 'string', 'max:180'],
+            'sku' => ['required', 'string', 'max:120', Rule::unique('product_variants', 'sku')->ignore($variantId)],
+            'regular_price' => ['nullable', 'numeric', 'min:0'],
+            'sale_price' => ['nullable', 'numeric', 'min:0'],
+            'weight' => ['nullable', 'numeric', 'min:0'],
+            'is_active' => ['nullable', 'boolean'],
+            'is_default' => ['nullable', 'boolean'],
+        ]);
+
+        $data['is_active'] = $request->boolean('is_active', $defaultActive);
+        $data['is_default'] = $request->boolean('is_default');
+
+        return $data;
     }
 }

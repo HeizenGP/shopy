@@ -54,49 +54,44 @@
                 <tbody>
                     @forelse ($brands as $brand)
                         <tr>
-                            <!-- Inline Edit Form -->
-                            <form method="POST" action="{{ route('admin.catalog.brands.update', $brand) }}" id="update-form-{{ $brand->id }}">
-                                @csrf
-                                @method('PUT')
-                                <td>
-                                    <div class="table-entity-cell">
-                                        <span class="table-logo-thumb">
-                                            @if ($brand->logo_path)
-                                                <img src="{{ Storage::url($brand->logo_path) }}" alt="{{ $brand->name }}">
-                                            @else
-                                                {{ substr($brand->name, 0, 1) }}
-                                            @endif
-                                        </span>
-                                        <input type="text" name="name" value="{{ $brand->name }}" class="table-inline-input" required>
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="text" name="slug" value="{{ $brand->slug }}" class="table-inline-input">
-                                </td>
-                                <td style="text-align: center;">
-                                    <input type="checkbox" name="is_active" value="1" @checked($brand->is_active) style="width: 16px; height: 16px; accent-color: var(--primary);">
-                                </td>
-                                <td>
-                                    <div class="actions" style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-                                        <button type="submit" class="btn btn-secondary btn-sm" title="Guardar cambios">
+                            <td>
+                                <div class="table-entity-cell">
+                                    <span class="table-logo-thumb">
+                                        @if ($brand->logo_path)
+                                            <img src="{{ Storage::url($brand->logo_path) }}" alt="{{ $brand->name }}">
+                                        @else
+                                            {{ substr($brand->name, 0, 1) }}
+                                        @endif
+                                    </span>
+                                    <strong>{{ $brand->name }}</strong>
+                                </div>
+                            </td>
+                            <td>{{ $brand->slug }}</td>
+                            <td style="text-align: center;">
+                                <span class="badge {{ $brand->is_active ? 'badge-success' : 'badge-danger' }}">
+                                    {{ $brand->is_active ? 'Sí' : 'No' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions" style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                                    <a href="{{ route('admin.catalog.brands.edit', $brand) }}" class="btn btn-secondary btn-sm" title="Editar marca">
+                                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                        Editar
+                                    </a>
+                                    <form method="POST" action="{{ route('admin.catalog.brands.destroy', $brand) }}" onsubmit="return confirm('¿Estás seguro de eliminar esta marca?')" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Eliminar marca">
                                             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                             </svg>
-                                            Guardar
+                                            Eliminar
                                         </button>
-                            </form>
-                                        <form method="POST" action="{{ route('admin.catalog.brands.destroy', $brand) }}" onsubmit="return confirm('¿Estás seguro de eliminar esta marca?')" style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Eliminar marca">
-                                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>

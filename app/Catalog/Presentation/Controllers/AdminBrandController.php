@@ -36,6 +36,13 @@ class AdminBrandController extends Controller
         return view('catalog.admin.brands.create');
     }
 
+    public function edit(int $brand): View
+    {
+        return view('catalog.admin.brands.edit', [
+            'brand' => BrandModel::query()->findOrFail($brand),
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         BrandModel::query()->create($this->validated($request));
@@ -47,7 +54,7 @@ class AdminBrandController extends Controller
     {
         BrandModel::query()->findOrFail($brand)->update($this->validated($request, $brand));
 
-        return back()->with('status', 'Marca actualizada.');
+        return redirect()->route('admin.catalog.brands.edit', $brand)->with('status', 'Marca actualizada.');
     }
 
     public function destroy(int $brand): RedirectResponse

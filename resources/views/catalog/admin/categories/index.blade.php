@@ -67,68 +67,51 @@
                 <tbody>
                     @forelse ($categories as $category)
                         <tr>
-                            <!-- Inline Edit Form -->
-                            <form method="POST" action="{{ route('admin.catalog.categories.update', $category) }}" id="update-form-{{ $category->id }}">
-                                @csrf
-                                @method('PUT')
-                                <td>
-                                    <div class="table-entity-cell">
-                                        <span class="table-logo-thumb">
-                                            @if ($category->image_path)
-                                                <img src="{{ Storage::url($category->image_path) }}" alt="{{ $category->name }}">
-                                            @else
-                                                {{ substr($category->name, 0, 1) }}
-                                            @endif
-                                        </span>
-                                        <input type="text" name="name" value="{{ $category->name }}" class="table-inline-input" required>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="badge {{ $category->level() === 0 ? 'badge-primary' : ($category->level() === 1 ? 'badge-info' : 'badge-success') }}">
-                                        Nivel {{ $category->level() }}
+                            <td>
+                                <div class="table-entity-cell">
+                                    <span class="table-logo-thumb">
+                                        @if ($category->image_path)
+                                            <img src="{{ Storage::url($category->image_path) }}" alt="{{ $category->name }}">
+                                        @else
+                                            {{ substr($category->name, 0, 1) }}
+                                        @endif
                                     </span>
-                                    <div class="theme-label-sm" style="margin-top: 0.25rem;">{{ $category->hierarchyLabel() }}</div>
-                                </td>
-                                <td>
-                                    <select name="parent_id" class="table-select">
-                                        <option value="">Ninguna (nivel 0)</option>
-                                        @foreach ($parents as $parent)
-                                            @if ($parent->id !== $category->id)
-                                                <option value="{{ $parent->id }}" @selected($category->parent_id === $parent->id)>
-                                                    {{ $parent->level() === 0 ? 'Nivel 0 - '.$parent->name : 'Nivel 1 - '.$parent->parent->name.' / '.$parent->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="number" name="sort_order" value="{{ $category->sort_order }}" min="0" class="table-inline-input">
-                                </td>
-                                <td style="text-align: center;">
-                                    <input type="checkbox" name="is_active" value="1" @checked($category->is_active) style="width: 16px; height: 16px; accent-color: var(--primary);">
-                                </td>
-                                <td>
-                                    <div class="actions" style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-                                        <input type="hidden" name="slug" value="{{ $category->slug }}">
-                                        <button type="submit" class="btn btn-secondary btn-sm" title="Guardar cambios">
+                                    <strong>{{ $category->name }}</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge {{ $category->level() === 0 ? 'badge-primary' : ($category->level() === 1 ? 'badge-info' : 'badge-success') }}">
+                                    Nivel {{ $category->level() }}
+                                </span>
+                                <div class="theme-label-sm" style="margin-top: 0.25rem;">{{ $category->hierarchyLabel() }}</div>
+                            </td>
+                            <td>{{ $category->parent?->name ?? 'Ninguna' }}</td>
+                            <td>{{ $category->sort_order }}</td>
+                            <td style="text-align: center;">
+                                <span class="badge {{ $category->is_active ? 'badge-success' : 'badge-danger' }}">
+                                    {{ $category->is_active ? 'Sí' : 'No' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions" style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                                    <a href="{{ route('admin.catalog.categories.edit', $category) }}" class="btn btn-secondary btn-sm" title="Editar categoría">
+                                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                        Editar
+                                    </a>
+                                    <form method="POST" action="{{ route('admin.catalog.categories.destroy', $category) }}" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Eliminar categoría">
                                             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                             </svg>
-                                            Guardar
+                                            Eliminar
                                         </button>
-                            </form>
-                                        <form method="POST" action="{{ route('admin.catalog.categories.destroy', $category) }}" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')" style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Eliminar categoría">
-                                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>

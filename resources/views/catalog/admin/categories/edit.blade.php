@@ -1,8 +1,8 @@
-<x-layouts.admin title="Nueva Categoría">
+<x-layouts.admin title="Editar {{ $category->name }}">
     <div class="page-header-block">
         <div class="page-title-area">
-            <h1>Crear Categoría</h1>
-            <p>Registra una categoría del catálogo y su imagen principal.</p>
+            <h1>Editar Categoría</h1>
+            <p>Actualiza la información y jerarquía de <strong>{{ $category->name }}</strong>.</p>
         </div>
         <div class="page-actions-area">
             <a href="{{ route('admin.catalog.categories.index') }}" class="btn btn-secondary">
@@ -14,8 +14,9 @@
         </div>
     </div>
 
-    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.categories.store') }}" enctype="multipart/form-data">
+    <form class="admin-split-form-grid" method="POST" action="{{ route('admin.catalog.categories.update', $category) }}" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="form-card-container">
             <div class="form-section-card">
                 <div class="form-section-header">
@@ -33,34 +34,41 @@
                 <div class="form-layout-grid">
                     <div class="form-field-group">
                         <label for="category_name">Nombre</label>
-                        <input type="text" id="category_name" name="name" value="{{ old('name') }}" required>
+                        <input type="text" id="category_name" name="name" value="{{ old('name', $category->name) }}" required>
                     </div>
                     <div class="form-field-group">
                         <label for="category_slug">Slug</label>
-                        <input type="text" id="category_slug" name="slug" value="{{ old('slug') }}" placeholder="opcional">
+                        <input type="text" id="category_slug" name="slug" value="{{ old('slug', $category->slug) }}" placeholder="opcional">
                     </div>
                     <div class="form-field-group">
                         <label for="category_parent">Ubicación en Jerarquía</label>
                         <select id="category_parent" name="parent_id">
                             <option value="">Categoría padre (nivel 0)</option>
                             @foreach ($parents as $parent)
-                                <option value="{{ $parent->id }}" @selected(old('parent_id') == $parent->id)>
-                                    {{ $parent->level() === 0 ? 'Subcategoría de: '.$parent->name : 'Sub-subcategoría de: '.$parent->parent->name.' / '.$parent->name }}
-                                </option>
+                                @if ($parent->id !== $category->id)
+                                    <option value="{{ $parent->id }}" @selected(old('parent_id', $category->parent_id) == $parent->id)>
+                                        {{ $parent->level() === 0 ? 'Subcategoría de: '.$parent->name : 'Sub-subcategoría de: '.$parent->parent->name.' / '.$parent->name }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                         <span class="theme-label-sm">Máximo 3 niveles: padre, subcategoría y sub-subcategoría.</span>
                     </div>
                     <div class="form-field-group">
                         <label for="category_order">Orden</label>
-                        <input type="number" id="category_order" name="sort_order" min="0" value="{{ old('sort_order', 0) }}">
+                        <input type="number" id="category_order" name="sort_order" min="0" value="{{ old('sort_order', $category->sort_order) }}">
                     </div>
                     <div class="form-field-group form-col-span-2">
                         <label for="category_description">Descripción</label>
-                        <textarea id="category_description" name="description">{{ old('description') }}</textarea>
+                        <textarea id="category_description" name="description">{{ old('description', $category->description) }}</textarea>
                     </div>
                     <div class="form-field-group form-col-span-2">
                         <label for="category_image">Imagen</label>
+                        @if ($category->image_path)
+                            <div class="theme-label-sm" style="margin-bottom: 0.5rem;">
+                                Imagen actual: <a href="{{ Storage::url($category->image_path) }}" target="_blank" rel="noreferrer">ver imagen</a>
+                            </div>
+                        @endif
                         <input type="file" id="category_image" name="image" accept="image/*">
                     </div>
                 </div>
@@ -70,10 +78,10 @@
         <aside class="publish-card-actions">
             <div class="form-checkbox-row">
                 <input type="hidden" name="is_active" value="0">
-                <input type="checkbox" id="category_is_active" name="is_active" value="1" @checked(old('is_active', true))>
+                <input type="checkbox" id="category_is_active" name="is_active" value="1" @checked(old('is_active', $category->is_active))>
                 <label for="category_is_active">Categoría activa</label>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar Categoría</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Actualizar Categoría</button>
         </aside>
     </form>
 </x-layouts.admin>

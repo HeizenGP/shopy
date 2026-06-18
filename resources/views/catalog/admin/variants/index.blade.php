@@ -56,7 +56,7 @@
                         <th>SKU</th>
                         <th>Precio</th>
                         <th style="width: 100px; text-align: center;">Activa</th>
-                        <th style="width: 140px; text-align: right;">Acciones</th>
+                        <th style="width: 200px; text-align: right;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,7 +72,13 @@
                                 </span>
                             </td>
                             <td>
-                                <div class="actions" style="display: flex; justify-content: flex-end;">
+                                <div class="actions" style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                                    <a href="{{ route('admin.catalog.variants.edit', $variant) }}" class="btn btn-secondary btn-sm" title="Editar variante">
+                                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                        Editar
+                                    </a>
                                     <form method="POST" action="{{ route('admin.catalog.variants.destroy', $variant) }}" onsubmit="return confirm('¿Eliminar esta variante?')">
                                         @csrf
                                         @method('DELETE')

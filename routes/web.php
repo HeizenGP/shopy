@@ -121,13 +121,13 @@ Route::prefix('admin')
                     ->name('products.destroy');
 
                 Route::resource('categories', AdminCategoryController::class)
-                    ->only(['index', 'create', 'store', 'update', 'destroy'])
+                    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
                     ->middleware('permission:catalog.manage_categories');
                 Route::resource('brands', AdminBrandController::class)
-                    ->only(['index', 'create', 'store', 'update', 'destroy'])
+                    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
                     ->middleware('permission:catalog.manage_brands');
                 Route::resource('variants', AdminProductVariantController::class)
-                    ->only(['index', 'create', 'store', 'destroy'])
+                    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
                     ->middleware('permission:catalog.manage_variants');
             });
     });
